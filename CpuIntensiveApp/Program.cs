@@ -1,18 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace CpuIntensiveApp
+class PapiWrapper
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-           /* List<int> numbers = new List<int> { 5, 3, 8, 4, 2, 7, 1, 10, 9, 6 };
-            Console.WriteLine("Unsorted List: " + string.Join(", ", numbers));
+    [DllImport("libs/libpapi_wrapper.so", EntryPoint = "init_papi")]
+    public static extern int InitPapi();
 
-            var sortedNumbers = Sorter.Sort(numbers);
-            Console.WriteLine("Sorted List: " + string.Join(", ", sortedNumbers)); */
-           MyLibrary.HelloFromC();
+    [DllImport("libs/libpapi_wrapper.so", EntryPoint = "start_counters")]
+    public static extern int StartCounters();
+
+    [DllImport("libs/libpapi_wrapper.so", EntryPoint = "stop_counters")]
+    public static extern int StopCounters(long[] values, int numEvents);
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        if (PapiWrapper.InitPapi() != 0)
+        {
+            Console.WriteLine("Failed to initialize PAPI");
+            return;
         }
+
+        if (PapiWrapper.StartCounters() != 0)
+        {
+            Console.WriteLine("Failed to start counters");
+            return;
+        }
+
+        // Your code to be measured here
+
+        long[] values = new long[2];
+        if (PapiWrapper.StopCounters(values, 2) != 0)
+        {
+            Console.WriteLine("Failed to stop counters");
+            return;
+        }
+
+        Console.WriteLine($"Counter 1: {values[0]}");
+        Console.WriteLine($"Counter 2: {values[1]}");
     }
 }
