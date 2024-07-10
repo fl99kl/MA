@@ -7,4 +7,20 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!-- Include the .so file and ensure it is copied to the output directory -->
+  <ItemGroup>
+    <None Update="libs/libmyclibrary.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- Create the libs folder in the output directory if it doesn't exist -->
+  <Target Name="CreateLibsFolder" BeforeTargets="CopyToLibsFolder">
+    <MakeDir Directories="$(OutputPath)libs" />
+  </Target>
+
+  <!-- Copy the .so file to the libs folder in the output directory -->
+  <Target Name="CopyToLibsFolder" AfterTargets="Build">
+    <Copy SourceFiles="@(None->'%(FullPath)')" DestinationFolder="$(OutputPath)libs" Condition="'%(None.Filename)%(None.Extension)' == 'libmyclibrary.so'" />
+  </Target>
 </Project>
