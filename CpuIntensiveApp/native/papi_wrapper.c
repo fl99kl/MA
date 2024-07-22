@@ -1,4 +1,4 @@
-﻿#include <papi.h>
+﻿#include "papi.h"
 
 int init_papi() {
     return PAPI_library_init(PAPI_VER_CURRENT);

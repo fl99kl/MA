@@ -9,7 +9,7 @@
 
   <!-- Include the .so file and ensure it is copied to the output directory -->
   <ItemGroup>
-    <None Update="libs/libmyclibrary.so">
+    <None Update="native/papiLib.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
