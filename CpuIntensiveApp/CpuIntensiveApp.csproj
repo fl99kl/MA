@@ -12,6 +12,9 @@
     <None Update="native/papiLib.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="your_hello_world.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <!-- Create the libs folder in the output directory if it doesn't exist -->

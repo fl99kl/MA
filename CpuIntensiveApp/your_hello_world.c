@@ -4,7 +4,7 @@
 #define NUM_EVENTS 1
 #define EVENT PAPI_TOT_CYC  // Total cycles
 
-int main() {
+int hello_papi() {
     int retval;
     long long values[NUM_EVENTS];
 
