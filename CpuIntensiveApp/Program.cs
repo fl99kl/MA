@@ -1,19 +1,24 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-
-
 
 class Program
 {
-	// DllImport-Attribut, um die C-Funktion zu importieren
-	[DllImport("your_hello_world", CallingConvention = CallingConvention.Cdecl)]
-	public static extern void hello_papi();
-
-    static void Main(string[] args)
+    static void Main()
     {
-        Console.WriteLine("first test");
-		hello_papi();
+        // Initialize PAPI
+        PapiWrapper.InitializePapi();
 
-        Console.WriteLine("second test");
+        long[] values = new long[2];
+
+        // Start PAPI counters
+        PapiWrapper.StartCounters();
+
+        // Your CPU intensive code here
+
+        // Stop PAPI counters and read values
+        PapiWrapper.StopCounters(values);
+
+        // Print the counter values
+        Console.WriteLine($"Total cycles: {values[0]}");
+        Console.WriteLine($"Total instructions: {values[1]}");
     }
 }
