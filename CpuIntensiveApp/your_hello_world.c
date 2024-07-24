@@ -19,9 +19,29 @@ int hello_papi() {
         return 1;
     }
 
+    // Define events to measure, e.g., PAPI_TOT_CYC (total cycles)
+    int events[2] = {PAPI_TOT_CYC, PAPI_TOT_INS};
+    long long values[2];
+    int ret;
+
+    // Start counting
+    if ((ret = PAPI_start_counters(events, 2)) != PAPI_OK) {
+        fprintf(stderr, "PAPI failed to start counters: %s\n", PAPI_strerror(ret));
+        return 1;
+    }
+
     // Your application code here
     printf("Hello, World!\n");
 
+
+    if ((ret = PAPI_stop_counters(values, 2)) != PAPI_OK) {
+        fprintf(stderr, "PAPI failed to stop counters: %s\n", PAPI_strerror(ret));
+        return 1;
+    }
+
+    // Print the counter values
+    printf("Total cycles: %lld\n", values[0]);
+    printf("Total instructions: %lld\n", values[1]);
     // Finalize PAPI library
     PAPI_shutdown();
 
