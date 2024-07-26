@@ -1,6 +1,8 @@
 #include <papi.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 
 void handle_error (int retval)
 {
@@ -34,7 +36,7 @@ int main()
     for(cid=0; cid<numcmp; cid++) {
 
         if ( (cmpinfo = PAPI_get_component_info(cid)) == NULL) {
-            print("PAPI_get_component_info failed\n");
+            printf("PAPI_get_component_info failed\n");
             exit(1);
         }
 
@@ -45,7 +47,7 @@ int main()
             printf("Found rapl component at cid %d\n",rapl_cid);
 
             if (cmpinfo->disabled) {
-                print("RAPL component disabled");
+                printf("RAPL component disabled");
                 exit(1);
             }
             break;
