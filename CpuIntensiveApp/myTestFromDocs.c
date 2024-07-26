@@ -10,9 +10,19 @@ void handle_error (int retval)
 	
 int main()
 {
-    int retval, EventSet = PAPI_NULL;
-    unsigned int native = 0x0;
-    PAPI_event_info_t info;
+    int retval,cid,rapl_cid=-1,numcmp;
+    int EventSet = PAPI_NULL;
+    long long *values;
+    int num_events=0;
+    int code;
+    char event_names[MAX_RAPL_EVENTS][PAPI_MAX_STR_LEN];
+    char units[MAX_RAPL_EVENTS][PAPI_MIN_STR_LEN];
+    int data_type[MAX_RAPL_EVENTS];
+    int r,i;
+    const PAPI_component_info_t *cmpinfo = NULL;
+    PAPI_event_info_t evinfo;
+    long long before_time,after_time;
+    double elapsed_time;
 		 
     /* Initialize the library */
     retval = PAPI_library_init(PAPI_VER_CURRENT);
