@@ -6,7 +6,6 @@
 
 int hello_papi() {
     int retval;
-    long long values[NUM_EVENTS];
 
     // Initialize PAPI library
     retval = PAPI_library_init(PAPI_VER_CURRENT);
