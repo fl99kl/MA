@@ -6,7 +6,7 @@ class Program
     {
         Console.WriteLine("Test before");
         // Stop PAPI counters and read values
-        PapiWrapper.runRapl(values);
+        PapiWrapper.runRapl();
         Console.WriteLine("Test after rapl");
     }
 }
