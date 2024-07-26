@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <string.h>
 
+#define MAX_RAPL_EVENTS 64
+
 void handle_error (int retval)
 {
     printf("PAPI error %d: %s\n", retval, PAPI_strerror(retval));
@@ -101,7 +103,7 @@ int main()
 
     values=calloc(num_events,sizeof(long long));
     if (values==NULL) {
-        handle_error(retval)
+        handle_error(retval);
     }
 
 
