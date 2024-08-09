@@ -32,7 +32,7 @@ void outputStart(const char* output_file_path) {
 }
 
 void outputEnd(const char* output_file_path) {
-    FILE *outputFile = fopen(output_file_path, "w");
+    FILE *outputFile = fopen(output_file_path, "a");
     if (outputFile == NULL) {
         perror("Failed to open output file");
         exit(1);
