@@ -7,8 +7,8 @@ class Program
         Console.WriteLine("Test before");
 
         string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output3.txt";
-		PapiWrapper.startOutput(outputPath);
-		PapiWrapper.endOutput(outputPath);
+		PapiWrapper.outputStart(outputPath);
+		PapiWrapper.outputEnd(outputPath);
         //IntPtr raplData = PapiWrapper.startRapl(outputPath);
         //PapiWrapper.readAndStopRapl(raplData, outputPath);
 
