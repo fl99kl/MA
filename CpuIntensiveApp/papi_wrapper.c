@@ -336,3 +336,9 @@ int runRapl()
         }
     }
 }
+
+int main() {
+    RaplData* raplData = startRapl();
+    readAndStopRapl(raplData);
+    return 0;
+}
