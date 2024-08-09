@@ -7,7 +7,7 @@ using System.Globalization;
 namespace CpuIntensiveApp.Tests
 {
     [Collection("Database collection")]
-    public class SorterTests
+    public class SorterTests : ICollectionFixture<DebugTest>
     {
         private DebugTest test;
 
