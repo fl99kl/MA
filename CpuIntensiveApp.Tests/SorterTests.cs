@@ -7,7 +7,7 @@ using System.Globalization;
 namespace CpuIntensiveApp.Tests
 {
     [Collection("Debug collection")]
-    public class SorterTests
+    public class SorterTests : IClassFixture<DebugTest>
     {
         private DebugTest test;
 
