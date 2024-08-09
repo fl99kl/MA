@@ -24,6 +24,7 @@ namespace CpuIntensiveApp
 
         public void Dispose()
         {
+            string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
             PapiWrapper.outputEnd(outputPath);
         }
     }
