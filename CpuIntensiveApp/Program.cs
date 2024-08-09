@@ -5,8 +5,11 @@ class Program
     static void Main()
     {
         Console.WriteLine("Test before");
-        // Stop PAPI counters and read values
-        PapiWrapper.runRapl();
+
+        string outputPath = "/path/to/output.txt";
+        IntPtr raplData = startRapl(outputPath);
+        readAndStopRapl(raplData, outputPath);
+
         Console.WriteLine("Test after rapl");
     }
 }
