@@ -10,11 +10,9 @@ namespace CpuIntensiveApp.Tests
     public class SorterTests
     {
         private DebugTest test;
-        private readonly ITestOutputHelper _testOutputHelper;
 
-        public SorterTests(ITestOutputHelper testOutputHelper, DebugTest _test)
+        public SorterTests(DebugTest _test)
         {
-            _testOutputHelper = testOutputHelper;
             //Setup();
             this.test = _test;
         }
@@ -22,7 +20,6 @@ namespace CpuIntensiveApp.Tests
         public void Setup()
         {
             // Setup code before each test
-            _testOutputHelper.WriteLine("Setup code in Setup method before each test");
         }
         
         [Fact]
