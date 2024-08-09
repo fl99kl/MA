@@ -6,9 +6,9 @@ class Program
     {
         Console.WriteLine("Test before");
 
-        string outputPath = "/path/to/output.txt";
-        IntPtr raplData = startRapl(outputPath);
-        readAndStopRapl(raplData, outputPath);
+        string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output.txt";
+        IntPtr raplData = PapiWrapper.startRapl(outputPath);
+        PapiWrapper.readAndStopRapl(raplData, outputPath);
 
         Console.WriteLine("Test after rapl");
     }

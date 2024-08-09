@@ -1,0 +1,43 @@
+Found rapl component at cid 2
+
+Starting measurements...
+
+Sleeping 5 seconds...
+
+Stopping measurements, took 5.001s, gathering results...
+
+Scaled energy measurements:
+rapl:::PACKAGE_ENERGY:PACKAGE0            141.206665 J	(Average Power 28.2W)
+rapl:::PACKAGE_ENERGY:PACKAGE1             93.610535 J	(Average Power 18.7W)
+rapl:::DRAM_ENERGY:PACKAGE0                24.335999 J	(Average Power 4.9W)
+rapl:::DRAM_ENERGY:PACKAGE1                15.271210 J	(Average Power 3.1W)
+rapl:::PP0_ENERGY:PACKAGE0                  0.000000 J	(Average Power 0.0W)
+rapl:::PP0_ENERGY:PACKAGE1                  0.000000 J	(Average Power 0.0W)
+
+Energy measurement counts:
+rapl:::PACKAGE_ENERGY_CNT:PACKAGE0           2313530	0x234d3a
+rapl:::PACKAGE_ENERGY_CNT:PACKAGE1           1533715	0x176713
+rapl:::DRAM_ENERGY_CNT:PACKAGE0              1594884	0x185604
+rapl:::DRAM_ENERGY_CNT:PACKAGE1              1000814	0x0f456e
+rapl:::PP0_ENERGY_CNT:PACKAGE0                     0	00000000
+rapl:::PP0_ENERGY_CNT:PACKAGE1                     0	00000000
+
+Scaled Fixed values:
+rapl:::THERMAL_SPEC:PACKAGE0                 125.000 W
+rapl:::THERMAL_SPEC:PACKAGE1                 125.000 W
+rapl:::MINIMUM_POWER:PACKAGE0                 69.000 W
+rapl:::MINIMUM_POWER:PACKAGE1                 69.000 W
+rapl:::MAXIMUM_POWER:PACKAGE0                264.000 W
+rapl:::MAXIMUM_POWER:PACKAGE1                264.000 W
+rapl:::MAXIMUM_TIME_WINDOW:PACKAGE0            0.015 s
+rapl:::MAXIMUM_TIME_WINDOW:PACKAGE1            0.015 s
+
+Fixed value counts:
+rapl:::THERMAL_SPEC_CNT:PACKAGE0                1000	0x0003e8
+rapl:::THERMAL_SPEC_CNT:PACKAGE1                1000	0x0003e8
+rapl:::MINIMUM_POWER_CNT:PACKAGE0                552	0x000228
+rapl:::MINIMUM_POWER_CNT:PACKAGE1                552	0x000228
+rapl:::MAXIMUM_POWER_CNT:PACKAGE0               2112	0x000840
+rapl:::MAXIMUM_POWER_CNT:PACKAGE1               2112	0x000840
+rapl:::MAXIMUM_TIME_WINDOW_CNT:PACKAGE0           15	0x00000f
+rapl:::MAXIMUM_TIME_WINDOW_CNT:PACKAGE1           15	0x00000f

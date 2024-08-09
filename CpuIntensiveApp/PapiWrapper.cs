@@ -23,10 +23,7 @@ public static class PapiWrapper
         public int data_type;
     }
     
-    const string dllPath = "papi_wrapper.so"; 
-    
-    [DllImport("papi_wrapper.so", EntryPoint = "runRapl")]
-    public static extern void runRapl();
+    const string dllPath = "papi_wrapper.so";
     
     [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern IntPtr startRapl(string outputFilePath);
