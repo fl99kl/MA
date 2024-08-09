@@ -21,6 +21,26 @@ void handle_error(int retval, FILE *outputFile) {
     exit(1);
 }
 
+void outputStart(const char* output_file_path) {
+    FILE *outputFile = fopen(output_file_path, "w");
+    if (outputFile == NULL) {
+        perror("Failed to open output file");
+        exit(1);
+    }
+    fprintf(outputFile, "Output start Debug\n");
+    fclose(outputFile);
+}
+
+void outputEnd(const char* output_file_path) {
+    FILE *outputFile = fopen(output_file_path, "w");
+    if (outputFile == NULL) {
+        perror("Failed to open output file");
+        exit(1);
+    }
+    fprintf(outputFile, "Output end Debug\n");
+    fclose(outputFile);
+}
+
 RaplData* startRapl(const char* output_file_path) {
     FILE *outputFile = fopen(output_file_path, "w");
     if (outputFile == NULL) {

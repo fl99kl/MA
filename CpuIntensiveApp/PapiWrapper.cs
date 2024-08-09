@@ -31,4 +31,10 @@ public static class PapiWrapper
     [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void readAndStopRapl(IntPtr raplData, string outputFilePath);
 
+    [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void outputStart(string outputFilePath);
+
+    [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
+    public static extern IntPtr outputEnd(string outputFilePath);
+
 }

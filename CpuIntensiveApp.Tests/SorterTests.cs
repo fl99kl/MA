@@ -6,14 +6,17 @@ using System.Globalization;
 
 namespace CpuIntensiveApp.Tests
 {
+    [Collection("Database collection")]
     public class SorterTests
     {
+        private DebugTest test;
         private readonly ITestOutputHelper _testOutputHelper;
 
-        public SorterTests(ITestOutputHelper testOutputHelper)
+        public SorterTests(ITestOutputHelper testOutputHelper, DebugTest _test)
         {
             _testOutputHelper = testOutputHelper;
-            Setup();
+            //Setup();
+            this.test = _test
         }
 
         public void Setup()
@@ -25,8 +28,6 @@ namespace CpuIntensiveApp.Tests
         [Fact]
         public void Sort_SortsListCorrectly()
         {
-            MyLibrary.HelloFromC();
-            _testOutputHelper.WriteLine("example console statement");
             // Arrange
             var unsortedList = new List<int> { 5, 3, 8, 4, 2, 7, 1, 10, 9, 6 };
             var expectedList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
