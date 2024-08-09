@@ -16,7 +16,7 @@ namespace CpuIntensiveApp.Tests
         {
             _testOutputHelper = testOutputHelper;
             //Setup();
-            this.test = _test
+            this.test = _test;
         }
 
         public void Setup()
