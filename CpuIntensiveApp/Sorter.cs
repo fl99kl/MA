@@ -16,7 +16,7 @@ namespace CpuIntensiveApp
     {
         public DebugTest()
         {
-            string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output.txt";
+            string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
 
             PapiWrapper.outputStart(outputPath);
         }
