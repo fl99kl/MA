@@ -15,7 +15,7 @@ namespace CpuIntensiveApp.Tests
         {
             //Setup();
             this.test = _test;
-			this.test.clearFile()
+			this.test.clearFile();
         }
 
         public void Setup()
