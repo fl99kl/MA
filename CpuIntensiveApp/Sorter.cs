@@ -15,12 +15,14 @@ namespace CpuIntensiveApp
     
     public class DebugTest : IDisposable
     {
+		public IntPtr data;
         public DebugTest()
         {
             string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
 
 			PapiWrapper.clearFile(outputPath);
             PapiWrapper.outputStart(outputPath);
+        	data = PapiWrapper.startRapl(outputPath);
         }
 
 		public void Add1ToFile() 
@@ -40,6 +42,7 @@ namespace CpuIntensiveApp
         public void Dispose()
         {
             string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
+        	PapiWrapper.readAndStopRapl(data, outputPath);
             PapiWrapper.outputEnd(outputPath);
         }
     }
