@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 using CpuIntensiveApp;
@@ -7,7 +8,7 @@ using System.Globalization;
 namespace CpuIntensiveApp.Tests
 {
     [Collection("Debug collection")]
-    public class SorterTests : IClassFixture<DebugTest>
+    public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
     {
         private DebugTest test;
 
@@ -17,9 +18,18 @@ namespace CpuIntensiveApp.Tests
             this.test = _test;
         }
 
-        public void Setup()
+        public async Task InitializeAsync()
         {
-            // Setup code before each test
+            // Asynchronous setup code that runs before each test.
+            await Task.Delay(100); // Example async operation
+            test.Add1ToFile();
+        }
+
+        public Task DisposeAsync()
+        {   
+            // Asynchronous cleanup code that runs after each test.
+            test.Add2ToFile();
+            return Task.CompletedTask;
         }
         
         [Fact]

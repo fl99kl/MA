@@ -51,6 +51,26 @@ void clearFile(const char* output_file_path) {
     fclose(outputFile);
 }
 
+void add1ToFile(const char* output_file_path) {
+    FILE *outputFile = fopen(output_file_path, "a");
+    if (outputFile == NULL) {
+        perror("Failed to open output file");
+        exit(1);
+    }
+    fprintf(outputFile, "1\n");
+    fclose(outputFile);
+}
+
+void add2ToFile(const char* output_file_path) {
+    FILE *outputFile = fopen(output_file_path, "a");
+    if (outputFile == NULL) {
+        perror("Failed to open output file");
+        exit(1);
+    }
+    fprintf(outputFile, "2\n");
+    fclose(outputFile);
+}
+
 RaplData* startRapl(const char* output_file_path) {
     FILE *outputFile = fopen(output_file_path, "w");
     if (outputFile == NULL) {
