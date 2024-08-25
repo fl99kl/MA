@@ -19,6 +19,7 @@ namespace CpuIntensiveApp
         {
             string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
 
+			PapiWrapper.clearFile(outputPath);
             PapiWrapper.outputStart(outputPath);
         }
 
