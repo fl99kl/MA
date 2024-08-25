@@ -22,6 +22,13 @@ namespace CpuIntensiveApp
             PapiWrapper.outputStart(outputPath);
         }
 
+		public ClearFile() 
+		{
+			string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
+
+            PapiWrapper.clearFile(outputPath);
+		}
+
         public void Dispose()
         {
             string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
