@@ -1,4 +1,50 @@
-File cleared
-Output end Debug
-Output start Debug
+Found rapl component at cid 2
+
+Starting measurements...
+
+1
+2
+1
+2
+1
+2
+Sleeping 5 seconds...
+
+Stopping measurements, took 5.345s, gathering results...
+
+Scaled energy measurements:
+rapl:::PACKAGE_ENERGY:PACKAGE0            157.450378 J	(Average Power 29.5W)
+rapl:::PACKAGE_ENERGY:PACKAGE1            147.683533 J	(Average Power 27.6W)
+rapl:::DRAM_ENERGY:PACKAGE0                29.084579 J	(Average Power 5.4W)
+rapl:::DRAM_ENERGY:PACKAGE1                30.477768 J	(Average Power 5.7W)
+rapl:::PP0_ENERGY:PACKAGE0                  0.000000 J	(Average Power 0.0W)
+rapl:::PP0_ENERGY:PACKAGE1                  0.000000 J	(Average Power 0.0W)
+
+Energy measurement counts:
+rapl:::PACKAGE_ENERGY_CNT:PACKAGE0           2579667	0x275cd3
+rapl:::PACKAGE_ENERGY_CNT:PACKAGE1           2419647	0x24ebbf
+rapl:::DRAM_ENERGY_CNT:PACKAGE0              1906087	0x1d15a7
+rapl:::DRAM_ENERGY_CNT:PACKAGE1              1997391	0x1e7a4f
+rapl:::PP0_ENERGY_CNT:PACKAGE0                     0	00000000
+rapl:::PP0_ENERGY_CNT:PACKAGE1                     0	00000000
+
+Scaled Fixed values:
+rapl:::THERMAL_SPEC:PACKAGE0                 125.000 W
+rapl:::THERMAL_SPEC:PACKAGE1                 125.000 W
+rapl:::MINIMUM_POWER:PACKAGE0                 69.000 W
+rapl:::MINIMUM_POWER:PACKAGE1                 69.000 W
+rapl:::MAXIMUM_POWER:PACKAGE0                264.000 W
+rapl:::MAXIMUM_POWER:PACKAGE1                264.000 W
+rapl:::MAXIMUM_TIME_WINDOW:PACKAGE0            0.015 s
+rapl:::MAXIMUM_TIME_WINDOW:PACKAGE1            0.015 s
+
+Fixed value counts:
+rapl:::THERMAL_SPEC_CNT:PACKAGE0                1000	0x0003e8
+rapl:::THERMAL_SPEC_CNT:PACKAGE1                1000	0x0003e8
+rapl:::MINIMUM_POWER_CNT:PACKAGE0                552	0x000228
+rapl:::MINIMUM_POWER_CNT:PACKAGE1                552	0x000228
+rapl:::MAXIMUM_POWER_CNT:PACKAGE0               2112	0x000840
+rapl:::MAXIMUM_POWER_CNT:PACKAGE1               2112	0x000840
+rapl:::MAXIMUM_TIME_WINDOW_CNT:PACKAGE0           15	0x00000f
+rapl:::MAXIMUM_TIME_WINDOW_CNT:PACKAGE1           15	0x00000f
 Output end Debug
