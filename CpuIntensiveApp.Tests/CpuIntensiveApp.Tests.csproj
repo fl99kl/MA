@@ -24,4 +24,9 @@
     <ProjectReference Include="..\CpuIntensiveApp\CpuIntensiveApp.csproj" />
   </ItemGroup>
 
+  <Target Name="CopyNativeBinaries" AfterTargets="Build">
+    <Copy SourceFiles="..\CpuIntensiveApp\papi_wrapper.so"
+          DestinationFolder="$(OutDir)" />
+  </Target>
+
 </Project>
