@@ -72,7 +72,7 @@ void add2ToFile(const char* output_file_path) {
 }
 
 RaplData* startRapl(const char* output_file_path) {
-    FILE *outputFile = fopen(output_file_path, "w");
+    FILE *outputFile = fopen(output_file_path, "a");
     if (outputFile == NULL) {
         perror("Failed to open output file");
         exit(1);
@@ -192,36 +192,6 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
                    raplData->event_names[i],
                    (double)values[i] / 1.0e9,
                    ((double)values[i] / 1.0e9) / elapsed_time);
-        }
-    }
-
-    fprintf(outputFile, "\nEnergy measurement counts:\n");
-    for (i = 0; i < raplData->num_events; i++) {
-        if (strstr(raplData->event_names[i], "ENERGY_CNT")) {
-            fprintf(outputFile, "%-40s%12lld\t%#08llx\n", raplData->event_names[i], values[i], values[i]);
-        }
-    }
-
-    fprintf(outputFile, "\nScaled Fixed values:\n");
-    for (i = 0; i < raplData->num_events; i++) {
-        if (!strstr(raplData->event_names[i], "ENERGY")) {
-            if (raplData->data_type[i] == PAPI_DATATYPE_FP64) {
-                union {
-                    long long ll;
-                    double fp;
-                } result;
-                result.ll = values[i];
-                fprintf(outputFile, "%-40s%12.3f %s\n", raplData->event_names[i], result.fp, raplData->units[i]);
-            }
-        }
-    }
-
-    fprintf(outputFile, "\nFixed value counts:\n");
-    for (i = 0; i < raplData->num_events; i++) {
-        if (!strstr(raplData->event_names[i], "ENERGY")) {
-            if (raplData->data_type[i] == PAPI_DATATYPE_UINT64) {
-                fprintf(outputFile, "%-40s%12lld\t%#08llx\n", raplData->event_names[i], values[i], values[i]);
-            }
         }
     }
 
