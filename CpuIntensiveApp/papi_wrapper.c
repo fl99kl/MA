@@ -191,6 +191,10 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
         exit(1);
     }
 
+    // Create a list to track unique keys
+    char** key_list = malloc(raplData->num_events * sizeof(char*));
+    int key_count = 0;
+
     // Accumulate energy measurements
     for (i = 0; i < raplData->num_events; i++) {
         if (strstr(raplData->units[i], "nJ")) {
@@ -217,6 +221,8 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
                     perror("Failed to insert into hash table");
                     exit(1);
                 }
+                // Store the key in key_list
+                key_list[key_count++] = item.key;
             } else {
                 // Update the existing entry
                 double *sum = (double *)found_item->data;
@@ -230,22 +236,24 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
     fprintf(outputFile, "\nStopping measurements, took %.3fs, gathering results...\n\n", elapsed_time);
     fprintf(outputFile, "Scaled energy measurements:\n");
 
-    // Iterate over the hash table and print the results
-    for (int i = 0; i < HASH_TABLE_SIZE; i++) {
+    // Iterate over the stored keys and print the results
+    for (i = 0; i < key_count; i++) {
         ENTRY item;
-        item.key = NULL;
-        ENTRY *entry = hsearch(item, FIRST);
-        while (entry != NULL) {
+        item.key = key_list[i];
+        ENTRY *entry = hsearch(item, FIND);
+        if (entry != NULL) {
             double *sum = (double *)entry->data;
             fprintf(outputFile, "%-40s%12.6f J\t(Average Power %.1fW)\n",
                    entry->key,
                    *sum,
                    *sum / elapsed_time);
-            entry = hsearch(item, NEXT);
+            free(entry->data); // Free the allocated sum
         }
+        free(key_list[i]); // Free the key
     }
 
     // Cleanup
+    free(key_list);
     hdestroy();
     free(values);
     free(raplData);
