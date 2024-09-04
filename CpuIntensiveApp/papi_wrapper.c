@@ -202,7 +202,8 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
 
             // Extract the category (e.g., PACKAGE_ENERGY, DRAM_ENERGY)
             char category[256];
-            sscanf(raplData->event_names[i], "%[^:]", category);
+            // Adjusted to extract the part after "rapl:::" and before the second colon
+            sscanf(raplData->event_names[i], "rapl:::%[^:]", category);
 
             // Prepare the ENTRY
             ENTRY item;
