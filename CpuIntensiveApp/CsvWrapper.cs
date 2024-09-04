@@ -8,9 +8,9 @@ public class CsvWrapper
     {
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 50)]
         public string test_case_id;
-        public double metric1;
-        public int metric2;
-        public int metric3;
+        public double duration;
+        public double total_energy_consumed;
+        public double average_energy_consumed;
         
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
         public string timestamp;
