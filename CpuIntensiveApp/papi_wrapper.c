@@ -6,6 +6,7 @@
 #include <search.h> // Using search.h for hash table implementation
 
 #define MAX_RAPL_EVENTS 64
+#define HASH_TABLE_SIZE 256
 
 typedef struct {
     int EventSet;
@@ -184,8 +185,11 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
 
     elapsed_time = ((double)(after_time - raplData->before_time)) / 1.0e9;
 
-    // Initialize hash table for summing energy values
-    void *energy_map = NULL; // Hash table pointer
+    // Initialize the hash table
+    if (!hcreate(HASH_TABLE_SIZE)) {
+        perror("Failed to create hash table");
+        exit(1);
+    }
 
     // Accumulate energy measurements
     for (i = 0; i < raplData->num_events; i++) {
@@ -196,17 +200,28 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
             char category[256];
             sscanf(raplData->event_names[i], "%[^:]", category);
 
-            // Look up the category in the hash table
-            double *sum = (double *)hsearch(ENTRY{category, NULL}, FIND);
+            // Prepare the ENTRY
+            ENTRY item;
+            ENTRY *found_item;
+            item.key = strdup(category); // Copy the category to avoid pointer issues
+            item.data = NULL;
 
-            if (sum == NULL) {
-                // Category not found, insert it with the current value
+            // Search the hash table
+            found_item = hsearch(item, FIND);
+            if (found_item == NULL) {
+                // Insert if not found
                 double *new_sum = (double *)malloc(sizeof(double));
                 *new_sum = energy_joules;
-                hsearch(ENTRY{category, new_sum}, ENTER);
+                item.data = new_sum;
+                if (hsearch(item, ENTER) == NULL) {
+                    perror("Failed to insert into hash table");
+                    exit(1);
+                }
             } else {
-                // Category found, accumulate the value
+                // Update the existing entry
+                double *sum = (double *)found_item->data;
                 *sum += energy_joules;
+                free(item.key); // Free the duplicated key since it is not used
             }
         }
     }
@@ -216,13 +231,18 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
     fprintf(outputFile, "Scaled energy measurements:\n");
 
     // Iterate over the hash table and print the results
-    for (ENTRY *entry = hsearch(ENTRY{NULL, NULL}, FIRST); entry != NULL; entry = hsearch(ENTRY{NULL, NULL}, NEXT)) {
-        double *sum = (double *)entry->data;
-        fprintf(outputFile, "%-40s%12.6f J\t(Average Power %.1fW)\n",
-               entry->key,
-               *sum,
-               *sum / elapsed_time);
-        free(sum); // Free the dynamically allocated memory
+    for (int i = 0; i < HASH_TABLE_SIZE; i++) {
+        ENTRY item;
+        item.key = NULL;
+        ENTRY *entry = hsearch(item, FIRST);
+        while (entry != NULL) {
+            double *sum = (double *)entry->data;
+            fprintf(outputFile, "%-40s%12.6f J\t(Average Power %.1fW)\n",
+                   entry->key,
+                   *sum,
+                   *sum / elapsed_time);
+            entry = hsearch(item, NEXT);
+        }
     }
 
     // Cleanup
