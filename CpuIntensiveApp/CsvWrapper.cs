@@ -18,19 +18,21 @@ public class CsvWrapper
 
     public static class TestCaseLibWrapper
     {
-        [DllImport("TestCaseLib.dll", CallingConvention = CallingConvention.Cdecl)]
+        const string dllPath = "csv_wrapper.so";
+
+        [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
         public static extern int read_csv(string filename, [In, Out] TestCase[] testCases, int maxTestCases);
 
-        [DllImport("TestCaseLib.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr find_test_case([In, Out] TestCase[] testCases, int numCases, string testCaseId);
 
-        [DllImport("TestCaseLib.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
         public static extern void write_csv(string filename, [In, Out] TestCase[] testCases, int numCases);
 
-        [DllImport("TestCaseLib.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
         public static extern void get_timestamp([Out] char[] buffer, int len);
 
-        [DllImport("TestCaseLib.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
         public static extern void update_or_add_test_case(string filename, TestCase newCase);
     }
 }
