@@ -183,18 +183,49 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
 
     elapsed_time = ((double)(after_time - raplData->before_time)) / 1.0e9;
 
-    fprintf(outputFile, "\nStopping measurements, took %.3fs, gathering results...\n\n", elapsed_time);
+    // Initialize hash table for summing energy values
+    void *energy_map = NULL; // Hash table pointer
 
-    fprintf(outputFile, "Scaled energy measurements:\n");
+    // Accumulate energy measurements
     for (i = 0; i < raplData->num_events; i++) {
         if (strstr(raplData->units[i], "nJ")) {
-            fprintf(outputFile, "%-40s%12.6f J\t(Average Power %.1fW)\n",
-                   raplData->event_names[i],
-                   (double)values[i] / 1.0e9,
-                   ((double)values[i] / 1.0e9) / elapsed_time);
+            double energy_joules = (double)values[i] / 1.0e9;
+
+            // Extract the category (e.g., PACKAGE_ENERGY, DRAM_ENERGY)
+            char category[256];
+            sscanf(raplData->event_names[i], "%[^:]", category);
+
+            // Look up the category in the hash table
+            double *sum = (double *)hsearch(ENTRY{category, NULL}, FIND);
+
+            if (sum == NULL) {
+                // Category not found, insert it with the current value
+                double *new_sum = (double *)malloc(sizeof(double));
+                *new_sum = energy_joules;
+                hsearch(ENTRY{category, new_sum}, ENTER);
+            } else {
+                // Category found, accumulate the value
+                *sum += energy_joules;
+            }
         }
     }
 
+    // Output the summed energy measurements
+    fprintf(outputFile, "\nStopping measurements, took %.3fs, gathering results...\n\n", elapsed_time);
+    fprintf(outputFile, "Scaled energy measurements:\n");
+
+    // Iterate over the hash table and print the results
+    for (ENTRY *entry = hsearch(ENTRY{NULL, NULL}, FIRST); entry != NULL; entry = hsearch(ENTRY{NULL, NULL}, NEXT)) {
+        double *sum = (double *)entry->data;
+        fprintf(outputFile, "%-40s%12.6f J\t(Average Power %.1fW)\n",
+               entry->key,
+               *sum,
+               *sum / elapsed_time);
+        free(sum); // Free the dynamically allocated memory
+    }
+
+    // Cleanup
+    hdestroy();
     free(values);
     free(raplData);
     fclose(outputFile);
