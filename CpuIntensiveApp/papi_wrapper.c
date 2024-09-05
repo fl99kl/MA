@@ -79,6 +79,8 @@ void addLineToFile(const char* output_file_path, const char* test_name) {
         perror("Failed to open output file");
         exit(1);
     }
+    fprintf(outputFile, "\n");
+    fprintf(outputFile, "---------------------------\n");
     fprintf(outputFile, "%s\n", test_name);
     fclose(outputFile);
 }

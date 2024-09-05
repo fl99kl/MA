@@ -8,8 +8,7 @@ public class LogTestNameAttribute : BeforeAfterTestAttribute
 	public override void Before(MethodInfo methodUnderTest)
 	{
 		// Log the name of the test before it runs
-		//DebugTest.AddLineToFile(methodUnderTest.Name);
-		DebugTest.Add1ToFile();
+		DebugTest.AddLineToFile(methodUnderTest.Name);
 	}
 
 	public override void After(MethodInfo methodUnderTest)
@@ -50,6 +49,8 @@ public class SorterTests(DebugTest debugTest) : IClassFixture<DebugTest>, IAsync
 		// Assert
 		Assert.Equal(expectedList, sortedList);
 	}
+	
+	[LogTestName]
 	[Fact]
 	public void Sort_SortsListCorrectly2()
 	{
@@ -65,6 +66,8 @@ public class SorterTests(DebugTest debugTest) : IClassFixture<DebugTest>, IAsync
 		// Assert
 		Assert.Equal(expectedList, sortedList);
 	}
+	
+	[LogTestName]
 	[Fact]
 	public void Sort_SortsListCorrectly3()
 	{
@@ -80,6 +83,8 @@ public class SorterTests(DebugTest debugTest) : IClassFixture<DebugTest>, IAsync
 		// Assert
 		Assert.Equal(expectedList, sortedList);
 	}
+	
+	[LogTestName]
 	[Fact]
 	public void Sort_SortsListCorrectly4()
 	{
@@ -96,6 +101,7 @@ public class SorterTests(DebugTest debugTest) : IClassFixture<DebugTest>, IAsync
 		Assert.Equal(expectedList, sortedList);
 	}
 
+	[LogTestName]
 	[Fact]
 	public void BubbleSort_SortsListCorrectly()
 	{
@@ -109,6 +115,7 @@ public class SorterTests(DebugTest debugTest) : IClassFixture<DebugTest>, IAsync
 		Assert.Equal(expectedList, sortedList);
 	}
 
+	[LogTestName]
 	[Fact]
 	public void SelectionSort_SortsListCorrectly()
 	{	
@@ -122,6 +129,7 @@ public class SorterTests(DebugTest debugTest) : IClassFixture<DebugTest>, IAsync
 		Assert.Equal(expectedList, sortedList);
 	}
 
+	[LogTestName]
 	[Fact]
 	public void InsertionSort_SortsListCorrectly()
 	{
@@ -135,6 +143,7 @@ public class SorterTests(DebugTest debugTest) : IClassFixture<DebugTest>, IAsync
 		Assert.Equal(expectedList, sortedList);
 	}
 
+	[LogTestName]
 	[Fact]
 	public void MergeSort_SortsListCorrectly()
 	{
