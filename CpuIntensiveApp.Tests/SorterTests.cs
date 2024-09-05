@@ -8,7 +8,8 @@ public class LogTestNameAttribute : BeforeAfterTestAttribute
 	public override void Before(MethodInfo methodUnderTest)
 	{
 		// Log the name of the test before it runs
-		DebugTest.AddLineToFile(methodUnderTest.Name);
+		//DebugTest.AddLineToFile(methodUnderTest.Name);
+		DebugTest.Add1ToFile();
 	}
 
 	public override void After(MethodInfo methodUnderTest)

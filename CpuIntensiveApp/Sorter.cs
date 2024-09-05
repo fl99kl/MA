@@ -104,44 +104,45 @@ namespace CpuIntensiveApp
     	}
     }
     
-    public class DebugTest : IDisposable
+    public abstract class DebugTest : IDisposable
     {
-		const string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
-		public IntPtr data;
-        public DebugTest()
+	    private const string OutputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
+		private IntPtr _data;
+
+		protected DebugTest()
         {
-			PapiWrapper.clearFile(outputPath);
-            PapiWrapper.outputStart(outputPath);
+			PapiWrapper.clearFile(OutputPath);
+            PapiWrapper.outputStart(OutputPath);
         }
 
-		public void Add1ToFile() 
+		public static void Add1ToFile() 
 		{
-            PapiWrapper.add1ToFile(outputPath);
+            PapiWrapper.add1ToFile(OutputPath);
 		}
 
 		public void Add2ToFile() 
 		{
-            PapiWrapper.add2ToFile(outputPath);
+            PapiWrapper.add2ToFile(OutputPath);
 		}
 
 		public static void AddLineToFile(string testName) 
 		{
-            PapiWrapper.addLineToFile(outputPath, testName);
+            PapiWrapper.addLineToFile(OutputPath, testName);
 		}
 
 		public void BeforeTestCase() 
 		{
-        	data = PapiWrapper.startRapl(outputPath);
+        	_data = PapiWrapper.startRapl(OutputPath);
 		}
 
 		public void AfterTestCase() 
 		{
-        	PapiWrapper.readAndStopRapl(data, outputPath);
+        	PapiWrapper.readAndStopRapl(_data, OutputPath);
 		}
 
         public void Dispose()
         {
-            PapiWrapper.outputEnd(outputPath);
+            PapiWrapper.outputEnd(OutputPath);
         }
     }
     
