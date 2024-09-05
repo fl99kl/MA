@@ -73,6 +73,16 @@ void add2ToFile(const char* output_file_path) {
     fclose(outputFile);
 }
 
+void addLineToFile(const char* output_file_path, const char* test_name) {
+    FILE *outputFile = fopen(output_file_path, "a");
+    if (outputFile == NULL) {
+        perror("Failed to open output file");
+        exit(1);
+    }
+    fprintf(outputFile, "%s\n", test_name);
+    fclose(outputFile);
+}
+
 RaplData* startRapl(const char* output_file_path) {
     FILE *outputFile = fopen(output_file_path, "a");
     if (outputFile == NULL) {
