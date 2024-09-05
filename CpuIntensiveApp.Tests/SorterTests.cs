@@ -91,5 +91,57 @@ namespace CpuIntensiveApp.Tests
     		// Assert
     		Assert.Equal(expectedList, sortedList);
 		}
+
+		[Fact]
+		public void BubbleSort_SortsListCorrectly()
+		{
+    		int arrayLength = 1000;
+    		var random = new Random();
+    		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
+    		var expectedList = Enumerable.Range(1, arrayLength).ToList();
+
+    		var sortedList = Sorter.BubbleSort(unsortedList);
+
+    		Assert.Equal(expectedList, sortedList);
+		}
+
+		[Fact]
+		public void SelectionSort_SortsListCorrectly()
+		{	
+    		int arrayLength = 1000;
+    		var random = new Random();
+    		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
+    		var expectedList = Enumerable.Range(1, arrayLength).ToList();
+
+    		var sortedList = Sorter.SelectionSort(unsortedList);
+
+    		Assert.Equal(expectedList, sortedList);
+		}
+
+		[Fact]
+		public void InsertionSort_SortsListCorrectly()
+		{
+    		int arrayLength = 1000;
+    		var random = new Random();
+    		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
+    		var expectedList = Enumerable.Range(1, arrayLength).ToList();
+
+    		var sortedList = Sorter.InsertionSort(unsortedList);
+
+    		Assert.Equal(expectedList, sortedList);
+		}
+
+		[Fact]
+		public void MergeSort_SortsListCorrectly()
+		{
+    		int arrayLength = 1000;
+    		var random = new Random();
+    		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
+    		var expectedList = Enumerable.Range(1, arrayLength).ToList();
+
+    		var sortedList = Sorter.MergeSort(unsortedList);
+
+    		Assert.Equal(expectedList, sortedList);
+		}
     }
 }
