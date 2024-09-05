@@ -172,8 +172,6 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
     long long* values = calloc(raplData->num_events, sizeof(long long));
     if (values == NULL) handle_error(PAPI_ENOMEM, outputFile);
 
-    sleep(5);
-
     // Stop Counting
     after_time = PAPI_get_real_nsec();
     retval = PAPI_stop(raplData->EventSet, values);

@@ -76,5 +76,20 @@ namespace CpuIntensiveApp.Tests
     		// Assert
     		Assert.Equal(expectedList, sortedList);
 		}
+        [Fact]
+        public void Sort_SortsListCorrectly4()
+        {
+            // Arrange
+    		int arrayLength = 100; // Change this value to test different lengths
+    		var random = new Random();
+    		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
+    		var expectedList = Enumerable.Range(1, arrayLength).ToList();
+
+    		// Act
+    		var sortedList = Sorter.Sort(unsortedList);
+
+    		// Assert
+    		Assert.Equal(expectedList, sortedList);
+		}
     }
 }
