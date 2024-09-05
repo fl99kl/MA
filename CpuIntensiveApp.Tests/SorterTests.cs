@@ -21,14 +21,13 @@ namespace CpuIntensiveApp.Tests
         public async Task InitializeAsync()
         {
             // Asynchronous setup code that runs before each test.
-            await Task.Delay(100); // Example async operation
-            test.Add1ToFile();
+            test.BeforeTestCase();
         }
 
         public Task DisposeAsync()
         {   
             // Asynchronous cleanup code that runs after each test.
-            test.Add2ToFile();
+            test.AfterTestCase();
             return Task.CompletedTask;
         }
         
