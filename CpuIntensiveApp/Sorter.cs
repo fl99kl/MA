@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Xunit;
+﻿using Xunit;
 
 namespace CpuIntensiveApp
 {
@@ -108,7 +106,7 @@ namespace CpuIntensiveApp
     
     public class DebugTest : IDisposable
     {
-		string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
+		const string outputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
 		public IntPtr data;
         public DebugTest()
         {
@@ -126,7 +124,7 @@ namespace CpuIntensiveApp
             PapiWrapper.add2ToFile(outputPath);
 		}
 
-		public void AddLineToFile(string testName) 
+		public static void AddLineToFile(string testName) 
 		{
             PapiWrapper.addLineToFile(outputPath, testName);
 		}
