@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Sdk;
 using Xunit.Abstractions;
 using System.Reflection;
 using CpuIntensiveApp;
