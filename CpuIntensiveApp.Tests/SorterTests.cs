@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using System.Reflection;
 using CpuIntensiveApp;
 using System.Globalization;
 
