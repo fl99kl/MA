@@ -11,19 +11,15 @@ namespace CpuIntensiveApp.Tests
     public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
     {
         private DebugTest _debugTest;
-    	private readonly ITest _test;
 
-        public SorterTests(DebugTest debugTest, ITest test)
+        public SorterTests(DebugTest debugTest)
         {
             //Setup();
             this._debugTest = debugTest;
-            this._test = test;
 		}
 
         public async Task InitializeAsync()
         {
-            string testName = _test.DisplayName; // Gets the name of the test case
-			_debugTest.AddLineToFile(testName);
 			// Asynchronous setup code that runs before each test
         	await Task.Run(() => _debugTest.BeforeTestCase());
         }
@@ -36,7 +32,8 @@ namespace CpuIntensiveApp.Tests
         }
         
         [Fact]
-        public void Sort_SortsListCorrectly()
+        [DisplayTestMethodName]
+		public void Sort_SortsListCorrectly()
         {
             // Arrange
     		int arrayLength = 1000; // Change this value to test different lengths
@@ -147,5 +144,18 @@ namespace CpuIntensiveApp.Tests
 
     		Assert.Equal(expectedList, sortedList);
 		}
+
+    	private class DisplayTestMethodNameAttribute : BeforeAfterTestAttribute
+    	{
+        	public override void Before(MethodInfo methodUnderTest)
+        	{
+				_debugTest.AddLineToFile(methodUnderTest.Name);
+        	}
+
+        	public override void After(MethodInfo methodUnderTest)
+        	{
+            	// Console.WriteLine("TearDown for test '{0}.'", methodUnderTest.Name);
+        	}
+    	}
     }
 }
