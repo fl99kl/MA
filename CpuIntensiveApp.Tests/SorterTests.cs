@@ -7,6 +7,28 @@ using System.Globalization;
 
 namespace CpuIntensiveApp.Tests
 {
+
+	public class LogTestNameAttribute : BeforeAfterTestAttribute
+	{
+		private DebugTest _debugTest;
+
+        public SorterTests(DebugTest debugTest)
+        {
+            this._debugTest = debugTest;
+		}
+
+    	public override void Before(MethodInfo methodUnderTest)
+    	{
+        	// Log the name of the test before it runs
+    		_debugTest.AddLineToFile(methodUnderTest.Name);
+		}
+
+    	public override void After(MethodInfo methodUnderTest)
+    	{
+        	// Log the name of the test after it finishes
+    	}
+	}
+
     [Collection("Debug collection")]
     public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
     {
@@ -14,7 +36,6 @@ namespace CpuIntensiveApp.Tests
 
         public SorterTests(DebugTest debugTest)
         {
-            //Setup();
             this._debugTest = debugTest;
 		}
 
@@ -31,8 +52,8 @@ namespace CpuIntensiveApp.Tests
             return Task.CompletedTask;
         }
         
-        [Fact]
-        [DisplayTestMethodName]
+        [LogTestName]
+		[Fact]
 		public void Sort_SortsListCorrectly()
         {
             // Arrange
@@ -144,18 +165,5 @@ namespace CpuIntensiveApp.Tests
 
     		Assert.Equal(expectedList, sortedList);
 		}
-
-    	private class DisplayTestMethodNameAttribute : BeforeAfterTestAttribute
-    	{
-        	public override void Before(MethodInfo methodUnderTest)
-        	{
-				_debugTest.AddLineToFile(methodUnderTest.Name);
-        	}
-
-        	public override void After(MethodInfo methodUnderTest)
-        	{
-            	// Console.WriteLine("TearDown for test '{0}.'", methodUnderTest.Name);
-        	}
-    	}
     }
 }
