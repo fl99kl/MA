@@ -46,4 +46,7 @@ public static class PapiWrapper
     [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void add2ToFile(string outputFilePath);
 
+    [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void addLineToFile(string outputFilePath, string testName);
+
 }

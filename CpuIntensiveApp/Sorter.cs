@@ -126,6 +126,11 @@ namespace CpuIntensiveApp
             PapiWrapper.add2ToFile(outputPath);
 		}
 
+		public void AddLineToFile(string testName) 
+		{
+            PapiWrapper.addLineToFile(outputPath, testName);
+		}
+
 		public void BeforeTestCase() 
 		{
         	data = PapiWrapper.startRapl(outputPath);

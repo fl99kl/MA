@@ -10,24 +10,28 @@ namespace CpuIntensiveApp.Tests
     [Collection("Debug collection")]
     public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
     {
-        private DebugTest test;
+        private DebugTest _debugTest;
+    	private readonly ITest _test;
 
-        public SorterTests(DebugTest _test)
+        public SorterTests(DebugTest debugTest, ITest test)
         {
             //Setup();
-            this.test = _test;
-        }
+            this._debugTest = debugTest;
+            this._test = test;
+		}
 
         public async Task InitializeAsync()
         {
-            // Asynchronous setup code that runs before each test.
-            test.BeforeTestCase();
+            string testName = _test.DisplayName; // Gets the name of the test case
+			_debugTest.AddLineToFile(testName);
+			// Asynchronous setup code that runs before each test
+        	await Task.Run(() => _debugTest.BeforeTestCase());
         }
 
         public Task DisposeAsync()
         {   
             // Asynchronous cleanup code that runs after each test.
-            test.AfterTestCase();
+            _debugTest.AfterTestCase();
             return Task.CompletedTask;
         }
         
