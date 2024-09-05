@@ -35,7 +35,6 @@ namespace CpuIntensiveApp
 
 		public void BeforeTestCase() 
 		{
-            PapiWrapper.add1ToFile(outputPath);
         	data = PapiWrapper.startRapl(outputPath);
 		}
 

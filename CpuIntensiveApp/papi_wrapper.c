@@ -104,7 +104,6 @@ RaplData* startRapl(const char* output_file_path) {
 
         if (strstr(cmpinfo->name, "rapl")) {
             rapl_cid = cid;
-            fprintf(outputFile, "Found rapl component at cid %d\n", rapl_cid);
 
             if (cmpinfo->disabled) {
                 fprintf(outputFile, "RAPL component disabled\n");
@@ -151,8 +150,6 @@ RaplData* startRapl(const char* output_file_path) {
         r = PAPI_enum_cmp_event(&code, PAPI_ENUM_EVENTS, rapl_cid);
     }
 
-    fprintf(outputFile, "\nStarting measurements...\n\n");
-
     // Start Counting
     raplData->before_time = PAPI_get_real_nsec();
     retval = PAPI_start(raplData->EventSet);
@@ -175,7 +172,6 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
     long long* values = calloc(raplData->num_events, sizeof(long long));
     if (values == NULL) handle_error(PAPI_ENOMEM, outputFile);
 
-    fprintf(outputFile, "Sleeping 5 seconds...\n");
     sleep(5);
 
     // Stop Counting
@@ -234,7 +230,6 @@ void readAndStopRapl(RaplData* raplData, const char* output_file_path) {
     }
 
     // Output the summed energy measurements
-    fprintf(outputFile, "\nStopping measurements, took %.3fs, gathering results...\n\n", elapsed_time);
     fprintf(outputFile, "Scaled energy measurements:\n");
 
     // Iterate over the stored keys and print the results

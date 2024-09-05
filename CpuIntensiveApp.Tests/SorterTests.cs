@@ -35,37 +35,46 @@ namespace CpuIntensiveApp.Tests
         public void Sort_SortsListCorrectly()
         {
             // Arrange
-            var unsortedList = new List<int> { 5, 3, 8, 4, 2, 7, 1, 10, 9, 6 };
-            var expectedList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            // Act
-            var sortedList = Sorter.Sort(unsortedList);
+    		int arrayLength = 100; // Change this value to test different lengths
+    		var random = new Random();
+    		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
+    		var expectedList = Enumerable.Range(1, arrayLength).ToList();
 
-            // Assert
-            Assert.Equal(expectedList, sortedList);
-        }
+    		// Act
+    		var sortedList = Sorter.Sort(unsortedList);
+
+    		// Assert
+    		Assert.Equal(expectedList, sortedList);
+		}
         [Fact]
         public void Sort_SortsListCorrectly2()
         {
             // Arrange
-            var unsortedList = new List<int> { 5, 3, 8, 4, 2, 7, 1, 10, 9, 6 };
-            var expectedList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            // Act
-            var sortedList = Sorter.Sort(unsortedList);
+    		int arrayLength = 50; // Change this value to test different lengths
+    		var random = new Random();
+    		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
+    		var expectedList = Enumerable.Range(1, arrayLength).ToList();
 
-            // Assert
-            Assert.Equal(expectedList, sortedList);
-        }
+    		// Act
+    		var sortedList = Sorter.Sort(unsortedList);
+
+    		// Assert
+    		Assert.Equal(expectedList, sortedList);
+		}
         [Fact]
         public void Sort_SortsListCorrectly3()
         {
             // Arrange
-            var unsortedList = new List<int> { 5, 3, 8, 4, 2, 7, 1, 10, 9, 6 };
-            var expectedList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            // Act
-            var sortedList = Sorter.Sort(unsortedList);
+    		int arrayLength = 10; // Change this value to test different lengths
+    		var random = new Random();
+    		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
+    		var expectedList = Enumerable.Range(1, arrayLength).ToList();
 
-            // Assert
-            Assert.Equal(expectedList, sortedList);
-        }
+    		// Act
+    		var sortedList = Sorter.Sort(unsortedList);
+
+    		// Assert
+    		Assert.Equal(expectedList, sortedList);
+		}
     }
 }
