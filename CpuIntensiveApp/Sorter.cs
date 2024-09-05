@@ -114,16 +114,6 @@ namespace CpuIntensiveApp
             PapiWrapper.outputStart(OutputPath);
         }
 
-		public static void Add1ToFile() 
-		{
-            PapiWrapper.add1ToFile(OutputPath);
-		}
-
-		public void Add2ToFile() 
-		{
-            PapiWrapper.add2ToFile(OutputPath);
-		}
-
 		public static void AddLineToFile(string testName) 
 		{
             PapiWrapper.addLineToFile(OutputPath, testName);
