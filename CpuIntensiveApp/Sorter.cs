@@ -104,12 +104,11 @@ namespace CpuIntensiveApp
     	}
     }
     
-    public abstract class DebugTest : IDisposable
+    public class DebugTest : IDisposable
     {
 	    private const string OutputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
 		private IntPtr _data;
-
-		protected DebugTest()
+        public DebugTest()
         {
 			PapiWrapper.clearFile(OutputPath);
             PapiWrapper.outputStart(OutputPath);
