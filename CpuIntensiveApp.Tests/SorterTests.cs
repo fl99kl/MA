@@ -35,7 +35,7 @@ namespace CpuIntensiveApp.Tests
         public void Sort_SortsListCorrectly()
         {
             // Arrange
-    		int arrayLength = 100; // Change this value to test different lengths
+    		int arrayLength = 1000; // Change this value to test different lengths
     		var random = new Random();
     		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
     		var expectedList = Enumerable.Range(1, arrayLength).ToList();
@@ -50,7 +50,7 @@ namespace CpuIntensiveApp.Tests
         public void Sort_SortsListCorrectly2()
         {
             // Arrange
-    		int arrayLength = 50; // Change this value to test different lengths
+    		int arrayLength = 500; // Change this value to test different lengths
     		var random = new Random();
     		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
     		var expectedList = Enumerable.Range(1, arrayLength).ToList();
@@ -65,7 +65,7 @@ namespace CpuIntensiveApp.Tests
         public void Sort_SortsListCorrectly3()
         {
             // Arrange
-    		int arrayLength = 10; // Change this value to test different lengths
+    		int arrayLength = 100; // Change this value to test different lengths
     		var random = new Random();
     		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
     		var expectedList = Enumerable.Range(1, arrayLength).ToList();
@@ -80,7 +80,7 @@ namespace CpuIntensiveApp.Tests
         public void Sort_SortsListCorrectly4()
         {
             // Arrange
-    		int arrayLength = 100; // Change this value to test different lengths
+    		int arrayLength = 1000; // Change this value to test different lengths
     		var random = new Random();
     		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(x => random.Next()).ToList();
     		var expectedList = Enumerable.Range(1, arrayLength).ToList();
