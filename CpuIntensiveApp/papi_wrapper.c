@@ -198,6 +198,10 @@ TestCase readAndStopRapl(RaplData* raplData, const char* output_file_path, const
         exit(1);
     }
 
+    // Create a list to track unique keys
+    char** key_list = malloc(raplData->num_events * sizeof(char*));
+    int key_count = 0;
+
     // Accumulate energy measurements
     for (i = 0; i < raplData->num_events; i++) {
         if (strstr(raplData->units[i], "nJ")) {
