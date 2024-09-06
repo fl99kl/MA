@@ -113,6 +113,7 @@ namespace CpuIntensiveApp
 
         public void SetTestCaseName(string newTestCaseName)
         {
+	        AddLineToFile("Hallo Zwei: " + newTestCaseName);
 	        _testCaseName = newTestCaseName;
         }
 
