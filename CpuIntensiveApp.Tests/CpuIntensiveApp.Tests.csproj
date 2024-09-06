@@ -26,7 +26,6 @@
 
   <Target Name="CopyNativeBinaries" AfterTargets="Build">
     <Copy SourceFiles="..\CpuIntensiveApp\papi_wrapper.so" DestinationFolder="$(OutDir)" />
-    <Copy SourceFiles="..\CpuIntensiveApp\csv_wrapper.so" DestinationFolder="$(OutDir)" />
   </Target>
 
 </Project>
