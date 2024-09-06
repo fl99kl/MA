@@ -128,7 +128,8 @@ namespace CpuIntensiveApp
 
 		public void AfterTestCase() 
 		{
-        	PapiWrapper.readAndStopRapl(_data, OutputPath, _testCaseName);
+        	PapiWrapper.TestCase papiResult = PapiWrapper.readAndStopRapl(_data, OutputPath, _testCaseName);
+	        PapiWrapper.updateOrAddTestCase("ResultCsv.csv", papiResult);
 		}
 
         public void Dispose()

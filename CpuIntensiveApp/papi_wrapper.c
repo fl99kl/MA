@@ -318,7 +318,7 @@ void write_csv(const char *filename, TestCase test_cases[], int num_cases) {
     }
 
     for (int i = 0; i < num_cases; i++) {
-        fprintf(file, "%s,%.2f,%.2f,%.2f,%s\n",
+        fprintf(file, "%s,%.2f,%.2f,%.2f,%.2f,%.2f,%s\n",
                 test_cases[i].test_case_id,
                 test_cases[i].duration,
                 test_cases[i].total_energy_consumed_package,
