@@ -7,42 +7,24 @@ public class LogTestNameAttribute : BeforeAfterTestAttribute
 {
 	public override void Before(MethodInfo methodUnderTest)
 	{
-		// Get DebugTest instance from test class context
-		var debugTest = GetDebugTestFromTestClass(methodUnderTest);
+		// Get DebugTest instance from static accessor in SorterTests
+		var debugTest = SorterTests.GetDebugTestInstance();
 
 		// Log the name of the test before it runs
 		DebugTest.AddLineToFile("Hallo: " + methodUnderTest.Name);
 
 		debugTest?.SetTestCaseName(methodUnderTest.Name);
 	}
-
-	private DebugTest? GetDebugTestFromTestClass(MethodInfo methodUnderTest)
-	{
-		// Fetch the test class instance and retrieve the DebugTest dependency
-		var testClassType = methodUnderTest.DeclaringType;
-		if (testClassType == null)
-			return null;
-
-		// Create an instance of the test class
-		var testClassInstance = Activator.CreateInstance(testClassType);
-		if (testClassInstance == null)
-			return null;
-
-		// Look for the _debugTest field
-		var field = testClassType.GetField("_debugTest", BindingFlags.Instance | BindingFlags.NonPublic);
-		return field?.GetValue(testClassInstance) as DebugTest;
-	}
 }
 
 [Collection("Debug collection")]
 public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 {
-	private readonly DebugTest _debugTest;
+	private static DebugTest _debugTest;
 
-	// Constructor with dependency injection
 	public SorterTests(DebugTest debugTest)
 	{
-		_debugTest = debugTest;
+		_debugTest = debugTest;  // Store the instance in the static field
 	}
 
 	public async Task InitializeAsync()
@@ -56,6 +38,12 @@ public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 		// Asynchronous cleanup code that runs after each test
 		_debugTest.AfterTestCase();
 		return Task.CompletedTask;
+	}
+	
+	// Static accessor for DebugTest so the attribute can access it
+	public static DebugTest GetDebugTestInstance()
+	{
+		return _debugTest;
 	}
         
 	[LogTestName]
