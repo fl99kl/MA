@@ -165,6 +165,7 @@ RaplData* startRapl(const char* output_file_path) {
 }
 
 TestCase readAndStopRapl(RaplData* raplData, const char* output_file_path, const char* test_case_name) {
+    printf("Adding new test case: %s\n", test_case_name);
     FILE *outputFile = fopen(output_file_path, "a");
     if (outputFile == NULL) {
         perror("Failed to open output file");
