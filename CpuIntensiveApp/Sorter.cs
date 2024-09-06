@@ -113,7 +113,6 @@ namespace CpuIntensiveApp
 
         public void SetTestCaseName(string newTestCaseName)
         {
-	        AddLineToFile("Hallo Zwei: " + newTestCaseName);
 	        _testCaseName = newTestCaseName;
         }
 
@@ -130,7 +129,7 @@ namespace CpuIntensiveApp
 		public void AfterTestCase() 
 		{
         	PapiWrapper.TestCase papiResult = PapiWrapper.readAndStopRapl(_data, OutputPath, _testCaseName);
-	        PapiWrapper.updateOrAddTestCase("ResultCsv.csv", papiResult);
+	        PapiWrapper.updateOrAddTestCase("/home/kleinert/MA/CpuIntensiveApp/ResultCsv.csv", papiResult);
 		}
 
         public void Dispose()
