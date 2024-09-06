@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 public static class PapiWrapper
 {
@@ -14,6 +13,19 @@ public static class PapiWrapper
     }
     
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    public struct TestCase
+    {
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 50)]
+        public string test_case_id;
+        public double duration;
+        public double total_energy_consumed;
+        public double average_energy_consumed;
+        
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
+        public string timestamp;
+    }
+    
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct EventInfo
     {
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
@@ -23,24 +35,26 @@ public static class PapiWrapper
         public int data_type;
     }
     
-    const string dllPath = "papi_wrapper.so";
+    const string DllPath = "papi_wrapper.so";
     
-    [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern IntPtr startRapl(string outputFilePath);
 
-    [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void readAndStopRapl(IntPtr raplData, string outputFilePath);
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
+    public static extern TestCase readAndStopRapl(IntPtr raplData, string outputFilePath, string testCaseName);
 
-    [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void outputStart(string outputFilePath);
 
-    [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void outputEnd(string outputFilePath);
     
-    [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clearFile(string outputFilePath);
 
-    [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void addLineToFile(string outputFilePath, string testName);
 
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void update_or_add_test_case(string filename, TestCase newCase);
 }

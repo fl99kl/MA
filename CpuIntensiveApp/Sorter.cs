@@ -20,10 +20,8 @@ namespace CpuIntensiveApp
                 	if (list[j] > list[j + 1])
                 	{
               	    	// Swap
-          	         	var temp = list[j];
-                    	list[j] = list[j + 1];
-                    	list[j + 1] = temp;
-                	}
+          	         	(list[j], list[j + 1]) = (list[j + 1], list[j]);
+	                }
             	}
         	}
         	return list;
@@ -42,10 +40,8 @@ namespace CpuIntensiveApp
                 	}
             	}
             	// Swap
-            	var temp = list[i];
-          		list[i] = list[minIndex];
-            	list[minIndex] = temp;
-        	}
+            	(list[i], list[minIndex]) = (list[minIndex], list[i]);
+	        }
         	return list;
     	}
 
@@ -108,10 +104,16 @@ namespace CpuIntensiveApp
     {
 	    private const string OutputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
 		private IntPtr _data;
+		string _testCaseName = "";
         public DebugTest()
         {
 			PapiWrapper.clearFile(OutputPath);
             PapiWrapper.outputStart(OutputPath);
+        }
+
+        public void SetTestCaseName(string newTestCaseName)
+        {
+	        _testCaseName = newTestCaseName;
         }
 
 		public static void AddLineToFile(string testName) 
@@ -126,7 +128,7 @@ namespace CpuIntensiveApp
 
 		public void AfterTestCase() 
 		{
-        	PapiWrapper.readAndStopRapl(_data, OutputPath);
+        	PapiWrapper.readAndStopRapl(_data, OutputPath, _testCaseName);
 		}
 
         public void Dispose()

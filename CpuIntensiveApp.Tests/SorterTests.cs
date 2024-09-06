@@ -7,13 +7,22 @@ public class LogTestNameAttribute : BeforeAfterTestAttribute
 {
 	public override void Before(MethodInfo methodUnderTest)
 	{
+		// Get DebugTest instance from test class context (TestContext)
+		var debugTest = GetDebugTestFromTestClass(methodUnderTest);
+
 		// Log the name of the test before it runs
 		DebugTest.AddLineToFile(methodUnderTest.Name);
+
+		debugTest?.SetTestCaseName(methodUnderTest.Name);
 	}
 
-	public override void After(MethodInfo methodUnderTest)
+	private DebugTest? GetDebugTestFromTestClass(MethodInfo methodUnderTest)
 	{
-		// Log the name of the test after it finishes
+		// Fetch the test class instance and retrieve the DebugTest dependency
+		var testClass = methodUnderTest.DeclaringType;
+		var field = testClass?.GetField("_debugTest", BindingFlags.Instance | BindingFlags.NonPublic);
+
+		return field?.GetValue(testClass) as DebugTest;
 	}
 }
 
