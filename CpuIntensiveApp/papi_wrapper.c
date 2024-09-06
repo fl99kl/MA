@@ -165,7 +165,6 @@ RaplData* startRapl(const char* output_file_path) {
 }
 
 TestCase readAndStopRapl(RaplData* raplData, const char* output_file_path, const char* test_case_name) {
-    printf("Adding new test case: %s\n", test_case_name);
     FILE *outputFile = fopen(output_file_path, "a");
     if (outputFile == NULL) {
         perror("Failed to open output file");
@@ -274,6 +273,7 @@ TestCase readAndStopRapl(RaplData* raplData, const char* output_file_path, const
 }
 
 int read_csv(const char *filename, TestCase test_cases[], int max_test_cases) {
+    printf("reading file with name: %s\n", filename);
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         perror("Error opening file");
@@ -304,6 +304,7 @@ int read_csv(const char *filename, TestCase test_cases[], int max_test_cases) {
 
 TestCase* find_test_case(TestCase test_cases[], int num_cases, const char *test_case_id) {
     for (int i = 0; i < num_cases; i++) {
+        printf("comparing with test case name: %s\n", test_cases[i].test_case_id);
         if (strcmp(test_cases[i].test_case_id, test_case_id) == 0) {
             return &test_cases[i];
         }
@@ -312,6 +313,7 @@ TestCase* find_test_case(TestCase test_cases[], int num_cases, const char *test_
 }
 
 void write_csv(const char *filename, TestCase test_cases[], int num_cases) {
+    printf("writing to file with name: %s\n", filename);
     FILE *file = fopen(filename, "w"); // Open the file in write mode to overwrite it
     if (file == NULL) {
         perror("Error opening file");
@@ -342,6 +344,7 @@ void updateOrAddTestCase(const char *filename, TestCase new_case) {
     TestCase test_cases[MAX_TEST_CASES];
     int num_cases = read_csv(filename, test_cases, MAX_TEST_CASES);
 
+    printf("Searching for test case name: %s\n", new_case.test_case_id);
     TestCase *existing_case = find_test_case(test_cases, num_cases, new_case.test_case_id);
     if (existing_case) {
         // Update the existing test case
