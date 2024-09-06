@@ -7,7 +7,7 @@ public class LogTestNameAttribute : BeforeAfterTestAttribute
 {
 	public override void Before(MethodInfo methodUnderTest)
 	{
-		// Get DebugTest instance from test class context (TestContext)
+		// Get DebugTest instance from test class context
 		var debugTest = GetDebugTestFromTestClass(methodUnderTest);
 
 		// Log the name of the test before it runs
@@ -19,26 +19,42 @@ public class LogTestNameAttribute : BeforeAfterTestAttribute
 	private DebugTest? GetDebugTestFromTestClass(MethodInfo methodUnderTest)
 	{
 		// Fetch the test class instance and retrieve the DebugTest dependency
-		var testClass = methodUnderTest.DeclaringType;
-		var field = testClass?.GetField("debugTest", BindingFlags.Instance | BindingFlags.NonPublic);
+		var testClassType = methodUnderTest.DeclaringType;
+		if (testClassType == null)
+			return null;
 
-		return field?.GetValue(testClass) as DebugTest;
+		// Create an instance of the test class
+		var testClassInstance = Activator.CreateInstance(testClassType);
+		if (testClassInstance == null)
+			return null;
+
+		// Look for the _debugTest field
+		var field = testClassType.GetField("_debugTest", BindingFlags.Instance | BindingFlags.NonPublic);
+		return field?.GetValue(testClassInstance) as DebugTest;
 	}
 }
 
 [Collection("Debug collection")]
-public class SorterTests(DebugTest debugTest) : IClassFixture<DebugTest>, IAsyncLifetime
+public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 {
+	private readonly DebugTest _debugTest;
+
+	// Constructor with dependency injection
+	public SorterTests(DebugTest debugTest)
+	{
+		_debugTest = debugTest;
+	}
+
 	public async Task InitializeAsync()
 	{
 		// Asynchronous setup code that runs before each test
-		await Task.Run(debugTest.BeforeTestCase);
+		await Task.Run(_debugTest.BeforeTestCase);
 	}
 
 	public Task DisposeAsync()
-	{   
-		// Asynchronous cleanup code that runs after each test.
-		debugTest.AfterTestCase();
+	{
+		// Asynchronous cleanup code that runs after each test
+		_debugTest.AfterTestCase();
 		return Task.CompletedTask;
 	}
         
