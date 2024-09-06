@@ -20,7 +20,7 @@ public class LogTestNameAttribute : BeforeAfterTestAttribute
 	{
 		// Fetch the test class instance and retrieve the DebugTest dependency
 		var testClass = methodUnderTest.DeclaringType;
-		var field = testClass?.GetField("_debugTest", BindingFlags.Instance | BindingFlags.NonPublic);
+		var field = testClass?.GetField("debugTest", BindingFlags.Instance | BindingFlags.NonPublic);
 
 		return field?.GetValue(testClass) as DebugTest;
 	}
