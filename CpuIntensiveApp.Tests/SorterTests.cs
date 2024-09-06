@@ -11,7 +11,7 @@ public class LogTestNameAttribute : BeforeAfterTestAttribute
 		var debugTest = GetDebugTestFromTestClass(methodUnderTest);
 
 		// Log the name of the test before it runs
-		DebugTest.AddLineToFile(methodUnderTest.Name);
+		DebugTest.AddLineToFile("Hallo: " + methodUnderTest.Name);
 
 		debugTest?.SetTestCaseName(methodUnderTest.Name);
 	}
