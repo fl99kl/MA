@@ -337,7 +337,7 @@ void get_timestamp(char *buffer, int len) {
     strftime(buffer, len, "%Y-%m-%d %H:%M:%S", t);
 }
 
-void update_or_add_test_case(const char *filename, TestCase new_case) {
+void updateOrAddTestCase(const char *filename, TestCase new_case) {
     TestCase test_cases[MAX_TEST_CASES];
     int num_cases = read_csv(filename, test_cases, MAX_TEST_CASES);
 
