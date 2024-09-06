@@ -238,6 +238,12 @@ TestCase readAndStopRapl(RaplData* raplData, const char* output_file_path, const
                 *sum += energy_joules;
                 free(item.key); // Free the duplicated key since it is not used
             }
+
+            if (strcmp(category, "PACKAGE_ENERGY") == 0) {
+                total_energy_package += energy_joules;
+            } else if (strcmp(category, "DRAM_ENERGY") == 0) {
+                total_energy_dram += energy_joules;
+            }
         }
     }
 
