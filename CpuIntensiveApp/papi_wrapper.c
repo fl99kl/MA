@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <time.h>
 #include <search.h> // Using search.h for hash table implementation
 
 #define MAX_RAPL_EVENTS 64
