@@ -409,7 +409,7 @@ void write_csv(const char *filename, TestCase test_cases[], int num_cases) {
         
         printf("duration: %.4f\n", test_cases[i].total_energy_consumed_dram);
         printf("new_case.total_energy_consumed_dram: %.4f\n", test_cases[i].average_energy_consumed_dram);
-        printf("average energy dram: %.4f\n", median_energy_consumed_dram);
+        printf("average energy dram: %.4f\n", test_cases[i].median_energy_consumed_dram);
         printf("-------------------\n");
         fprintf(file, "%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%s\n",
                 test_cases[i].test_case_id,
