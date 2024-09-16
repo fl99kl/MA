@@ -356,16 +356,21 @@ int read_csv(const char *filename, TestCase test_cases[], int max_test_cases) {
     char line[MAX_LINE_LENGTH];
     int count = 0;
 
+    // Skip the header line
+    fgets(line, sizeof(line), file);
+
     while (fgets(line, sizeof(line), file)) {
         if (count >= max_test_cases) break;
 
         // Parse the line and fill the TestCase struct
-        sscanf(line, "%49[^,],%lf,%lf,%lf,%lf,%lf,%19[^\n]", 
+        sscanf(line, "%49[^,],%lf,%lf,%lf,%lf,%lf,%lf,%lf,%19[^\n]", 
                test_cases[count].test_case_id, 
                &test_cases[count].duration, 
                &test_cases[count].total_energy_consumed_package, 
                &test_cases[count].average_energy_consumed_package, 
+               &test_cases[count].median_energy_consumed_package, 
                &test_cases[count].total_energy_consumed_dram, 
+               &test_cases[count].average_energy_consumed_dram,
                &test_cases[count].average_energy_consumed_dram, 
                test_cases[count].timestamp);
         count++;
