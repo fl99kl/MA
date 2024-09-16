@@ -108,7 +108,7 @@ public class DebugTest : IDisposable
 	string _testCaseName = "";
 	private static List<double> intermediatePackageValues = new();
 	private static List<double> intermediateDramValues = new();
-	private const int msTimer = 50;
+	private const int MsTimer = 50;
 	public DebugTest()
 	{
 		PapiWrapper.clearFile(OutputPath);
@@ -120,7 +120,7 @@ public class DebugTest : IDisposable
 	private void SetTimer()
 	{
 		// run every 5 ms
-		aTimer = new System.Timers.Timer(msTimer);
+		aTimer = new System.Timers.Timer(MsTimer);
 		// Hook up the Elapsed event for the timer. 
 		aTimer.Elapsed += OnTimedEvent;
 		aTimer.AutoReset = true;
@@ -150,14 +150,15 @@ public class DebugTest : IDisposable
 
 		var sortedArray = differences.OrderBy(x => x).ToList();
 		int count = sortedArray.Count;
+		const double timerInSeconds = MsTimer / 1000d;
 		if (count % 2 == 0)
 		{
 			// If even, return the average of the two middle elements
-			return (sortedArray[count / 2 - 1] + sortedArray[count / 2]) / 2 / (msTimer / 1000);
+			return (sortedArray[count / 2 - 1] + sortedArray[count / 2]) / 2 / timerInSeconds;
 		}
 
 		// If odd, return the middle element
-		return sortedArray[count / 2] / (msTimer / 1000);
+		return sortedArray[count / 2] / timerInSeconds;
 	}
 
 	public void SetTestCaseName(string newTestCaseName)
