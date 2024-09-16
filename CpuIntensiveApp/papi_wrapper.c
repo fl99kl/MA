@@ -402,6 +402,8 @@ void write_csv(const char *filename, TestCase test_cases[], int num_cases) {
         "timestamp");
 
     for (int i = 0; i < num_cases; i++) {
+        printf("Writing test case: %s\n", test_cases[i].test_case_id); // Debug line
+
         fprintf(file, "%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%s\n",
                 test_cases[i].test_case_id,
                 test_cases[i].duration,
