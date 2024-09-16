@@ -406,7 +406,7 @@ void write_csv(const char *filename, TestCase test_cases[], int num_cases) {
         "median from dram",
         "timestamp");
 
-    printf("number of cases: %s\n", num_cases); // Debug line
+    printf("number of cases: %d\n", num_cases); // Debug line
 
     for (int i = 0; i < num_cases; i++) {
         fprintf(file, "%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%s\n",
