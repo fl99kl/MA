@@ -309,7 +309,7 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, long long be
     // Read current energy counters without stopping the measurement
     retval = PAPI_read(raplData->EventSet, values);
     current_time = PAPI_get_real_nsec();
-    elapsed_time = ((double)(after_time - before_time)) / 1.0e9;
+    elapsed_time = ((double)(current_time - before_time)) / 1.0e9;
 
     if (retval != PAPI_OK) {
         perror("Failed to read PAPI events");
