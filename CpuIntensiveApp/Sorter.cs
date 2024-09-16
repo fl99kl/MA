@@ -139,26 +139,45 @@ public class DebugTest : IDisposable
 	// Function to calculate the median of an array
 	public static double CalculateMedian(List<double> array)
 	{
-		if (array.Count == 0)
+		const double timerInSeconds = MsTimer / 1000d;
+		if (array.Count == 1)
+		{
+			// If there's only one entry, return 0 or the single entry directly based on your requirement.
+			// If you want to return the single entry as the median:
+			return array[0] / timerInSeconds;
+		}
+
+		if (array.Count < 2)
+		{
+			// If there are fewer than 2 entries, return 0 or handle it as required.
 			return 0;
+		}
+
 		double[] differences = new double[array.Count - 1];
-		// Differenzen berechnen
+		// Calculate differences between consecutive elements
 		for (int i = 1; i < array.Count; i++)
 		{
 			differences[i - 1] = array[i] - array[i - 1];
 		}
 
-		var sortedArray = differences.OrderBy(x => x).ToList();
-		int count = sortedArray.Count;
-		const double timerInSeconds = MsTimer / 1000d;
+		var sortedDifferences = differences.OrderBy(x => x).ToList();
+		int count = sortedDifferences.Count;
+
+		// Calculate median of the sorted differences array
+		double median;
 		if (count % 2 == 0)
 		{
 			// If even, return the average of the two middle elements
-			return (sortedArray[count / 2 - 1] + sortedArray[count / 2]) / 2 / timerInSeconds;
+			median = (sortedDifferences[count / 2 - 1] + sortedDifferences[count / 2]) / 2;
+		}
+		else
+		{
+			// If odd, return the middle element
+			median = sortedDifferences[count / 2];
 		}
 
-		// If odd, return the middle element
-		return sortedArray[count / 2] / timerInSeconds;
+		// Convert the median value based on timerInSeconds
+		return median / timerInSeconds;
 	}
 
 	public void SetTestCaseName(string newTestCaseName)
