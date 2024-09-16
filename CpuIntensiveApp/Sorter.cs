@@ -174,20 +174,11 @@ namespace CpuIntensiveApp
 	    
 		public static long GetCurrentTimestamp()
 		{
-			// Create and start the stopwatch
-			Stopwatch stopwatch = Stopwatch.StartNew();
-
-			// Get the elapsed time in ticks
-			long ticks = stopwatch.ElapsedTicks;
-
-			// Convert the ticks to nanoseconds
-			// Ticks per second is given by Stopwatch.Frequency
-			long nanoseconds = (ticks * 1_000_000_000) / Stopwatch.Frequency;
-
-			// Stop the stopwatch (optional, if you need to restart later)
-			stopwatch.Stop();
-
-			return nanoseconds;
+			// Get current time in ticks from DateTimeOffset (gives precise system time)
+			long currentTimeInTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() * 1_000_000; // Convert milliseconds to nanoseconds
+        
+			// Return as nanoseconds
+			return currentTimeInTicks;
 		}
 		
 		public void BeforeTestCase() 
