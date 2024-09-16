@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System.Timers;
+using Xunit;
+using Timer = System.Threading.Timer;
 
 namespace CpuIntensiveApp
 {
@@ -105,10 +107,57 @@ namespace CpuIntensiveApp
 	    private const string OutputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
 		private IntPtr _data;
 		string _testCaseName = "";
+		private static List<double> intermediatePackageValues = new();
+		private static List<double> intermediateDramValues = new();
         public DebugTest()
         {
 			PapiWrapper.clearFile(OutputPath);
             PapiWrapper.outputStart(OutputPath);
+        }
+        
+        private static System.Timers.Timer aTimer;
+
+        private void SetTimer()
+        {
+	        // run every 20 ms
+	        aTimer = new System.Timers.Timer(20);
+	        // Hook up the Elapsed event for the timer. 
+	        aTimer.Elapsed += OnTimedEvent;
+	        aTimer.AutoReset = true;
+	        aTimer.Enabled = true;
+        }
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+	        var intermediateRaplResults = PapiWrapper.getIntermediateRaplResults(_data);
+
+	        // Calculate the difference from the last added entry (if there is one)
+	        double diff1 = intermediateRaplResults.total_energy_consumed_package - (intermediatePackageValues.Count > 0 ? intermediatePackageValues.Last() : 0);
+	        double diff2 = intermediateRaplResults.total_energy_consumed_dram - (intermediateDramValues.Count > 0 ? intermediateDramValues.Last() : 0);
+
+	        // Add the differences to the arrays
+	        intermediatePackageValues.Add(diff1);
+	        intermediateDramValues.Add(diff2);
+        }
+        
+        // Function to calculate the median of an array
+        public static double CalculateMedian(List<double> array)
+        {
+	        if (array.Count == 0)
+		        return 0;
+
+	        var sortedArray = array.OrderBy(x => x).ToList();
+	        int count = sortedArray.Count;
+	        if (count % 2 == 0)
+	        {
+		        // If even, return the average of the two middle elements
+		        return (sortedArray[count / 2 - 1] + sortedArray[count / 2]) / 2;
+	        }
+	        else
+	        {
+		        // If odd, return the middle element
+		        return sortedArray[count / 2];
+	        }
         }
 
         public void SetTestCaseName(string newTestCaseName)
@@ -123,14 +172,20 @@ namespace CpuIntensiveApp
 
 		public void BeforeTestCase() 
 		{
-        	_data = PapiWrapper.startRapl(OutputPath);
+			_data = PapiWrapper.startRapl(OutputPath);
+	        SetTimer();
 		}
 
 		public void AfterTestCase() 
 		{
         	PapiWrapper.TestCase papiResult = PapiWrapper.readAndStopRapl(_data, OutputPath, _testCaseName);
+	        papiResult.median_energy_consumed_package = CalculateMedian(intermediatePackageValues);
+	        papiResult.median_energy_consumed_dram = CalculateMedian(intermediateDramValues);
 	        PapiWrapper.updateOrAddTestCase("/home/kleinert/MA/CpuIntensiveApp/ResultCsv.csv", papiResult);
 	        PapiWrapper.addTsdbEntry(papiResult);
+	        
+	        aTimer.Stop();
+	        aTimer.Dispose();
 		}
 
         public void Dispose()

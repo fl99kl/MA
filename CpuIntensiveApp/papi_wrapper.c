@@ -18,10 +18,18 @@ typedef struct {
     double duration; // duration in seconds
     double total_energy_consumed_package; // total energy consumed
     double average_energy_consumed_package;// average energy consumed (total_energy_consumed/duration)
+    double median_energy_consumed_package;// average energy consumed (total_energy_consumed/duration)
     double total_energy_consumed_dram;
     double average_energy_consumed_dram;
+    double median_energy_consumed_dram;
     char timestamp[20];
 } TestCase;
+
+typedef struct {
+    double total_energy_consumed_package; // total energy consumed
+    double total_energy_consumed_dram;
+    char timestamp[20];
+} IntermediateTestCase;
 
 typedef struct {
     int EventSet;
@@ -280,6 +288,61 @@ TestCase readAndStopRapl(RaplData* raplData, const char* output_file_path, const
     return testCase;
 }
 
+IntermediateTestCase getIntermediateRaplResults(RaplData* raplData) {
+    IntermediateTestCase intermediate_test_case;
+    
+    // Get the current timestamp
+    time_t now = time(NULL);
+    strftime(intermediate_test_case.timestamp, sizeof(intermediate_test_case.timestamp), "%Y-%m-%d %H:%M:%S", localtime(&now));
+
+    int retval, i;
+    long long current_time;
+    double elapsed_time;
+    long long* values = calloc(raplData->num_events, sizeof(long long));
+    if (values == NULL) {
+        perror("Failed to allocate memory for values");
+        exit(1);
+    }
+
+    // Read current energy counters without stopping the measurement
+    retval = PAPI_read(raplData->EventSet, values);
+    if (retval != PAPI_OK) {
+        perror("Failed to read PAPI events");
+        free(values);
+        exit(1);
+    }
+
+    double total_energy_package = 0;
+    double total_energy_dram = 0;
+
+    // Accumulate energy measurements
+    for (i = 0; i < raplData->num_events; i++) {
+        if (strstr(raplData->units[i], "nJ")) {
+            double energy_joules = (double)values[i] / 1.0e9;
+            char category[256];
+            sscanf(raplData->event_names[i], "rapl:::%[^:]", category);
+
+            if (strcmp(category, "PACKAGE_ENERGY") == 0) {
+                total_energy_package += energy_joules;
+            } else if (strcmp(category, "DRAM_ENERGY") == 0) {
+                total_energy_dram += energy_joules;
+            }
+        }
+    }
+
+    // Store energy data in the testCase object
+    intermediate_test_case.total_energy_consumed_package = total_energy_package;
+    intermediate_test_case.total_energy_consumed_dram = total_energy_dram;
+
+    // Clean up
+    free(values);
+    printf("Reading Intermediate Values:\n");
+
+    // Return the populated testCase object with the intermediate data
+    return intermediate_test_case;
+}
+
+
 int read_csv(const char *filename, TestCase test_cases[], int max_test_cases) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
@@ -324,15 +387,27 @@ void write_csv(const char *filename, TestCase test_cases[], int num_cases) {
         perror("Error opening file");
         return;
     }
+    fprintf(file, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
+        "testCase Name",
+        "testCase duration",
+        "total from package",
+        "average from package",
+        "median from package",
+        "total from dram",
+        "average from dram",
+        "median from dram",
+        "timestamp");
 
     for (int i = 0; i < num_cases; i++) {
-        fprintf(file, "%s,%.4f,%.4f,%.4f,%.4f,%.4f,%s\n",
+        fprintf(file, "%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%s\n",
                 test_cases[i].test_case_id,
                 test_cases[i].duration,
                 test_cases[i].total_energy_consumed_package,
                 test_cases[i].average_energy_consumed_package,
+                test_cases[i].median_energy_consumed_package,
                 test_cases[i].total_energy_consumed_dram,
                 test_cases[i].average_energy_consumed_dram,
+                test_cases[i].median_energy_consumed_dram,
                 test_cases[i].timestamp);
     }
 
@@ -356,8 +431,10 @@ void updateOrAddTestCase(const char *filename, TestCase new_case) {
         existing_case->duration = new_case.duration;
         existing_case->total_energy_consumed_package = new_case.total_energy_consumed_package;
         existing_case->average_energy_consumed_package = new_case.total_energy_consumed_package / new_case.duration;
+        existing_case->median_energy_consumed_package = new_case.median_energy_consumed_package;
         existing_case->total_energy_consumed_dram = new_case.total_energy_consumed_dram;
         existing_case->average_energy_consumed_dram = new_case.total_energy_consumed_dram / new_case.duration;
+        existing_case->median_energy_consumed_dram = new_case.median_energy_consumed_dram;
         get_timestamp(existing_case->timestamp, sizeof(existing_case->timestamp));
     } else {
         // Add the new test case to the array
@@ -377,8 +454,8 @@ void addTsdbEntry(TestCase new_case) {
     // Prepare data in InfluxDB line protocol format:
     // unit_test_energy,test_name=UnitTest1 duration=5.2,avg_energy_pkg=10.5,total_energy_pkg=50.0,avg_energy_dram=3.2,total_energy_dram=16.0 <timestamp>
     snprintf(data, sizeof(data),
-             "unit_test_energy,test_name=%s duration=%.4f,total_energy_pkg=%.4f,avg_energy_pkg=%.4f,total_energy_dram=%.4f,avg_energy_dram=%.4f",
-             new_case.test_case_id, new_case.duration, new_case.total_energy_consumed_package, new_case.average_energy_consumed_package, new_case.total_energy_consumed_dram, new_case.average_energy_consumed_dram);
+             "unit_test_energy,test_name=%s duration=%.4f,total_energy_pkg=%.4f,avg_energy_pkg=%.4f,median_energy_pkg=%.4f,total_energy_dram=%.4f,avg_energy_dram=%.4f,median_energy_dram=%.4f",
+             new_case.test_case_id, new_case.duration, new_case.total_energy_consumed_package, new_case.average_energy_consumed_package, new_case.median_energy_consumed_package, new_case.total_energy_consumed_dram, new_case.average_energy_consumed_dram, new_case.median_energy_consumed_dram);
 
     // Initialize libcurl
     CURL *curl;
