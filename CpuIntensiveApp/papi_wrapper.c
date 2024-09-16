@@ -370,7 +370,7 @@ int read_csv(const char *filename, TestCase test_cases[], int max_test_cases) {
                &test_cases[count].median_energy_consumed_package, 
                &test_cases[count].total_energy_consumed_dram, 
                &test_cases[count].average_energy_consumed_dram,
-               &test_cases[count].average_energy_consumed_dram, 
+               &test_cases[count].median_energy_consumed_dram, 
                test_cases[count].timestamp);
         count++;
     }
