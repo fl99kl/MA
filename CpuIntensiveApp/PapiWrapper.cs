@@ -73,5 +73,5 @@ public static class PapiWrapper
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void addTsdbEntry(TestCase newCase);
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern IntermediateTestCase getIntermediateRaplResults(IntPtr raplData, string beforeTime);
+    public static extern IntermediateTestCase getIntermediateRaplResults(IntPtr raplData, long beforeTime);
 }

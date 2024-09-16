@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using System.Diagnostics;
+using System.Timers;
 using Xunit;
 using Timer = System.Threading.Timer;
 
@@ -171,10 +172,22 @@ namespace CpuIntensiveApp
 		}
 		
 	    
-		public static string GetCurrentTimestamp()
+		public static long GetCurrentTimestamp()
 		{
-			DateTime now = DateTime.Now;
-			return now.ToString("yyyy-MM-dd HH:mm:ss");
+			// Create and start the stopwatch
+			Stopwatch stopwatch = Stopwatch.StartNew();
+
+			// Get the elapsed time in ticks
+			long ticks = stopwatch.ElapsedTicks;
+
+			// Convert the ticks to nanoseconds
+			// Ticks per second is given by Stopwatch.Frequency
+			long nanoseconds = (ticks * 1_000_000_000) / Stopwatch.Frequency;
+
+			// Stop the stopwatch (optional, if you need to restart later)
+			stopwatch.Stop();
+
+			return nanoseconds;
 		}
 		
 		public void BeforeTestCase() 
