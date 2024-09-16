@@ -406,6 +406,11 @@ void write_csv(const char *filename, TestCase test_cases[], int num_cases) {
         "timestamp");
 
     for (int i = 0; i < num_cases; i++) {
+        
+        printf("duration: %.4f\n", test_cases[i].total_energy_consumed_dram);
+        printf("new_case.total_energy_consumed_dram: %.4f\n", test_cases[i].average_energy_consumed_dram);
+        printf("average energy dram: %.4f\n", median_energy_consumed_dram);
+        printf("-------------------\n");
         fprintf(file, "%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%s\n",
                 test_cases[i].test_case_id,
                 test_cases[i].duration,
@@ -440,10 +445,6 @@ void updateOrAddTestCase(const char *filename, TestCase new_case) {
         existing_case->average_energy_consumed_package = new_case.total_energy_consumed_package / new_case.duration;
         existing_case->median_energy_consumed_package = new_case.median_energy_consumed_package;
         existing_case->total_energy_consumed_dram = new_case.total_energy_consumed_dram;
-        printf("duration: %.4f\n", new_case.duration);
-        printf("new_case.total_energy_consumed_dram: %.4f\n", new_case.total_energy_consumed_dram);
-        printf("average energy dram: %.4f\n", new_case.total_energy_consumed_dram / new_case.duration);
-        printf("-------------------\n");
         
         existing_case->average_energy_consumed_dram = new_case.total_energy_consumed_dram / new_case.duration;
         existing_case->median_energy_consumed_dram = new_case.median_energy_consumed_dram;
