@@ -130,6 +130,7 @@ namespace CpuIntensiveApp
 		{
         	PapiWrapper.TestCase papiResult = PapiWrapper.readAndStopRapl(_data, OutputPath, _testCaseName);
 	        PapiWrapper.updateOrAddTestCase("/home/kleinert/MA/CpuIntensiveApp/ResultCsv.csv", papiResult);
+	        PapiWrapper.addTsdbEntry(papiResult);
 		}
 
         public void Dispose()
