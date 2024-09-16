@@ -178,14 +178,13 @@ namespace CpuIntensiveApp
 
 		public void AfterTestCase() 
 		{
+			aTimer.Stop();
+			aTimer.Dispose();
         	PapiWrapper.TestCase papiResult = PapiWrapper.readAndStopRapl(_data, OutputPath, _testCaseName);
 	        papiResult.median_energy_consumed_package = CalculateMedian(intermediatePackageValues);
 	        papiResult.median_energy_consumed_dram = CalculateMedian(intermediateDramValues);
 	        PapiWrapper.updateOrAddTestCase("/home/kleinert/MA/CpuIntensiveApp/ResultCsv.csv", papiResult);
 	        PapiWrapper.addTsdbEntry(papiResult);
-	        
-	        aTimer.Stop();
-	        aTimer.Dispose();
 		}
 
         public void Dispose()
