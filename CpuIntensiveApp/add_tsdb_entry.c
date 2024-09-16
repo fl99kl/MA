@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include <string.h>
 #include <curl/curl.h>
+#include <sys/time.h>
 
 const char *url = "http://localhost:8086/api/v2/write";
 const char *bucket = "myBucket";
@@ -10,10 +11,16 @@ const char *token = "ppaJ5zlrWXA4CKbZsCSwwIRjbffgSVbKyQxEWWzb9wY3HTPiD6S7d66Faom
 char *key = "sensor1";
 float value1 = 23.5;
 float value2 = 45.6;
-long timestamp = 1660000000000000000;  // Sample timestamp in nanoseconds
+
+
+
+// Get the current time in seconds and microseconds
+struct timeval tv;
+gettimeofday(&tv, NULL);
+long long timestamp = (long long)tv.tv_sec * 1000000000LL + (long long)tv.tv_usec * 1000LL;
 
 char data[256];
-snprintf(data, sizeof(data), "my_measurement,key=%s value1=%f,value2=%f %ld", key, value1, value2, timestamp);
+snprintf(data, sizeof(data), "my_measurement,key=%s value1=%f,value2=%f %lld", key, value1, value2, timestamp);
 
 CURL *curl;
 CURLcode res;
