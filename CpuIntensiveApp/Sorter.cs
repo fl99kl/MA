@@ -181,8 +181,10 @@ public class DebugTest : IDisposable
 		return currentTimeInTicks;
 	}
 		
-	public void BeforeTestCase() 
+	public void BeforeTestCase()
 	{
+		intermediatePackageValues = new();
+		intermediateDramValues = new();
 		_data = PapiWrapper.startRapl(OutputPath);
 		SetTimer();
 	}
