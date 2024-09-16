@@ -130,6 +130,16 @@ public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 
 	[LogTestName]
 	[Fact]
+	public void SleepingTest()
+	{
+		
+		Thread.Sleep(5000);
+
+		Assert.True(true);
+	}
+
+	[LogTestName]
+	[Fact]
 	public void SelectionSort_SortsListCorrectly()
 	{	
 		const int arrayLength = 1000;
