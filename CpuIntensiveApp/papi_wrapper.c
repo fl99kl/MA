@@ -380,16 +380,12 @@ void addTsdbEntry(TestCase new_case) {
              "unit_test_energy,test_name=%s duration=%.4f,total_energy_pkg=%.4f,avg_energy_pkg=%.4f,total_energy_dram=%.4f,avg_energy_dram=%.4f",
              new_case.test_case_id, new_case.duration, new_case.total_energy_consumed_package, new_case.average_energy_consumed_package, new_case.total_energy_consumed_dram, new_case.average_energy_consumed_dram);
 
-    // Print the resulting string to check the output
-    printf("Formatted data: %s\n", data);
-
     // Initialize libcurl
     CURL *curl;
     CURLcode res;
     
     curl = curl_easy_init();  // Initialize a curl session
     if(curl) {
-        printf("Bin im if");
         // Set the URL for InfluxDB API (change the URL to match your setup)
         const char *url = "http://localhost:8086/api/v2/write?bucket=myBucket&org=MA";
 
@@ -414,8 +410,5 @@ void addTsdbEntry(TestCase new_case) {
         // Cleanup curl session
         curl_easy_cleanup(curl);
         curl_slist_free_all(headers);  // Clean up the headers list
-    } else
-    {
-        printf("Bin im else");
     }
 }
