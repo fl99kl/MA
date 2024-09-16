@@ -290,7 +290,7 @@ TestCase readAndStopRapl(RaplData* raplData, const char* output_file_path, const
     return testCase;
 }
 
-IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, long long before_time) {
+IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, double before_total_package, double before_total_dram) {
     IntermediateTestCase intermediate_test_case;
     
     // Get the current timestamp
@@ -298,8 +298,6 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, long long be
     strftime(intermediate_test_case.timestamp, sizeof(intermediate_test_case.timestamp), "%Y-%m-%d %H:%M:%S", localtime(&now));
 
     int retval, i;
-    long long current_time;
-    double elapsed_time;
     long long* values = calloc(raplData->num_events, sizeof(long long));
     if (values == NULL) {
         perror("Failed to allocate memory for values");
@@ -308,12 +306,6 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, long long be
 
     // Read current energy counters without stopping the measurement
     retval = PAPI_read(raplData->EventSet, values);
-    current_time = PAPI_get_real_nsec();
-    elapsed_time = ((double)(current_time - before_time)) / 1.0e9;
-
-    printf("before time: %lld\n", before_time);
-    printf("current time: %lld\n", current_time);
-
 
     if (retval != PAPI_OK) {
         perror("Failed to read PAPI events");
@@ -339,12 +331,14 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, long long be
         }
     }
 
+    total_energy_package = total_energy_package - before_total_package;
+    total_energy_dram = total_energy_dram - before_total_dram;
+    
     // Store energy data in the testCase object
-    intermediate_test_case.total_energy_consumed_package = total_energy_package / elapsed_time;
-    intermediate_test_case.total_energy_consumed_dram = total_energy_dram / elapsed_time;
+    intermediate_test_case.total_energy_consumed_package = total_energy_package;
+    intermediate_test_case.total_energy_consumed_dram = total_energy_dram;
     printf("total energy package: %.4f\n", total_energy_package);
     printf("total elapsed time: %.5f\n", elapsed_time);
-    printf("total intermediate energy package: %.4f\n", total_energy_package / elapsed_time);
 
     // Clean up
     free(values);

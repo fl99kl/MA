@@ -110,7 +110,6 @@ namespace CpuIntensiveApp
 		string _testCaseName = "";
 		private static List<double> intermediatePackageValues = new();
 		private static List<double> intermediateDramValues = new();
-		private static long beforeTimeStamp;
         public DebugTest()
         {
 			PapiWrapper.clearFile(OutputPath);
@@ -122,7 +121,6 @@ namespace CpuIntensiveApp
         private void SetTimer()
         {
 	        // run every 5 ms
-	        beforeTimeStamp = GetCurrentTimestamp();
 	        aTimer = new System.Timers.Timer(50);
 	        // Hook up the Elapsed event for the timer. 
 	        aTimer.Elapsed += OnTimedEvent;
@@ -132,16 +130,11 @@ namespace CpuIntensiveApp
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-	        var intermediateRaplResults = PapiWrapper.getIntermediateRaplResults(_data, beforeTimeStamp);
-
-	        // Calculate the difference from the last added entry (if there is one)
-	        double diff1 = intermediateRaplResults.total_energy_consumed_package - (intermediatePackageValues.Count > 0 ? intermediatePackageValues.Last() : 0);
-	        double diff2 = intermediateRaplResults.total_energy_consumed_dram - (intermediateDramValues.Count > 0 ? intermediateDramValues.Last() : 0);
+	        var intermediateRaplResults = PapiWrapper.getIntermediateRaplResults(_data, intermediatePackageValues.Count > 0 ? intermediatePackageValues.Last() : 0, intermediateDramValues.Count > 0 ? intermediateDramValues.Last() : 0);
 
 	        // Add the differences to the arrays
-	        intermediatePackageValues.Add(diff1);
-	        intermediateDramValues.Add(diff2);
-	        beforeTimeStamp = GetCurrentTimestamp();
+	        intermediatePackageValues.Add(intermediateRaplResults.total_energy_consumed_package);
+	        intermediateDramValues.Add(intermediateRaplResults.total_energy_consumed_dram);
         }
         
         // Function to calculate the median of an array
