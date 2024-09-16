@@ -5,6 +5,8 @@
 #include <string.h>
 #include <time.h>
 #include <search.h> // Using search.h for hash table implementation
+#include <sys/time.h>
+#include <curl/curl.h>
 
 #define MAX_RAPL_EVENTS 64
 #define HASH_TABLE_SIZE 256
@@ -279,7 +281,6 @@ TestCase readAndStopRapl(RaplData* raplData, const char* output_file_path, const
 }
 
 int read_csv(const char *filename, TestCase test_cases[], int max_test_cases) {
-    printf("reading file with name: %s\n", filename);
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         perror("Error opening file");
@@ -310,7 +311,6 @@ int read_csv(const char *filename, TestCase test_cases[], int max_test_cases) {
 
 TestCase* find_test_case(TestCase test_cases[], int num_cases, const char *test_case_id) {
     for (int i = 0; i < num_cases; i++) {
-        printf("comparing with test case name: %s\n", test_cases[i].test_case_id);
         if (strcmp(test_cases[i].test_case_id, test_case_id) == 0) {
             return &test_cases[i];
         }
@@ -319,7 +319,6 @@ TestCase* find_test_case(TestCase test_cases[], int num_cases, const char *test_
 }
 
 void write_csv(const char *filename, TestCase test_cases[], int num_cases) {
-    printf("writing to file with name: %s\n", filename);
     FILE *file = fopen(filename, "w"); // Open the file in write mode to overwrite it
     if (file == NULL) {
         perror("Error opening file");
@@ -350,11 +349,9 @@ void updateOrAddTestCase(const char *filename, TestCase new_case) {
     TestCase test_cases[MAX_TEST_CASES];
     int num_cases = read_csv(filename, test_cases, MAX_TEST_CASES);
 
-    printf("Searching for test case name: %s\n", new_case.test_case_id);
     TestCase *existing_case = find_test_case(test_cases, num_cases, new_case.test_case_id);
     if (existing_case) {
         // Update the existing test case
-        printf("Updating existing test case: %s\n", existing_case->test_case_id);
 
         existing_case->duration = new_case.duration;
         existing_case->total_energy_consumed_package = new_case.total_energy_consumed_package;
@@ -364,7 +361,6 @@ void updateOrAddTestCase(const char *filename, TestCase new_case) {
         get_timestamp(existing_case->timestamp, sizeof(existing_case->timestamp));
     } else {
         // Add the new test case to the array
-        printf("Adding new test case: %s\n", new_case.test_case_id);
         get_timestamp(new_case.timestamp, sizeof(new_case.timestamp));
 
         test_cases[num_cases++] = new_case;
@@ -372,4 +368,47 @@ void updateOrAddTestCase(const char *filename, TestCase new_case) {
 
     // Write the updated test cases back to the CSV file
     write_csv(filename, test_cases, num_cases);
+}
+
+void addTsdbEntry(TestCase new_case) {
+    // Ensure the data buffer is large enough for the line protocol
+    char data[512];
+
+    // Prepare data in InfluxDB line protocol format:
+    // unit_test_energy,test_name=UnitTest1 duration=5.2,avg_energy_pkg=10.5,total_energy_pkg=50.0,avg_energy_dram=3.2,total_energy_dram=16.0 <timestamp>
+    snprintf(data, sizeof(data),
+             "unit_test_energy,test_name=%s duration=%.4f,total_energy_pkg=%.4f,avg_energy_pkg=%.4f,total_energy_dram=%.4f,avg_energy_dram=%.4f",
+             new_case.test_case_id, new_case.duration, new_case.total_energy_consumed_package, new_case.average_energy_consumed_package, new_case.total_energy_consumed_dram, new_case.average_energy_consumed_dram);
+
+    // Initialize libcurl
+    CURL *curl;
+    CURLcode res;
+    
+    curl = curl_easy_init();  // Initialize a curl session
+    if(curl) {
+        // Set the URL for InfluxDB API (change the URL to match your setup)
+        const char *url = "http://localhost:8086/api/v2/write?bucket=myBucket&org=MA";
+
+        // Set headers including the authorization token (replace with your InfluxDB token)
+        struct curl_slist *headers = NULL;
+        headers = curl_slist_append(headers, "Content-Type: text/plain");
+        headers = curl_slist_append(headers, "Authorization: Token ppaJ5zlrWXA4CKbZsCSwwIRjbffgSVbKyQxEWWzb9wY3HTPiD6S7d66FaomiCiTqDXQQrJY_vXFxqDBUoY4rtg==");
+
+        // Set the URL, headers, and data (line protocol)
+        curl_easy_setopt(curl, CURLOPT_URL, url);
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+
+        // Perform the request
+        res = curl_easy_perform(curl);
+
+        // Check for errors
+        if(res != CURLE_OK) {
+            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        }
+
+        // Cleanup curl session
+        curl_easy_cleanup(curl);
+        curl_slist_free_all(headers);  // Clean up the headers list
+    }
 }

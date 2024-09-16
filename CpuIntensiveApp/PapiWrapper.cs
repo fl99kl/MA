@@ -59,4 +59,6 @@ public static class PapiWrapper
 
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void updateOrAddTestCase(string filename, TestCase newCase);
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void addTsdbEntry(TestCase newCase);
 }
