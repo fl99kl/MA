@@ -142,8 +142,14 @@ namespace CpuIntensiveApp
         {
 	        if (array.Count == 0)
 		        return 0;
+	        double[] differences = new double[array.Count - 1];
+	        // Differenzen berechnen
+	        for (int i = 1; i < array.Count; i++)
+	        {
+		        differences[i - 1] = array[i] - array[i - 1];
+	        }
 
-	        var sortedArray = array.OrderBy(x => x).ToList();
+	        var sortedArray = differences.OrderBy(x => x).ToList();
 	        int count = sortedArray.Count;
 	        if (count % 2 == 0)
 	        {

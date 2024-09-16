@@ -333,8 +333,8 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, double befor
 
     printf("energy package b4 substraction: %.4f\n", total_energy_package);
 
-    total_energy_package = total_energy_package - before_total_package;
-    total_energy_dram = total_energy_dram - before_total_dram;
+    //total_energy_package = total_energy_package - before_total_package;
+    //total_energy_dram = total_energy_dram - before_total_dram;
     
     // Store energy data in the testCase object
     intermediate_test_case.total_energy_consumed_package = total_energy_package;
