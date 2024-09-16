@@ -430,8 +430,6 @@ void get_timestamp(char *buffer, int len) {
 void updateOrAddTestCase(const char *filename, TestCase new_case) {
     TestCase test_cases[MAX_TEST_CASES];
     int num_cases = read_csv(filename, test_cases, MAX_TEST_CASES);
-    printf("You entered: %d", num_cases);
-
 
     TestCase *existing_case = find_test_case(test_cases, num_cases, new_case.test_case_id);
     if (existing_case) {
@@ -442,9 +440,10 @@ void updateOrAddTestCase(const char *filename, TestCase new_case) {
         existing_case->average_energy_consumed_package = new_case.total_energy_consumed_package / new_case.duration;
         existing_case->median_energy_consumed_package = new_case.median_energy_consumed_package;
         existing_case->total_energy_consumed_dram = new_case.total_energy_consumed_dram;
-        printf("new_case.total_energy_consumed_dram: %.4f", new_case.total_energy_consumed_dram);
-        printf("duration: %.4f", new_case.total_energy_consumed_dram);
-        printf("average energy dram: %.4f", new_case.total_energy_consumed_dram / new_case.duration);
+        printf("duration: %.4f\n", new_case.duration);
+        printf("new_case.total_energy_consumed_dram: %.4f\n", new_case.total_energy_consumed_dram);
+        printf("average energy dram: %.4f\n", new_case.total_energy_consumed_dram / new_case.duration);
+        printf("-------------------\n", new_case.total_energy_consumed_dram / new_case.duration);
         
         existing_case->average_energy_consumed_dram = new_case.total_energy_consumed_dram / new_case.duration;
         existing_case->median_energy_consumed_dram = new_case.median_energy_consumed_dram;
