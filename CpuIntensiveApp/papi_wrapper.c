@@ -311,6 +311,10 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, long long be
     current_time = PAPI_get_real_nsec();
     elapsed_time = ((double)(current_time - before_time)) / 1.0e9;
 
+    printf("before time: %lld\n", before_time);
+    printf("current time: %lld\n", current_time);
+
+
     if (retval != PAPI_OK) {
         perror("Failed to read PAPI events");
         free(values);
