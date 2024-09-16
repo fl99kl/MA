@@ -339,7 +339,7 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, long long be
     intermediate_test_case.total_energy_consumed_package = total_energy_package / elapsed_time;
     intermediate_test_case.total_energy_consumed_dram = total_energy_dram / elapsed_time;
     printf("total energy package: %.4f\n", total_energy_package);
-    printf("total elapsed time: %s\n", elapsed_time);
+    printf("total elapsed time: %d\n", elapsed_time);
     printf("total intermediate energy package: %.4f\n", total_energy_package / elapsed_time);
 
     // Clean up
