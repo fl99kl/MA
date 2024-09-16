@@ -330,16 +330,12 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, double befor
             }
         }
     }
-
-    printf("energy package b4 substraction: %.4f\n", total_energy_package);
-
     //total_energy_package = total_energy_package - before_total_package;
     //total_energy_dram = total_energy_dram - before_total_dram;
     
     // Store energy data in the testCase object
     intermediate_test_case.total_energy_consumed_package = total_energy_package;
     intermediate_test_case.total_energy_consumed_dram = total_energy_dram;
-    printf("total energy package: %.4f\n", total_energy_package);
 
     // Clean up
     free(values);
@@ -409,8 +405,6 @@ void write_csv(const char *filename, TestCase test_cases[], int num_cases) {
         "median from dram",
         "timestamp");
 
-    printf("number of cases: %d\n", num_cases); // Debug line
-
     for (int i = 0; i < num_cases; i++) {
         fprintf(file, "%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%s\n",
                 test_cases[i].test_case_id,
@@ -448,6 +442,10 @@ void updateOrAddTestCase(const char *filename, TestCase new_case) {
         existing_case->average_energy_consumed_package = new_case.total_energy_consumed_package / new_case.duration;
         existing_case->median_energy_consumed_package = new_case.median_energy_consumed_package;
         existing_case->total_energy_consumed_dram = new_case.total_energy_consumed_dram;
+        printf("new_case.total_energy_consumed_dram: %d", new_case.total_energy_consumed_dram);
+        printf("duration: %d", new_case.total_energy_consumed_dram);
+        printf("average energy dram: %d", new_case.total_energy_consumed_dram / new_case.duration);
+        
         existing_case->average_energy_consumed_dram = new_case.total_energy_consumed_dram / new_case.duration;
         existing_case->median_energy_consumed_dram = new_case.median_energy_consumed_dram;
         get_timestamp(existing_case->timestamp, sizeof(existing_case->timestamp));
