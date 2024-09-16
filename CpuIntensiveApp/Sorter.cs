@@ -129,7 +129,7 @@ namespace CpuIntensiveApp
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-	        var intermediateRaplResults = PapiWrapper.getIntermediateRaplResults(_data);
+	        var intermediateRaplResults = PapiWrapper.getIntermediateRaplResults(_data, GetCurrentTimestamp());
 
 	        // Calculate the difference from the last added entry (if there is one)
 	        double diff1 = intermediateRaplResults.total_energy_consumed_package - (intermediatePackageValues.Count > 0 ? intermediatePackageValues.Last() : 0);
@@ -169,7 +169,14 @@ namespace CpuIntensiveApp
 		{
             PapiWrapper.addLineToFile(OutputPath, testName);
 		}
-
+		
+	    
+		public static string GetCurrentTimestamp()
+		{
+			DateTime now = DateTime.Now;
+			return now.ToString("yyyy-MM-dd HH:mm:ss");
+		}
+		
 		public void BeforeTestCase() 
 		{
 			_data = PapiWrapper.startRapl(OutputPath);

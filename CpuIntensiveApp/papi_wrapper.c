@@ -290,8 +290,7 @@ TestCase readAndStopRapl(RaplData* raplData, const char* output_file_path, const
     return testCase;
 }
 
-IntermediateTestCase getIntermediateRaplResults(RaplData* raplData) {
-    printf("Start reading Intermediate Values:\n");
+IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, long long before_time) {
     IntermediateTestCase intermediate_test_case;
     
     // Get the current timestamp
@@ -309,6 +308,9 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData) {
 
     // Read current energy counters without stopping the measurement
     retval = PAPI_read(raplData->EventSet, values);
+    current_time = PAPI_get_real_nsec();
+    elapsed_time = ((double)(after_time - before_time)) / 1.0e9;
+
     if (retval != PAPI_OK) {
         perror("Failed to read PAPI events");
         free(values);
@@ -334,12 +336,12 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData) {
     }
 
     // Store energy data in the testCase object
-    intermediate_test_case.total_energy_consumed_package = total_energy_package;
-    intermediate_test_case.total_energy_consumed_dram = total_energy_dram;
+    intermediate_test_case.total_energy_consumed_package = total_energy_package / elapsed_time;
+    intermediate_test_case.total_energy_consumed_dram = total_energy_dram / elapsed_time;
+    printf("total intermediate energy package:\n");
 
     // Clean up
     free(values);
-    printf("End reading Intermediate Values:\n");
 
     // Return the populated testCase object with the intermediate data
     return intermediate_test_case;
