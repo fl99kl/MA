@@ -443,7 +443,7 @@ void updateOrAddTestCase(const char *filename, TestCase new_case) {
         printf("duration: %.4f\n", new_case.duration);
         printf("new_case.total_energy_consumed_dram: %.4f\n", new_case.total_energy_consumed_dram);
         printf("average energy dram: %.4f\n", new_case.total_energy_consumed_dram / new_case.duration);
-        printf("-------------------\n", new_case.total_energy_consumed_dram / new_case.duration);
+        printf("-------------------\n");
         
         existing_case->average_energy_consumed_dram = new_case.total_energy_consumed_dram / new_case.duration;
         existing_case->median_energy_consumed_dram = new_case.median_energy_consumed_dram;
