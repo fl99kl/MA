@@ -192,6 +192,8 @@ TestCase readAndStopRapl(RaplData* raplData, const char* output_file_path, const
     long long* values = calloc(raplData->num_events, sizeof(long long));
     if (values == NULL) handle_error(PAPI_ENOMEM, outputFile);
 
+    printf("PAPI stop\n");
+
     // Stop Counting
     after_time = PAPI_get_real_nsec();
     retval = PAPI_stop(raplData->EventSet, values);
@@ -289,6 +291,7 @@ TestCase readAndStopRapl(RaplData* raplData, const char* output_file_path, const
 }
 
 IntermediateTestCase getIntermediateRaplResults(RaplData* raplData) {
+    printf("Start reading Intermediate Values:\n");
     IntermediateTestCase intermediate_test_case;
     
     // Get the current timestamp
@@ -336,7 +339,7 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData) {
 
     // Clean up
     free(values);
-    printf("Reading Intermediate Values:\n");
+    printf("End reading Intermediate Values:\n");
 
     // Return the populated testCase object with the intermediate data
     return intermediate_test_case;
