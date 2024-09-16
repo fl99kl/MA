@@ -442,9 +442,9 @@ void updateOrAddTestCase(const char *filename, TestCase new_case) {
         existing_case->average_energy_consumed_package = new_case.total_energy_consumed_package / new_case.duration;
         existing_case->median_energy_consumed_package = new_case.median_energy_consumed_package;
         existing_case->total_energy_consumed_dram = new_case.total_energy_consumed_dram;
-        printf("new_case.total_energy_consumed_dram: %d", new_case.total_energy_consumed_dram);
-        printf("duration: %d", new_case.total_energy_consumed_dram);
-        printf("average energy dram: %d", new_case.total_energy_consumed_dram / new_case.duration);
+        printf("new_case.total_energy_consumed_dram: %.4f", new_case.total_energy_consumed_dram);
+        printf("duration: %.4f", new_case.total_energy_consumed_dram);
+        printf("average energy dram: %.4f", new_case.total_energy_consumed_dram / new_case.duration);
         
         existing_case->average_energy_consumed_dram = new_case.total_energy_consumed_dram / new_case.duration;
         existing_case->median_energy_consumed_dram = new_case.median_energy_consumed_dram;
