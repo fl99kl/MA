@@ -433,6 +433,8 @@ void get_timestamp(char *buffer, int len) {
 void updateOrAddTestCase(const char *filename, TestCase new_case) {
     TestCase test_cases[MAX_TEST_CASES];
     int num_cases = read_csv(filename, test_cases, MAX_TEST_CASES);
+    printf("You entered: %d", number);
+
 
     TestCase *existing_case = find_test_case(test_cases, num_cases, new_case.test_case_id);
     if (existing_case) {
