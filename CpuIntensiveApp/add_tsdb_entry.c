@@ -33,15 +33,15 @@ int main() {
     CURL *curl;
     CURLcode res;
     
-    curl = curl_easy_init();
+    curl = curl_easy_init();  // Initialize a curl session
     if(curl) {
-        // Set the URL for InfluxDB API (adjust with your setup)
-        const char *url = "http://localhost:8086/api/v2/write?bucket=mybucket&org=myorg";
+        // Set the URL for InfluxDB API (change the URL to match your setup)
+        const char *url = "http://localhost:8086/api/v2/write?bucket=myBucket&org=MA";
 
         // Set headers including the authorization token (replace with your InfluxDB token)
         struct curl_slist *headers = NULL;
         headers = curl_slist_append(headers, "Content-Type: text/plain");
-        headers = curl_slist_append(headers, "Authorization: Token your-influxdb-token");
+        headers = curl_slist_append(headers, "Authorization: Token ppaJ5zlrWXA4CKbZsCSwwIRjbffgSVbKyQxEWWzb9wY3HTPiD6S7d66FaomiCiTqDXQQrJY_vXFxqDBUoY4rtg==");
 
         // Set the URL, headers, and data (line protocol)
         curl_easy_setopt(curl, CURLOPT_URL, url);
