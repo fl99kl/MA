@@ -119,8 +119,8 @@ namespace CpuIntensiveApp
 
         private void SetTimer()
         {
-	        // run every 20 ms
-	        aTimer = new System.Timers.Timer(20);
+	        // run every 5 ms
+	        aTimer = new System.Timers.Timer(5);
 	        // Hook up the Elapsed event for the timer. 
 	        aTimer.Elapsed += OnTimedEvent;
 	        aTimer.AutoReset = true;
