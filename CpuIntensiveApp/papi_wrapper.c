@@ -406,6 +406,9 @@ void write_csv(const char *filename, TestCase test_cases[], int num_cases) {
         "timestamp");
 
     for (int i = 0; i < num_cases; i++) {
+        printf("trying to write\n");
+        printf("writing: average energy dram: %.4f\n", test_cases[i].average_energy_consumed_dram);
+        
         fprintf(file, "%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%s\n",
                 test_cases[i].test_case_id,
                 test_cases[i].duration,
@@ -449,6 +452,8 @@ void updateOrAddTestCase(const char *filename, TestCase new_case) {
         printf("average energy dram actually is: %.4f\n", existing_case->average_energy_consumed_dram);
         printf("-------------------\n");
     } else {
+        printf(" Hallo -------------------\n");
+
         // Add the new test case to the array
         get_timestamp(new_case.timestamp, sizeof(new_case.timestamp));
 
