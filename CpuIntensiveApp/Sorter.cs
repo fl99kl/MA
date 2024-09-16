@@ -153,11 +153,11 @@ public class DebugTest : IDisposable
 		if (count % 2 == 0)
 		{
 			// If even, return the average of the two middle elements
-			return (sortedArray[count / 2 - 1] + sortedArray[count / 2]) / 2 / msTimer;
+			return (sortedArray[count / 2 - 1] + sortedArray[count / 2]) / 2 / (msTimer / 1000);
 		}
 
 		// If odd, return the middle element
-		return sortedArray[count / 2] / msTimer;
+		return sortedArray[count / 2] / (msTimer / 1000);
 	}
 
 	public void SetTestCaseName(string newTestCaseName)
