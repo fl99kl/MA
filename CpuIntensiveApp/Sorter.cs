@@ -112,7 +112,6 @@ public class DebugTest : IDisposable
 	public DebugTest()
 	{
 		PapiWrapper.clearFile(OutputPath);
-		PapiWrapper.outputStart(OutputPath);
 	}
         
 	private static System.Timers.Timer aTimer;
@@ -221,7 +220,7 @@ public class DebugTest : IDisposable
 
 	public void Dispose()
 	{
-		PapiWrapper.outputEnd(OutputPath);
+		PapiWrapper.addLineToFile(OutputPath, "output end");
 	}
 }
     

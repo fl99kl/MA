@@ -46,26 +46,6 @@ void handle_error(int retval, FILE *outputFile) {
     exit(1);
 }
 
-void outputStart(const char* output_file_path) {
-    FILE *outputFile = fopen(output_file_path, "a");
-    if (outputFile == NULL) {
-        perror("Failed to open output file");
-        exit(1);
-    }
-    fprintf(outputFile, "Output start Debug\n");
-    fclose(outputFile);
-}
-
-void outputEnd(const char* output_file_path) {
-    FILE *outputFile = fopen(output_file_path, "a");
-    if (outputFile == NULL) {
-        perror("Failed to open output file");
-        exit(1);
-    }
-    fprintf(outputFile, "Output end Debug\n");
-    fclose(outputFile);
-}
-
 void clearFile(const char* output_file_path) {
     FILE *outputFile = fopen(output_file_path, "w");
     if (outputFile == NULL) {
@@ -76,7 +56,7 @@ void clearFile(const char* output_file_path) {
     fclose(outputFile);
 }
 
-void addLineToFile(const char* output_file_path, const char* test_name) {
+void addLineToFile(const char* output_file_path, const char* string_to_print) {
     FILE *outputFile = fopen(output_file_path, "a");
     if (outputFile == NULL) {
         perror("Failed to open output file");
@@ -84,7 +64,7 @@ void addLineToFile(const char* output_file_path, const char* test_name) {
     }
     fprintf(outputFile, "\n");
     fprintf(outputFile, "---------------------------\n");
-    fprintf(outputFile, "%s\n", test_name);
+    fprintf(outputFile, "%s\n", string_to_print);
     fclose(outputFile);
 }
 
@@ -328,8 +308,6 @@ IntermediateTestCase getIntermediateRaplResults(RaplData* raplData, double befor
             }
         }
     }
-    //total_energy_package = total_energy_package - before_total_package;
-    //total_energy_dram = total_energy_dram - before_total_dram;
     
     // Store energy data in the testCase object
     intermediate_test_case.total_energy_consumed_package = total_energy_package;
