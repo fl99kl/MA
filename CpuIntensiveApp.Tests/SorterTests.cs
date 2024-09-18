@@ -20,7 +20,7 @@ public class LogTestNameAttribute : BeforeAfterTestAttribute
 [Collection("Debug collection")]
 public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 {
-	private static DebugTest _debugTest;
+	private static DebugTest _debugTest = null!;
 
 	public SorterTests(DebugTest debugTest)
 	{
