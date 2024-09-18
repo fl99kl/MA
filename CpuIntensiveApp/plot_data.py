@@ -16,11 +16,8 @@ query = '''
 from(bucket: "myBucket")
   |> range(start: -30d)
   |> filter(fn: (r) => r._measurement == "unit_test_energy" and r.test_name == "SleepingTest")
+  |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
   |> sort(columns: ["_time"])
-  |> map(fn: (r) => ({
-      r with 
-      run_number: uint(v: r._time)
-  }))
 '''
 
 # Execute the query and convert to DataFrame
@@ -48,6 +45,3 @@ plt.grid(True)
 
 # Save the plot
 plt.savefig('energy_consumption.png')
-
-# Show the plot (optional)
-plt.show()
