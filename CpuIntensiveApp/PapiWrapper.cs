@@ -20,9 +20,20 @@ public static class PapiWrapper
         public double duration;
         public double total_energy_consumed_package;
         public double average_energy_consumed_package;
+        public double median_energy_consumed_package;
         public double total_energy_consumed_dram;
         public double average_energy_consumed_dram;
+        public double median_energy_consumed_dram;
         
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
+        public string timestamp;
+    }
+    
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    public struct IntermediateTestCase
+    {
+        public double total_energy_consumed_package;
+        public double total_energy_consumed_dram;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
         public string timestamp;
     }
@@ -44,21 +55,17 @@ public static class PapiWrapper
 
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern TestCase readAndStopRapl(IntPtr raplData, string outputFilePath, string testCaseName);
-
-    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void outputStart(string outputFilePath);
-
-    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void outputEnd(string outputFilePath);
     
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clearFile(string outputFilePath);
 
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void addLineToFile(string outputFilePath, string testName);
+    public static extern void addLineToFile(string outputFilePath, string stringToPrint);
 
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void updateOrAddTestCase(string filename, TestCase newCase);
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void addTsdbEntry(TestCase newCase);
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
+    public static extern IntermediateTestCase getIntermediateRaplResults(IntPtr raplData, double beforeTotalPackage, double beforeTotalDram);
 }

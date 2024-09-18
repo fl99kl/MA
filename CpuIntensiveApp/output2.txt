@@ -3,49 +3,55 @@ Output start Debug
 
 ---------------------------
 SelectionSort_SortsListCorrectly
-PACKAGE_ENERGY                              4.172180 J	(Average Power 113.0W)
-DRAM_ENERGY                                 0.722900 J	(Average Power 19.6W)
+PACKAGE_ENERGY                              3.445251 J	(Average Power 120.0W)
+DRAM_ENERGY                                 0.659714 J	(Average Power 23.0W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
 Sort_SortsListCorrectly3
-PACKAGE_ENERGY                              0.225037 J	(Average Power 124.0W)
-DRAM_ENERGY                                 0.041702 J	(Average Power 23.0W)
+PACKAGE_ENERGY                              0.120361 J	(Average Power 80.6W)
+DRAM_ENERGY                                 0.022705 J	(Average Power 15.2W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
 Sort_SortsListCorrectly2
-PACKAGE_ENERGY                              0.425354 J	(Average Power 116.5W)
-DRAM_ENERGY                                 0.074280 J	(Average Power 20.4W)
+PACKAGE_ENERGY                              0.350159 J	(Average Power 150.1W)
+DRAM_ENERGY                                 0.069122 J	(Average Power 29.6W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
 InsertionSort_SortsListCorrectly
-PACKAGE_ENERGY                              0.921204 J	(Average Power 115.9W)
-DRAM_ENERGY                                 0.163193 J	(Average Power 20.5W)
+PACKAGE_ENERGY                              2.501587 J	(Average Power 98.3W)
+DRAM_ENERGY                                 0.495941 J	(Average Power 19.5W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
 MergeSort_SortsListCorrectly
-PACKAGE_ENERGY                              1.025635 J	(Average Power 119.8W)
-DRAM_ENERGY                                 0.182663 J	(Average Power 21.3W)
+PACKAGE_ENERGY                              0.989014 J	(Average Power 112.5W)
+DRAM_ENERGY                                 0.195877 J	(Average Power 22.3W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
 Sort_SortsListCorrectly
-PACKAGE_ENERGY                              0.280090 J	(Average Power 74.2W)
-DRAM_ENERGY                                 0.067703 J	(Average Power 17.9W)
+PACKAGE_ENERGY                              0.464844 J	(Average Power 101.7W)
+DRAM_ENERGY                                 0.091278 J	(Average Power 20.0W)
+PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
+
+---------------------------
+SleepingTest
+PACKAGE_ENERGY                            311.405212 J	(Average Power 62.3W)
+DRAM_ENERGY                                71.593430 J	(Average Power 14.3W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
 Sort_SortsListCorrectly4
-PACKAGE_ENERGY                              0.197205 J	(Average Power 65.2W)
-DRAM_ENERGY                                 0.048843 J	(Average Power 16.1W)
+PACKAGE_ENERGY                              0.448486 J	(Average Power 62.8W)
+DRAM_ENERGY                                 0.104813 J	(Average Power 14.7W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
 BubbleSort_SortsListCorrectly
-PACKAGE_ENERGY                              4.674011 J	(Average Power 64.6W)
-DRAM_ENERGY                                 1.328934 J	(Average Power 18.4W)
+PACKAGE_ENERGY                              1.788269 J	(Average Power 61.9W)
+DRAM_ENERGY                                 0.410980 J	(Average Power 14.2W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 Output end Debug

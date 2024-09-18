@@ -20,7 +20,7 @@ public class LogTestNameAttribute : BeforeAfterTestAttribute
 [Collection("Debug collection")]
 public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 {
-	private static DebugTest _debugTest;
+	private static DebugTest _debugTest = null!;
 
 	public SorterTests(DebugTest debugTest)
 	{
@@ -126,6 +126,16 @@ public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 		var sortedList = Sorter.BubbleSort(unsortedList);
 
 		Assert.Equal(expectedList, sortedList);
+	}
+
+	[LogTestName]
+	[Fact]
+	public void SleepingTest()
+	{
+		
+		Thread.Sleep(5000);
+
+		Assert.True(true);
 	}
 
 	[LogTestName]
