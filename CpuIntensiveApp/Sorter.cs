@@ -106,37 +106,37 @@ public class DebugTest : IDisposable
 	private const string OutputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
 	private IntPtr _data;
 	string _testCaseName = "";
-	private static List<double> intermediatePackageValues = new();
-	private static List<double> intermediateDramValues = new();
+	private static List<double> _intermediatePackageValues = new();
+	private static List<double> _intermediateDramValues = new();
 	private const int MsTimer = 50;
 	public DebugTest()
 	{
 		PapiWrapper.clearFile(OutputPath);
 	}
         
-	private static System.Timers.Timer aTimer;
+	private static System.Timers.Timer _aTimer = null!;
 
 	private void SetTimer()
 	{
 		// run every 5 ms
-		aTimer = new System.Timers.Timer(MsTimer);
+		_aTimer = new System.Timers.Timer(MsTimer);
 		// Hook up the Elapsed event for the timer. 
-		aTimer.Elapsed += OnTimedEvent;
-		aTimer.AutoReset = true;
-		aTimer.Enabled = true;
+		_aTimer.Elapsed += OnTimedEvent!;
+		_aTimer.AutoReset = true;
+		_aTimer.Enabled = true;
 	}
 
 	private void OnTimedEvent(Object source, ElapsedEventArgs e)
 	{
-		var intermediateRaplResults = PapiWrapper.getIntermediateRaplResults(_data, intermediatePackageValues.Count > 0 ? intermediatePackageValues.Last() : 0, intermediateDramValues.Count > 0 ? intermediateDramValues.Last() : 0);
+		var intermediateRaplResults = PapiWrapper.getIntermediateRaplResults(_data, _intermediatePackageValues.Count > 0 ? _intermediatePackageValues.Last() : 0, _intermediateDramValues.Count > 0 ? _intermediateDramValues.Last() : 0);
 
 		// Add the differences to the arrays
-		intermediatePackageValues.Add(intermediateRaplResults.total_energy_consumed_package);
-		intermediateDramValues.Add(intermediateRaplResults.total_energy_consumed_dram);
+		_intermediatePackageValues.Add(intermediateRaplResults.total_energy_consumed_package);
+		_intermediateDramValues.Add(intermediateRaplResults.total_energy_consumed_dram);
 	}
         
 	// Function to calculate the median of an array
-	public static double CalculateMedian(List<double> array)
+	private static double CalculateMedian(List<double> array)
 	{
 		const double timerInSeconds = MsTimer / 1000d;
 		if (array.Count == 1)
@@ -201,19 +201,19 @@ public class DebugTest : IDisposable
 		
 	public void BeforeTestCase()
 	{
-		intermediatePackageValues = new();
-		intermediateDramValues = new();
+		_intermediatePackageValues = new();
+		_intermediateDramValues = new();
 		_data = PapiWrapper.startRapl(OutputPath);
 		SetTimer();
 	}
 
 	public void AfterTestCase() 
 	{
-		aTimer.Stop();
-		aTimer.Dispose();
+		_aTimer.Stop();
+		_aTimer.Dispose();
 		PapiWrapper.TestCase papiResult = PapiWrapper.readAndStopRapl(_data, OutputPath, _testCaseName);
-		papiResult.median_energy_consumed_package = CalculateMedian(intermediatePackageValues);
-		papiResult.median_energy_consumed_dram = CalculateMedian(intermediateDramValues);
+		papiResult.median_energy_consumed_package = CalculateMedian(_intermediatePackageValues);
+		papiResult.median_energy_consumed_dram = CalculateMedian(_intermediateDramValues);
 		PapiWrapper.updateOrAddTestCase("/home/kleinert/MA/CpuIntensiveApp/ResultCsv.csv", papiResult);
 		PapiWrapper.addTsdbEntry(papiResult);
 	}
