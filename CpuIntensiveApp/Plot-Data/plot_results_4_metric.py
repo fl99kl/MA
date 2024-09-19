@@ -6,7 +6,7 @@ import argparse
 # Parse command-line arguments to get the metric name
 parser = argparse.ArgumentParser(description='Query and plot energy consumption metric for all tests.')
 parser.add_argument('--metric', type=str, default='avg_energy_pkg', help='Metric to query (e.g., avg_energy_pkg)')
-parser.add_argument('--bucket', type=str, default='myBucket', help='Metric to query (e.g., avg_energy_pkg)')
+parser.add_argument('--bucket', type=str, default='myBucket', help='Name of the Bucket to query from InfluxDb')
 args = parser.parse_args()
 
 # InfluxDB connection details
