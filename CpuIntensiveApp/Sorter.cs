@@ -100,67 +100,63 @@ public static class Sorter
 		return result;
 	}
 }
-    
-public class DebugTest : IDisposable
+
+public class TestWrapper : IDisposable
 {
 	private const string OutputPath = "/home/kleinert/MA/CpuIntensiveApp/output2.txt";
 	private IntPtr _data;
-	string _testCaseName = "";
-	private static List<double> _intermediatePackageValues = new();
-	private static List<double> _intermediateDramValues = new();
+	private string _testCaseName = "";
+	private static List<double> _intermediatePackageValues = [];
+	private static List<double> _intermediateDramValues = [];
 	private const int MsTimer = 50;
-	public DebugTest()
+	private static System.Timers.Timer _aTimer = null!;
+	public TestWrapper()
 	{
+		// Code to run at the beginning of each Test class
 		PapiWrapper.clearFile(OutputPath);
 	}
-        
-	private static System.Timers.Timer _aTimer = null!;
 
 	private void SetTimer()
 	{
-		// run every 5 ms
 		_aTimer = new System.Timers.Timer(MsTimer);
-		// Hook up the Elapsed event for the timer. 
+		// Hook up the Elapsed event for the timer.
 		_aTimer.Elapsed += OnTimedEvent!;
 		_aTimer.AutoReset = true;
 		_aTimer.Enabled = true;
 	}
 
-	private void OnTimedEvent(Object source, ElapsedEventArgs e)
+	private void OnTimedEvent(object source, ElapsedEventArgs e)
 	{
 		var intermediateRaplResults = PapiWrapper.getIntermediateRaplResults(_data, _intermediatePackageValues.Count > 0 ? _intermediatePackageValues.Last() : 0, _intermediateDramValues.Count > 0 ? _intermediateDramValues.Last() : 0);
 
-		// Add the differences to the arrays
+		// Add new total consumption to arrays
 		_intermediatePackageValues.Add(intermediateRaplResults.total_energy_consumed_package);
 		_intermediateDramValues.Add(intermediateRaplResults.total_energy_consumed_dram);
 	}
-        
-	// Function to calculate the median of an array
+
+	// Function to calculate the median of an array of total consumptions
 	private static double CalculateMedian(List<double> array)
 	{
 		const double timerInSeconds = MsTimer / 1000d;
-		if (array.Count == 1)
+		switch (array.Count)
 		{
-			// If there's only one entry, return 0 or the single entry directly based on your requirement.
-			// If you want to return the single entry as the median:
-			return array[0] / timerInSeconds;
+			case 0:
+				// If there are no entries, return 0
+				return 0;
+			case 1:
+				// If there's only one entry, return the single entry directly
+				return array[0] / timerInSeconds;
 		}
 
-		if (array.Count < 2)
-		{
-			// If there are fewer than 2 entries, return 0 or handle it as required.
-			return 0;
-		}
-
-		double[] differences = new double[array.Count - 1];
+		var differences = new double[array.Count - 1];
 		// Calculate differences between consecutive elements
-		for (int i = 1; i < array.Count; i++)
+		for (var i = 1; i < array.Count; i++)
 		{
 			differences[i - 1] = array[i] - array[i - 1];
 		}
 
 		var sortedDifferences = differences.OrderBy(x => x).ToList();
-		int count = sortedDifferences.Count;
+		var count = sortedDifferences.Count;
 
 		// Calculate median of the sorted differences array
 		double median;
@@ -184,30 +180,20 @@ public class DebugTest : IDisposable
 		_testCaseName = newTestCaseName;
 	}
 
-	public static void AddLineToFile(string testName) 
+	public static void AddLineToFile(string testName)
 	{
 		PapiWrapper.addLineToFile(OutputPath, testName);
 	}
-		
-	    
-	public static long GetCurrentTimestamp()
-	{
-		// Get current time in ticks from DateTimeOffset (gives precise system time)
-		long currentTimeInTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() * 1_000_000; // Convert milliseconds to nanoseconds
-        
-		// Return as nanoseconds
-		return currentTimeInTicks;
-	}
-		
+
 	public void BeforeTestCase()
 	{
-		_intermediatePackageValues = new();
-		_intermediateDramValues = new();
+		_intermediatePackageValues = [];
+		_intermediateDramValues = [];
 		_data = PapiWrapper.startRapl(OutputPath);
 		SetTimer();
 	}
 
-	public void AfterTestCase() 
+	public void AfterTestCase()
 	{
 		_aTimer.Stop();
 		_aTimer.Dispose();
@@ -223,9 +209,9 @@ public class DebugTest : IDisposable
 		PapiWrapper.addLineToFile(OutputPath, "output end");
 	}
 }
-    
-[CollectionDefinition("Debug collection")]
-public class DebugCollection : ICollectionFixture<DebugTest>
+
+[CollectionDefinition("Test Wrapper Collection")]
+public class TestWrapperCollection : ICollectionFixture<TestWrapper>
 {
 	// This class has no code, and is never created. Its purpose is simply
 	// to be the place to apply [CollectionDefinition] and all the

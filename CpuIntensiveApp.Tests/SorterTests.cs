@@ -3,50 +3,62 @@ using System.Reflection;
 
 namespace CpuIntensiveApp.Tests;
 
-public class LogTestNameAttribute : BeforeAfterTestAttribute
+public class LogEnergyConsumptionAttribute : BeforeAfterTestAttribute
 {
+	// Code to run before each decorated test case. This is always necessary to receive the current name of the unit test.
+	// TODO: Prüfen ob diese Before Methode hier vor oder nach InitializeAsync ausgeführt wird.
+	// TODO: Dann entsprechend nur das nutzen, was näher an der Ausführung des Testfalls liegt
 	public override void Before(MethodInfo methodUnderTest)
 	{
 		// Get DebugTest instance from static accessor in SorterTests
-		var debugTest = SorterTests.GetDebugTestInstance();
+		var testWrapper = SorterTests.GetTestWrapperInstance();
 
 		// Log the name of the test before it runs
-		DebugTest.AddLineToFile(methodUnderTest.Name);
+		TestWrapper.AddLineToFile(methodUnderTest.Name);
 
-		debugTest.SetTestCaseName(methodUnderTest.Name);
+		testWrapper.SetTestCaseName(methodUnderTest.Name);
+		TestWrapper.AddLineToFile("Call from 'Before' function");
+	}
+
+	public override void After(MethodInfo methodUnderTest)
+	{
+		TestWrapper.AddLineToFile("Call from 'After' function");
 	}
 }
 
-[Collection("Debug collection")]
-public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
+[Collection("Test Wrapper Collection")]
+public class SorterTests : IClassFixture<TestWrapper>, IAsyncLifetime
 {
-	private static DebugTest _debugTest = null!;
+	private static TestWrapper _testWrapper = null!;
 
-	public SorterTests(DebugTest debugTest)
+	public SorterTests(TestWrapper testWrapper)
 	{
-		_debugTest = debugTest;  // Store the instance in the static field
+		_testWrapper = testWrapper;  // Store the instance in the static field
 	}
 
+	// Asynchronous setup code that runs before each test
 	public async Task InitializeAsync()
 	{
-		// Asynchronous setup code that runs before each test
-		await Task.Run(_debugTest.BeforeTestCase);
+		TestWrapper.AddLineToFile("Call from 'InitializeAsync' function");
+		await Task.Run(_testWrapper.BeforeTestCase);
 	}
 
+	// Asynchronous cleanup code that runs after each test
 	public Task DisposeAsync()
 	{
-		// Asynchronous cleanup code that runs after each test
-		_debugTest.AfterTestCase();
+		TestWrapper.AddLineToFile("Call from 'DisposeAsync' function");
+
+		_testWrapper.AfterTestCase();
 		return Task.CompletedTask;
 	}
-	
+
 	// Static accessor for DebugTest so the attribute can access it
-	public static DebugTest GetDebugTestInstance()
+	public static TestWrapper GetTestWrapperInstance()
 	{
-		return _debugTest;
+		return _testWrapper;
 	}
-        
-	[LogTestName]
+
+	[LogEnergyConsumption]
 	[Fact]
 	public void Sort_SortsListCorrectly()
 	{
@@ -62,8 +74,8 @@ public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 		// Assert
 		Assert.Equal(expectedList, sortedList);
 	}
-	
-	[LogTestName]
+
+	[LogEnergyConsumption]
 	[Fact]
 	public void Sort_SortsListCorrectly2()
 	{
@@ -79,8 +91,8 @@ public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 		// Assert
 		Assert.Equal(expectedList, sortedList);
 	}
-	
-	[LogTestName]
+
+	[LogEnergyConsumption]
 	[Fact]
 	public void Sort_SortsListCorrectly3()
 	{
@@ -96,8 +108,8 @@ public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 		// Assert
 		Assert.Equal(expectedList, sortedList);
 	}
-	
-	[LogTestName]
+
+	[LogEnergyConsumption]
 	[Fact]
 	public void Sort_SortsListCorrectly4()
 	{
@@ -114,7 +126,7 @@ public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 		Assert.Equal(expectedList, sortedList);
 	}
 
-	[LogTestName]
+	[LogEnergyConsumption]
 	[Fact]
 	public void BubbleSort_SortsListCorrectly()
 	{
@@ -128,20 +140,20 @@ public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 		Assert.Equal(expectedList, sortedList);
 	}
 
-	[LogTestName]
+	[LogEnergyConsumption]
 	[Fact]
 	public void SleepingTest()
 	{
-		
+
 		Thread.Sleep(5000);
 
 		Assert.True(true);
 	}
 
-	[LogTestName]
+	[LogEnergyConsumption]
 	[Fact]
 	public void SelectionSort_SortsListCorrectly()
-	{	
+	{
 		const int arrayLength = 1000;
 		var random = new Random();
 		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(_ => random.Next()).ToList();
@@ -152,7 +164,7 @@ public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 		Assert.Equal(expectedList, sortedList);
 	}
 
-	[LogTestName]
+	[LogEnergyConsumption]
 	[Fact]
 	public void InsertionSort_SortsListCorrectly()
 	{
@@ -166,7 +178,7 @@ public class SorterTests : IClassFixture<DebugTest>, IAsyncLifetime
 		Assert.Equal(expectedList, sortedList);
 	}
 
-	[LogTestName]
+	[LogEnergyConsumption]
 	[Fact]
 	public void MergeSort_SortsListCorrectly()
 	{
