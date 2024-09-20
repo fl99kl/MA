@@ -32,6 +32,8 @@ cd ../CpuIntensiveApp.Tests
 sudo env LD_LIBRARY_PATH=LIBRARY_PATH dotnet test
 </code>
 
+Inside the Plot-Data folder, one can find 2 scripts to plot the data stored inside InfluxDb.
+
 ### Requirements
 - [.NET SDK](https://dotnet.microsoft.com/download)
 - [PAPI](https://github.com/icl-utk-edu/papi) with the RAPL component enabled
