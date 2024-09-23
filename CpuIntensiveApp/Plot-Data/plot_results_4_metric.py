@@ -52,8 +52,8 @@ else:
     
     # Create a plot for each test_name
     for name, group in grouped:
-        print(f"group: {group}")  # Print to check the available test columns
-        print(f"name: {name}")  # Print to check the available test columns
+        print(f"y: {group['avg_energy_pkg']}")  # Print to check the available test columns
+        print(f"x: {range(len(group))}")  # Print to check the available test columns
 
         plt.figure()
         plt.plot(range(len(group)), group['avg_energy_pkg'], marker='o')
