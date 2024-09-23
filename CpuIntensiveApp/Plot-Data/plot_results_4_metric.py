@@ -47,23 +47,17 @@ else:
 
     print(f"Test columns: {test_columns}")  # Print to check the available test columns
 
-    # Add an individual run count for each test
-    for test_name in test_columns:
-        # Create a new column for the run count for each test
-        df[f'{test_name}_run_count'] = df[test_name].notna().cumsum()
-        print(f"{test_name} - number of valid entries: {df[test_name].notna().sum()}")  # Debugging info
-
-    # Plotting the data for all tests
-    plt.figure(figsize=(10, 6))
-    for test_name in test_columns:
-        if df[test_name].notna().sum() > 0:  # Only plot if there are valid values
-            plt.plot(df[f'{test_name}_run_count'], df[test_name], label=f'{test_name}')
-            x_values = df[f'{test_name}_run_count']
-            y_values = df[test_name]   
+    # Group by test_name
+    grouped = df.groupby('test_name')
     
-            # Print the x and y values
-            print(f"{test_name} - X values: {x_values.tolist()}")
-            print(f"{test_name} - Y values: {y_values.tolist()}")
+    # Create a plot for each test_name
+    for name, group in grouped:
+        print(f"group: {group}")  # Print to check the available test columns
+        print(f"name: {name}")  # Print to check the available test columns
+
+        plt.figure()
+        plt.plot(range(len(group)), group['avg_energy_pkg'], marker='o')
+        plt.xticks(range(len(group)), range(1, len(group) + 1))  # x-axis as 1-based counter
 
     # Adding labels and title
     plt.xlabel('Run Count')
