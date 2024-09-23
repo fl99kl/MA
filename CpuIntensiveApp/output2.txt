@@ -14,8 +14,8 @@ Call from 'After' function
 
 ---------------------------
 Call from 'DisposeAsync' function
-PACKAGE_ENERGY                              4.015808 J	(Average Power 123.4W)
-DRAM_ENERGY                                 0.614380 J	(Average Power 18.9W)
+PACKAGE_ENERGY                              4.650208 J	(Average Power 123.1W)
+DRAM_ENERGY                                 0.806534 J	(Average Power 21.4W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
@@ -32,8 +32,8 @@ Call from 'After' function
 
 ---------------------------
 Call from 'DisposeAsync' function
-PACKAGE_ENERGY                              0.253845 J	(Average Power 160.7W)
-DRAM_ENERGY                                 0.037628 J	(Average Power 23.8W)
+PACKAGE_ENERGY                              0.196716 J	(Average Power 101.5W)
+DRAM_ENERGY                                 0.038040 J	(Average Power 19.6W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
@@ -50,8 +50,8 @@ Call from 'After' function
 
 ---------------------------
 Call from 'DisposeAsync' function
-PACKAGE_ENERGY                              0.327881 J	(Average Power 124.5W)
-DRAM_ENERGY                                 0.051132 J	(Average Power 19.4W)
+PACKAGE_ENERGY                              0.227234 J	(Average Power 85.5W)
+DRAM_ENERGY                                 0.052750 J	(Average Power 19.8W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
@@ -68,8 +68,8 @@ Call from 'After' function
 
 ---------------------------
 Call from 'DisposeAsync' function
-PACKAGE_ENERGY                              1.974182 J	(Average Power 124.9W)
-DRAM_ENERGY                                 0.336090 J	(Average Power 21.3W)
+PACKAGE_ENERGY                              0.573425 J	(Average Power 68.5W)
+DRAM_ENERGY                                 0.182861 J	(Average Power 21.8W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
@@ -86,8 +86,8 @@ Call from 'After' function
 
 ---------------------------
 Call from 'DisposeAsync' function
-PACKAGE_ENERGY                              1.097046 J	(Average Power 121.7W)
-DRAM_ENERGY                                 0.202377 J	(Average Power 22.4W)
+PACKAGE_ENERGY                              0.589661 J	(Average Power 69.3W)
+DRAM_ENERGY                                 0.157440 J	(Average Power 18.5W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
@@ -104,8 +104,8 @@ Call from 'After' function
 
 ---------------------------
 Call from 'DisposeAsync' function
-PACKAGE_ENERGY                              0.562805 J	(Average Power 139.5W)
-DRAM_ENERGY                                 0.095810 J	(Average Power 23.7W)
+PACKAGE_ENERGY                              0.340332 J	(Average Power 72.4W)
+DRAM_ENERGY                                 0.091324 J	(Average Power 19.4W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
@@ -122,8 +122,8 @@ Call from 'After' function
 
 ---------------------------
 Call from 'DisposeAsync' function
-PACKAGE_ENERGY                            360.848450 J	(Average Power 72.1W)
-DRAM_ENERGY                                75.655731 J	(Average Power 15.1W)
+PACKAGE_ENERGY                            323.761963 J	(Average Power 64.7W)
+DRAM_ENERGY                                73.219101 J	(Average Power 14.6W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
@@ -140,8 +140,8 @@ Call from 'After' function
 
 ---------------------------
 Call from 'DisposeAsync' function
-PACKAGE_ENERGY                              0.405945 J	(Average Power 72.7W)
-DRAM_ENERGY                                 0.103363 J	(Average Power 18.5W)
+PACKAGE_ENERGY                              0.701538 J	(Average Power 104.3W)
+DRAM_ENERGY                                 0.155685 J	(Average Power 23.1W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
@@ -158,8 +158,8 @@ Call from 'After' function
 
 ---------------------------
 Call from 'DisposeAsync' function
-PACKAGE_ENERGY                              3.207581 J	(Average Power 65.9W)
-DRAM_ENERGY                                 0.821945 J	(Average Power 16.9W)
+PACKAGE_ENERGY                              3.535156 J	(Average Power 66.0W)
+DRAM_ENERGY                                 0.761169 J	(Average Power 14.2W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
