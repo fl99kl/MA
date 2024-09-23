@@ -24,7 +24,7 @@ client = InfluxDBClient(url=url, token=token, org=org)
 # Define the Flux query for all tests but only for the selected metric
 query = f'''
 from(bucket: "{bucket}")
-  |> range(start: -30d)
+  |> range(start: -300m)
   |> filter(fn: (r) => r._measurement == "unit_test_energy" and r._field == "{metric}")
   |> pivot(rowKey:["_time"], columnKey: ["test_name"], valueColumn: "_value")
   |> sort(columns: ["_time"])
