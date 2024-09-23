@@ -53,11 +53,11 @@ else:
     # Create a plot for each test_name
     for name, group in grouped:
         print(f"y: {group['avg_energy_pkg']}")  # Print to check the available test columns
-        print(f"x: {range(len(group))}")  # Print to check the available test columns
+        print(f"x: {range(1, len(group) + 1)}")  # Print to check the available test columns
 
         plt.figure()
-        plt.plot(range(len(group)), group['avg_energy_pkg'], marker='o')
-        plt.xticks(range(len(group)), range(1, len(group) + 1))  # x-axis as 1-based counter
+        plt.plot(range(1, len(group) + 1), group['avg_energy_pkg'], marker='o')
+        plt.xticks(range(1, len(group) + 1))  # x-axis as 1-based counter
 
     # Adding labels and title
     plt.xlabel('Run Count')
