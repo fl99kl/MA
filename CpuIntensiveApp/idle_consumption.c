@@ -74,6 +74,7 @@ void papi_measurement() {
     double avg_pkg_power, avg_dram_power;
     RaplData* raplData = (RaplData*)malloc(sizeof(RaplData));
     const PAPI_component_info_t *cmpinfo = NULL;
+    PAPI_event_info_t evinfo;
     raplData->EventSet = PAPI_NULL;
     raplData->num_events = 0;
 
