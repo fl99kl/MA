@@ -42,6 +42,9 @@ else:
     # Drop unnecessary columns if they exist
     df = df.drop(columns=['_start', '_stop', '_measurement', '_time'], errors='ignore')
 
+    # Ensure DataFrame has columns we need (test names, removing '_time')
+    test_columns = [col for col in df.columns]
+
     print(f"Test columns: {test_columns}")  # Print to check the available test columns
 
     # Add an individual run count for each test
