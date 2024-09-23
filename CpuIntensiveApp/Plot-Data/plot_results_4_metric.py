@@ -45,13 +45,14 @@ else:
     # Ensure DataFrame has columns we need (test names, removing '_time')
     test_columns = [col for col in df.columns if col != '_time']
 
-    # Add a run count instead of using time for the x-axis
-    df['run_count'] = range(1, len(df) + 1)
+    # Add individual run count for each test
+    for test_name in test_columns:
+        df[f'{test_name}_run_count'] = df.groupby(test_name).cumcount() + 1
 
     # Plotting the data for all tests
     plt.figure(figsize=(10, 6))
     for test_name in test_columns:
-        plt.plot(df['run_count'], df[test_name], label=f'{test_name}')
+        plt.plot(df[f'{test_name}_run_count'], df[test_name], label=f'{test_name}')
 
     # Adding labels and title
     plt.xlabel('Run Count')
