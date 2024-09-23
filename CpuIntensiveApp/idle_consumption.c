@@ -2,10 +2,20 @@
 #include <stdlib.h>
 #include <papi.h>
 #include <curl/curl.h>
+#include <unistd.h>
+#include <string.h>
+#include <time.h>
+#include <search.h> // Using search.h for hash table implementation
+#include <sys/time.h>
 
 #define URL "http://localhost:8086/api/v2/write?org=MA&bucket=myBucket&precision=s"
 #define TOKEN "ppaJ5zlrWXA4CKbZsCSwwIRjbffgSVbKyQxEWWzb9wY3HTPiD6S7d66FaomiCiTqDXQQrJY_vXFxqDBUoY4rtg=="
 #define TEST_CASE_NAME "idle_consumption"
+
+#define MAX_RAPL_EVENTS 64
+#define HASH_TABLE_SIZE 256
+#define MAX_LINE_LENGTH 1024
+#define MAX_TEST_CASES 100
 
 typedef struct {
     int EventSet;
@@ -60,8 +70,10 @@ void papi_measurement() {
     long long before_time,after_time;
     double elapsed_time;
     int retval, cid, rapl_cid = -1, numcmp;
+    int code, r;
     double avg_pkg_power, avg_dram_power;
     RaplData* raplData = (RaplData*)malloc(sizeof(RaplData));
+    const PAPI_component_info_t *cmpinfo = NULL;
     raplData->EventSet = PAPI_NULL;
     raplData->num_events = 0;
 
