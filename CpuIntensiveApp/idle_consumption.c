@@ -17,10 +17,10 @@ int send_to_influxdb(const char* data) {
     curl_global_init(CURL_GLOBAL_ALL);
     curl = curl_easy_init();
 
-    if(curl) {
+    if (curl) {
         // Set the URL and other necessary options
         curl_easy_setopt(curl, CURLOPT_URL, URL);
-        
+
         // Set the authorization token
         headers = curl_slist_append(headers, "Authorization: Token " TOKEN);
         headers = curl_slist_append(headers, "Content-Type: text/plain");
@@ -86,6 +86,13 @@ void papi_measurement() {
 
     avg_pkg_power = total_pkg_energy / elapsed_time;
     avg_dram_power = total_dram_energy / elapsed_time;
+
+    // Debug print statements for energy consumption
+    printf("Test Case: %s\n", TEST_CASE_NAME);
+    printf("Average Package Power: %lf Watts\n", avg_pkg_power);
+    printf("Total Package Energy: %lf Joules\n", total_pkg_energy);
+    printf("Average DRAM Power: %lf Watts\n", avg_dram_power);
+    printf("Total DRAM Energy: %lf Joules\n", total_dram_energy);
 
     // Format data for InfluxDB (line protocol)
     char influx_data[256];
