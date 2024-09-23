@@ -37,7 +37,6 @@ int send_to_influxdb(const char* data) {
     curl = curl_easy_init();
 
     if (curl) {
-        printf("my Test in if");
         // Set the URL and other necessary options
         curl_easy_setopt(curl, CURLOPT_URL, URL);
 
@@ -60,9 +59,6 @@ int send_to_influxdb(const char* data) {
         // Clean up
         curl_easy_cleanup(curl);
         curl_slist_free_all(headers);
-    } else
-    {
-        printf("my Test in else");
     }
 
     curl_global_cleanup();
@@ -232,7 +228,7 @@ void papi_measurement() {
     // Format data for InfluxDB (line protocol)
     char influx_data[256];
     snprintf(influx_data, sizeof(influx_data),
-             "energy_measurement,test_case=%s avg_pkg_power=%lf,total_pkg_energy=%lf,avg_dram_power=%lf,total_dram_energy=%lf",
+             "unit_test_energy,test_name=%s avg_energy_pkg=%lf,total_energy_pkg=%lf,avg_energy_dram=%lf,total_energy_dram=%lf",
              TEST_CASE_NAME, avg_pkg_power, total_energy_package, avg_dram_power, total_energy_dram);
 
     // Send the data to InfluxDB
