@@ -25,7 +25,7 @@ client = InfluxDBClient(url=url, token=token, org=org)
 query = f'''
 from(bucket: "{bucket}")
   |> range(start: -300m)
-  |> filter(fn: (r) => r._measurement == "unit_test_energy" and r._field == "{metric}"  and r._value != "NaN")
+  |> filter(fn: (r) => r._measurement == "unit_test_energy" and r._field == "{metric}")
   |> pivot(rowKey:["_time"], columnKey: ["test_name"], valueColumn: "_value")
   |> sort(columns: ["_time"])
 '''
@@ -33,6 +33,9 @@ from(bucket: "{bucket}")
 # Execute the query and convert the result into a pandas DataFrame
 result = client.query_api().query_data_frame(query)
 df = pd.DataFrame(result)
+
+# Filter out rows with NaN values for the metric
+df = df.dropna(subset=[metric])
 
 if df.empty:
     print(f"No data found for metric: {metric}")
