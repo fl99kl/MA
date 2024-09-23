@@ -47,7 +47,8 @@ else:
 
     # Add individual run count for each test
     for test_name in test_columns:
-        df[f'{test_name}_run_count'] = df.groupby(test_name).cumcount() + 1
+        # Create a new column for the run count for each test
+        df[f'{test_name}_run_count'] = df[test_name].notna().cumsum()
 
     # Plotting the data for all tests
     plt.figure(figsize=(10, 6))
