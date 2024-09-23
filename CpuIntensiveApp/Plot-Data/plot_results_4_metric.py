@@ -49,15 +49,15 @@ else:
 
     # Group by test_name
     grouped = df.groupby('test_name')
-    
+
+    # Create a single plot for all test_names
+    plt.figure()
+
     # Create a plot for each test_name
     for name, group in grouped:
-        print(f"y: {group['avg_energy_pkg']}")  # Print to check the available test columns
-        print(f"x: {range(1, len(group) + 1)}")  # Print to check the available test columns
-
-        plt.figure()
-        plt.plot(range(1, len(group) + 1), group['avg_energy_pkg'], label=f'{name}')
-        plt.xticks(range(1, len(group) + 1))  # x-axis as 1-based counter
+        plt.plot(range(1, len(group) + 1), group['avg_energy_pkg'], label=name)
+        print(f"y: {group['avg_energy_pkg']}")  # Print to check values
+        print(f"x: {range(1, len(group) + 1)}")  # Print to check values
 
     # Adding labels and title
     plt.xlabel('Run Count')
