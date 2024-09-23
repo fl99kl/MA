@@ -226,10 +226,10 @@ void papi_measurement() {
     printf("Total DRAM Energy: %lf Joules\n", total_energy_dram);
 
     // Format data for InfluxDB (line protocol)
-    char influx_data[256];
+    char influx_data[512];
     snprintf(influx_data, sizeof(influx_data),
-             "unit_test_energy,test_name=%s avg_energy_pkg=%lf,total_energy_pkg=%lf,avg_energy_dram=%lf,total_energy_dram=%lf",
-             TEST_CASE_NAME, avg_pkg_power, total_energy_package, avg_dram_power, total_energy_dram);
+             "unit_test_energy,test_name=%s duration=%.4f,total_energy_pkg=%.4f,avg_energy_pkg=%.4f,median_energy_pkg=%.4f,total_energy_dram=%.4f,avg_energy_dram=%.4f,median_energy_dram=%.4f",
+             TEST_CASE_NAME, elapsed_time, total_energy_package, avg_pkg_power, 0, total_energy_dram, avg_dram_power, 0);
 
     // Send the data to InfluxDB
     send_to_influxdb(influx_data);
