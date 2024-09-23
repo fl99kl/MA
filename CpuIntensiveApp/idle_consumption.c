@@ -69,7 +69,6 @@ int send_to_influxdb(const char* data) {
 void papi_measurement() {
     long long after_time;
     double elapsed_time;
-    long long* values = calloc(raplData->num_events, sizeof(long long));
     int retval, i, cid, rapl_cid = -1, numcmp;
     int code, r;
     double avg_pkg_power, avg_dram_power;
@@ -145,6 +144,8 @@ void papi_measurement() {
 
     // Simulate workload (replace this with actual workload)
     sleep(2);
+
+    long long* values = calloc(raplData->num_events, sizeof(long long));
 
     // Stop Counting
     after_time = PAPI_get_real_nsec();
