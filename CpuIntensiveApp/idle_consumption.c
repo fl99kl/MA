@@ -63,8 +63,8 @@ void papi_measurement() {
     }
 
     PAPI_create_eventset(&event_set);
-    PAPI_add_event(event_set, PAPI_ENERGY_PKG);
-    PAPI_add_event(event_set, PAPI_ENERGY_DRAM);
+    PAPI_add_event(event_set, PAPI_NATIVE_MASK);
+    PAPI_add_event(event_set, PAPI_NATIVE_MASK);
 
     before_time=PAPI_get_real_nsec();
 
