@@ -56,7 +56,7 @@ else:
         print(f"x: {range(1, len(group) + 1)}")  # Print to check the available test columns
 
         plt.figure()
-        plt.plot(range(1, len(group) + 1), group['avg_energy_pkg'], marker='o')
+        plt.plot(range(1, len(group) + 1), group['avg_energy_pkg'], label=f'{name}')
         plt.xticks(range(1, len(group) + 1))  # x-axis as 1-based counter
 
     # Adding labels and title
