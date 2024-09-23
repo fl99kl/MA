@@ -45,15 +45,19 @@ else:
     # Ensure DataFrame has columns we need (test names, removing '_time')
     test_columns = [col for col in df.columns if col != '_time']
 
-    # Add individual run count for each test
+    print(f"Test columns: {test_columns}")  # Print to check the available test columns
+
+    # Add an individual run count for each test
     for test_name in test_columns:
         # Create a new column for the run count for each test
         df[f'{test_name}_run_count'] = df[test_name].notna().cumsum()
+        print(f"{test_name} - number of valid entries: {df[test_name].notna().sum()}")  # Debugging info
 
     # Plotting the data for all tests
     plt.figure(figsize=(10, 6))
     for test_name in test_columns:
-        plt.plot(df[f'{test_name}_run_count'], df[test_name], label=f'{test_name}')
+        if df[test_name].notna().sum() > 0:  # Only plot if there are valid values
+            plt.plot(df[f'{test_name}_run_count'], df[test_name], label=f'{test_name}')
 
     # Adding labels and title
     plt.xlabel('Run Count')
