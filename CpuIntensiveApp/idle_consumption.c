@@ -37,6 +37,7 @@ int send_to_influxdb(const char* data) {
     curl = curl_easy_init();
 
     if (curl) {
+        printf("my Test in if");
         // Set the URL and other necessary options
         curl_easy_setopt(curl, CURLOPT_URL, URL);
 
@@ -59,6 +60,9 @@ int send_to_influxdb(const char* data) {
         // Clean up
         curl_easy_cleanup(curl);
         curl_slist_free_all(headers);
+    } else
+    {
+        printf("my Test in else");
     }
 
     curl_global_cleanup();
