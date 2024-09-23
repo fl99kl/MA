@@ -13,9 +13,10 @@ args = parser.parse_args()
 url = "http://localhost:8086"
 token = "ppaJ5zlrWXA4CKbZsCSwwIRjbffgSVbKyQxEWWzb9wY3HTPiD6S7d66FaomiCiTqDXQQrJY_vXFxqDBUoY4rtg=="
 org = "MA"
+
 # Use the values from the command-line argument
-metric = args.metricbucket = "myBucket"
-bucket = args.bucket = "myBucket"
+metric = args.metric
+bucket = args.bucket
 
 # Create an InfluxDB client
 client = InfluxDBClient(url=url, token=token, org=org)
@@ -38,19 +39,24 @@ if df.empty:
 else:
     print(df.columns)
 
-    # Ensure DataFrame has columns we need (time and test names)
+    # Drop unnecessary columns if they exist
+    df = df.drop(columns=['result', 'table', '_start', '_stop', '_field', '_measurement'], errors='ignore')
+
+    # Ensure DataFrame has columns we need (test names, removing '_time')
     test_columns = [col for col in df.columns if col != '_time']
-    df.columns = ['time'] + test_columns
+
+    # Add a run count instead of using time for the x-axis
+    df['run_count'] = range(1, len(df) + 1)
 
     # Plotting the data for all tests
     plt.figure(figsize=(10, 6))
     for test_name in test_columns:
-        plt.plot(df['time'], df[test_name], label=f'{test_name}')
+        plt.plot(df['run_count'], df[test_name], label=f'{test_name}')
 
     # Adding labels and title
-    plt.xlabel('Time')
+    plt.xlabel('Run Count')
     plt.ylabel(f'{metric}')
-    plt.title(f'{metric} Over Time for All Tests')
+    plt.title(f'{metric} Over Run Count for All Tests')
     plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
     plt.grid(True)
 
