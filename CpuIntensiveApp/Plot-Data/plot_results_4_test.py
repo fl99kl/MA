@@ -48,9 +48,9 @@ else:
     # Plotting the data, using 'data_point' for x-axis instead of 'time'
     plt.figure(figsize=(10, 6))
     plt.plot(df['data_point'], df['avg_energy_pkg'], label='Average Energy Package')
-    plt.plot(df['data_point'], df['total_energy_pkg'], label='Total Energy Package')
+    #plt.plot(df['data_point'], df['total_energy_pkg'], label='Total Energy Package')
     plt.plot(df['data_point'], df['avg_energy_dram'], label='Average Energy DRAM')
-    plt.plot(df['data_point'], df['total_energy_dram'], label='Total Energy DRAM')
+    #plt.plot(df['data_point'], df['total_energy_dram'], label='Total Energy DRAM')
 
     # Adding labels and title
     plt.xlabel('Data Point')
