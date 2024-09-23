@@ -26,7 +26,7 @@ query = f'''
 from(bucket: "{bucket}")
   |> range(start: -300m)
   |> filter(fn: (r) => r._measurement == "unit_test_energy" and r._field == "{metric}")
-  |> pivot(rowKey:["_time"], columnKey: ["test_name"], valueColumn: "_value")
+  |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
   |> sort(columns: ["_time"])
 '''
 
@@ -34,19 +34,13 @@ from(bucket: "{bucket}")
 result = client.query_api().query_data_frame(query)
 df = pd.DataFrame(result)
 
-# Filter out rows with NaN values for the metric
-df = df.dropna(subset=[metric])
-
 if df.empty:
     print(f"No data found for metric: {metric}")
 else:
     print(df.columns)
 
     # Drop unnecessary columns if they exist
-    df = df.drop(columns=['result', 'table', '_start', '_stop', '_field', '_measurement'], errors='ignore')
-
-    # Ensure DataFrame has columns we need (test names, removing '_time')
-    test_columns = [col for col in df.columns if col != '_time']
+    df = df.drop(columns=['_start', '_stop', '_measurement', '_time'], errors='ignore')
 
     print(f"Test columns: {test_columns}")  # Print to check the available test columns
 
