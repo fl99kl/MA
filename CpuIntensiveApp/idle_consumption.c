@@ -143,7 +143,7 @@ void papi_measurement() {
     retval = PAPI_start(raplData->EventSet);
 
     // Simulate workload (replace this with actual workload)
-    sleep(2);
+    sleep(10);
 
     long long* values = calloc(raplData->num_events, sizeof(long long));
 
