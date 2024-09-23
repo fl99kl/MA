@@ -58,6 +58,10 @@ else:
     for test_name in test_columns:
         if df[test_name].notna().sum() > 0:  # Only plot if there are valid values
             plt.plot(df[f'{test_name}_run_count'], df[test_name], label=f'{test_name}')
+    
+            # Print the values of the metric for valid entries
+            valid_values = df[test_name][df[test_name].notna()]
+            print(f"{test_name} - Valid values: {valid_values.tolist()}")
 
     # Adding labels and title
     plt.xlabel('Run Count')
