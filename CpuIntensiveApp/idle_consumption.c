@@ -229,7 +229,7 @@ void papi_measurement() {
     char influx_data[512];
     snprintf(influx_data, sizeof(influx_data),
              "unit_test_energy,test_name=%s duration=%.4f,total_energy_pkg=%.4f,avg_energy_pkg=%.4f,median_energy_pkg=%.4f,total_energy_dram=%.4f,avg_energy_dram=%.4f,median_energy_dram=%.4f",
-             TEST_CASE_NAME, elapsed_time, total_energy_package, avg_pkg_power, 0, total_energy_dram, avg_dram_power, 0);
+             TEST_CASE_NAME, elapsed_time, total_energy_package, avg_pkg_power, 0.0, total_energy_dram, avg_dram_power, 0.0);
 
     // Send the data to InfluxDB
     send_to_influxdb(influx_data);
