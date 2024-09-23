@@ -23,7 +23,7 @@ client = InfluxDBClient(url=url, token=token, org=org)
 # Define the Flux query, filtering by the test name
 query = f'''
 from(bucket: "{bucket}")
-  |> range(start: -30m)
+  |> range(start: -300m)
   |> filter(fn: (r) => r._measurement == "unit_test_energy" and r.test_name == "{test_name}")
   |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
   |> sort(columns: ["_time"])
