@@ -67,9 +67,10 @@ int send_to_influxdb(const char* data) {
 
 // Function to perform PAPI measurements
 void papi_measurement() {
-    long long before_time,after_time;
+    long long after_time;
     double elapsed_time;
-    int retval, cid, rapl_cid = -1, numcmp;
+    long long* values = calloc(raplData->num_events, sizeof(long long));
+    int retval, i, cid, rapl_cid = -1, numcmp;
     int code, r;
     double avg_pkg_power, avg_dram_power;
     RaplData* raplData = (RaplData*)malloc(sizeof(RaplData));
