@@ -17,6 +17,7 @@ public class LogEnergyConsumptionAttribute : BeforeAfterTestAttribute
 
 	public override void After(MethodInfo methodUnderTest)
 	{
+		var testWrapper = SorterTests.GetTestWrapperInstance();
 		testWrapper.AfterTestCase();
 		Thread.Sleep(5000);
 	}
