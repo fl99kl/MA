@@ -66,5 +66,10 @@ else:
     plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
     plt.grid(True)
 
+    # Set the y-axis limits
+    min_y = 100
+    max_y = 140
+    plt.ylim(min_y, max_y)
+
     # Save the plot
     plt.savefig(f'{metric}_all_tests.png')
