@@ -23,7 +23,7 @@ public class LogEnergyConsumptionAttribute : BeforeAfterTestAttribute
 }
 
 [Collection("Test Wrapper Collection")]
-public class SorterTests : IClassFixture<TestWrapper>, IAsyncLifetime
+public class SorterTests : IClassFixture<TestWrapper>
 {
 	private static TestWrapper _testWrapper = null!;
 
