@@ -93,6 +93,20 @@ public class SorterTests : IClassFixture<TestWrapper>
 
 	[LogEnergyConsumption]
 	[Fact]
+	public void MergeSort_SortsListCorrectly()
+	{
+		const int arrayLength = 50000;
+		var random = new Random();
+		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(_ => random.Next()).ToList();
+		var expectedList = Enumerable.Range(1, arrayLength).ToList();
+
+		var sortedList = Sorter.MergeSort(unsortedList);
+
+		Assert.Equal(expectedList, sortedList);
+	}
+
+	[LogEnergyConsumption]
+	[Fact]
 	public void BubbleSort_SortsListCorrectly()
 	{
 		const int arrayLength = 50000;
@@ -139,20 +153,6 @@ public class SorterTests : IClassFixture<TestWrapper>
 		var expectedList = Enumerable.Range(1, arrayLength).ToList();
 
 		var sortedList = Sorter.InsertionSort(unsortedList);
-
-		Assert.Equal(expectedList, sortedList);
-	}
-
-	[LogEnergyConsumption]
-	[Fact]
-	public void MergeSort_SortsListCorrectly()
-	{
-		const int arrayLength = 50000;
-		var random = new Random();
-		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(_ => random.Next()).ToList();
-		var expectedList = Enumerable.Range(1, arrayLength).ToList();
-
-		var sortedList = Sorter.MergeSort(unsortedList);
 
 		Assert.Equal(expectedList, sortedList);
 	}
