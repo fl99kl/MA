@@ -57,7 +57,7 @@ else:
     for name, group in grouped:
         plt.plot(range(1, len(group) + 1), group[f'{metric}'], label=name)
         print(f"y: {group[f'{metric}']}")  # Print to check values
-        print(f"x: {range(1, len(group) + 1)}")  # Print to check values
+        print(f"x: {name}")  # Print to check values
 
     # Adding labels and title
     plt.xlabel('Run Count')
