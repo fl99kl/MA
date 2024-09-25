@@ -13,6 +13,7 @@ public class LogEnergyConsumptionAttribute : BeforeAfterTestAttribute
 		// Log and set the name of the test before it runs
 		TestWrapper.AddLineToFile(methodUnderTest.Name);
 		testWrapper.SetTestCaseName(methodUnderTest.Name);
+		testWrapper.BeforeTestCase();
 	}
 
 	public override void After(MethodInfo methodUnderTest)
