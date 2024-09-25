@@ -6,23 +6,18 @@ namespace CpuIntensiveApp.Tests;
 public class LogEnergyConsumptionAttribute : BeforeAfterTestAttribute
 {
 	// Code to run before each decorated test case. This is always necessary to receive the current name of the unit test.
-	// TODO: Prüfen ob diese Before Methode hier vor oder nach InitializeAsync ausgeführt wird.
-	// TODO: Dann entsprechend nur das nutzen, was näher an der Ausführung des Testfalls liegt
 	public override void Before(MethodInfo methodUnderTest)
 	{
 		// Get DebugTest instance from static accessor in SorterTests
 		var testWrapper = SorterTests.GetTestWrapperInstance();
-
-		// Log the name of the test before it runs
+		// Log and set the name of the test before it runs
 		TestWrapper.AddLineToFile(methodUnderTest.Name);
-
 		testWrapper.SetTestCaseName(methodUnderTest.Name);
-		TestWrapper.AddLineToFile("Call from 'Before' function");
 	}
 
 	public override void After(MethodInfo methodUnderTest)
 	{
-		TestWrapper.AddLineToFile("Call from 'After' function");
+		testWrapper.AfterTestCase();
 	}
 }
 
@@ -34,22 +29,6 @@ public class SorterTests : IClassFixture<TestWrapper>, IAsyncLifetime
 	public SorterTests(TestWrapper testWrapper)
 	{
 		_testWrapper = testWrapper;  // Store the instance in the static field
-	}
-
-	// Asynchronous setup code that runs before each test
-	public async Task InitializeAsync()
-	{
-		TestWrapper.AddLineToFile("Call from 'InitializeAsync' function");
-		await Task.Run(_testWrapper.BeforeTestCase);
-	}
-
-	// Asynchronous cleanup code that runs after each test
-	public Task DisposeAsync()
-	{
-		TestWrapper.AddLineToFile("Call from 'DisposeAsync' function");
-
-		_testWrapper.AfterTestCase();
-		return Task.CompletedTask;
 	}
 
 	// Static accessor for DebugTest so the attribute can access it
