@@ -67,9 +67,10 @@ else:
     plt.grid(True)
 
     # Set the y-axis limits
-    min_y = 110
-    max_y = 130
-    plt.ylim(min_y, max_y)
+    # min_y = 110
+    # max_y = 130
+    # plt.ylim(min_y, max_y)
+    plt.tight_layout()
 
     # Save the plot
     plt.savefig(f'{metric}_all_tests.png')
