@@ -63,12 +63,12 @@ else:
     plt.xlabel('Run Count')
     plt.ylabel(f'{metric}')
     plt.title(f'{metric} Over Run Count for All Tests')
-    plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
+    plt.legend(loc='upper left', bbox_to_anchor=(1, 1), fontsize='small')
     plt.grid(True)
 
     # Set the y-axis limits
-    min_y = 100
-    max_y = 140
+    min_y = 110
+    max_y = 130
     plt.ylim(min_y, max_y)
 
     # Save the plot
