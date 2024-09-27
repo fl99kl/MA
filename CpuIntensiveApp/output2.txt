@@ -1,57 +1,166 @@
 File cleared
-Output start Debug
+
+---------------------------
+Call from 'InitializeAsync' function
 
 ---------------------------
 SelectionSort_SortsListCorrectly
-PACKAGE_ENERGY                              3.445251 J	(Average Power 120.0W)
-DRAM_ENERGY                                 0.659714 J	(Average Power 23.0W)
+
+---------------------------
+Call from 'Before' function
+
+---------------------------
+Call from 'After' function
+
+---------------------------
+Call from 'DisposeAsync' function
+PACKAGE_ENERGY                              4.650208 J	(Average Power 123.1W)
+DRAM_ENERGY                                 0.806534 J	(Average Power 21.4W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
+
+---------------------------
+Call from 'InitializeAsync' function
 
 ---------------------------
 Sort_SortsListCorrectly3
-PACKAGE_ENERGY                              0.120361 J	(Average Power 80.6W)
-DRAM_ENERGY                                 0.022705 J	(Average Power 15.2W)
+
+---------------------------
+Call from 'Before' function
+
+---------------------------
+Call from 'After' function
+
+---------------------------
+Call from 'DisposeAsync' function
+PACKAGE_ENERGY                              0.196716 J	(Average Power 101.5W)
+DRAM_ENERGY                                 0.038040 J	(Average Power 19.6W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
+
+---------------------------
+Call from 'InitializeAsync' function
 
 ---------------------------
 Sort_SortsListCorrectly2
-PACKAGE_ENERGY                              0.350159 J	(Average Power 150.1W)
-DRAM_ENERGY                                 0.069122 J	(Average Power 29.6W)
+
+---------------------------
+Call from 'Before' function
+
+---------------------------
+Call from 'After' function
+
+---------------------------
+Call from 'DisposeAsync' function
+PACKAGE_ENERGY                              0.227234 J	(Average Power 85.5W)
+DRAM_ENERGY                                 0.052750 J	(Average Power 19.8W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
+
+---------------------------
+Call from 'InitializeAsync' function
 
 ---------------------------
 InsertionSort_SortsListCorrectly
-PACKAGE_ENERGY                              2.501587 J	(Average Power 98.3W)
-DRAM_ENERGY                                 0.495941 J	(Average Power 19.5W)
+
+---------------------------
+Call from 'Before' function
+
+---------------------------
+Call from 'After' function
+
+---------------------------
+Call from 'DisposeAsync' function
+PACKAGE_ENERGY                              0.573425 J	(Average Power 68.5W)
+DRAM_ENERGY                                 0.182861 J	(Average Power 21.8W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
+
+---------------------------
+Call from 'InitializeAsync' function
 
 ---------------------------
 MergeSort_SortsListCorrectly
-PACKAGE_ENERGY                              0.989014 J	(Average Power 112.5W)
-DRAM_ENERGY                                 0.195877 J	(Average Power 22.3W)
+
+---------------------------
+Call from 'Before' function
+
+---------------------------
+Call from 'After' function
+
+---------------------------
+Call from 'DisposeAsync' function
+PACKAGE_ENERGY                              0.589661 J	(Average Power 69.3W)
+DRAM_ENERGY                                 0.157440 J	(Average Power 18.5W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
+
+---------------------------
+Call from 'InitializeAsync' function
 
 ---------------------------
 Sort_SortsListCorrectly
-PACKAGE_ENERGY                              0.464844 J	(Average Power 101.7W)
-DRAM_ENERGY                                 0.091278 J	(Average Power 20.0W)
+
+---------------------------
+Call from 'Before' function
+
+---------------------------
+Call from 'After' function
+
+---------------------------
+Call from 'DisposeAsync' function
+PACKAGE_ENERGY                              0.340332 J	(Average Power 72.4W)
+DRAM_ENERGY                                 0.091324 J	(Average Power 19.4W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
+
+---------------------------
+Call from 'InitializeAsync' function
 
 ---------------------------
 SleepingTest
-PACKAGE_ENERGY                            311.405212 J	(Average Power 62.3W)
-DRAM_ENERGY                                71.593430 J	(Average Power 14.3W)
+
+---------------------------
+Call from 'Before' function
+
+---------------------------
+Call from 'After' function
+
+---------------------------
+Call from 'DisposeAsync' function
+PACKAGE_ENERGY                            323.761963 J	(Average Power 64.7W)
+DRAM_ENERGY                                73.219101 J	(Average Power 14.6W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
+
+---------------------------
+Call from 'InitializeAsync' function
 
 ---------------------------
 Sort_SortsListCorrectly4
-PACKAGE_ENERGY                              0.448486 J	(Average Power 62.8W)
-DRAM_ENERGY                                 0.104813 J	(Average Power 14.7W)
+
+---------------------------
+Call from 'Before' function
+
+---------------------------
+Call from 'After' function
+
+---------------------------
+Call from 'DisposeAsync' function
+PACKAGE_ENERGY                              0.701538 J	(Average Power 104.3W)
+DRAM_ENERGY                                 0.155685 J	(Average Power 23.1W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
 
 ---------------------------
+Call from 'InitializeAsync' function
+
+---------------------------
 BubbleSort_SortsListCorrectly
-PACKAGE_ENERGY                              1.788269 J	(Average Power 61.9W)
-DRAM_ENERGY                                 0.410980 J	(Average Power 14.2W)
+
+---------------------------
+Call from 'Before' function
+
+---------------------------
+Call from 'After' function
+
+---------------------------
+Call from 'DisposeAsync' function
+PACKAGE_ENERGY                              3.535156 J	(Average Power 66.0W)
+DRAM_ENERGY                                 0.761169 J	(Average Power 14.2W)
 PP0_ENERGY                                  0.000000 J	(Average Power 0.0W)
-Output end Debug
+
+---------------------------
+output end

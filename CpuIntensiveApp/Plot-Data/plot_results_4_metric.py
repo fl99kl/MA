@@ -13,9 +13,10 @@ args = parser.parse_args()
 url = "http://localhost:8086"
 token = "ppaJ5zlrWXA4CKbZsCSwwIRjbffgSVbKyQxEWWzb9wY3HTPiD6S7d66FaomiCiTqDXQQrJY_vXFxqDBUoY4rtg=="
 org = "MA"
+
 # Use the values from the command-line argument
-metric = args.metricbucket = "myBucket"
-bucket = args.bucket = "myBucket"
+metric = args.metric
+bucket = args.bucket
 
 # Create an InfluxDB client
 client = InfluxDBClient(url=url, token=token, org=org)
@@ -23,9 +24,9 @@ client = InfluxDBClient(url=url, token=token, org=org)
 # Define the Flux query for all tests but only for the selected metric
 query = f'''
 from(bucket: "{bucket}")
-  |> range(start: -30d)
+  |> range(start: -300m)
   |> filter(fn: (r) => r._measurement == "unit_test_energy" and r._field == "{metric}")
-  |> pivot(rowKey:["_time"], columnKey: ["test_name"], valueColumn: "_value")
+  |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
   |> sort(columns: ["_time"])
 '''
 
@@ -38,21 +39,38 @@ if df.empty:
 else:
     print(df.columns)
 
-    # Ensure DataFrame has columns we need (time and test names)
-    test_columns = [col for col in df.columns if col != '_time']
-    df.columns = ['time'] + test_columns
+    # Drop unnecessary columns if they exist
+    df = df.drop(columns=['_start', '_stop', '_measurement', '_time'], errors='ignore')
 
-    # Plotting the data for all tests
-    plt.figure(figsize=(10, 6))
-    for test_name in test_columns:
-        plt.plot(df['time'], df[test_name], label=f'{test_name}')
+    # Ensure DataFrame has columns we need (test names, removing '_time')
+    test_columns = [col for col in df.columns]
+
+    print(f"Test columns: {test_columns}")  # Print to check the available test columns
+
+    # Group by test_name
+    grouped = df.groupby('test_name')
+
+    # Create a single plot for all test_names
+    plt.figure()
+
+    # Create a plot for each test_name
+    for name, group in grouped:
+        plt.plot(range(1, len(group) + 1), group[f'{metric}'], label=name)
+        print(f"y: {group[f'{metric}']}")  # Print to check values
+        print(f"x: {name}")  # Print to check values
 
     # Adding labels and title
-    plt.xlabel('Time')
+    plt.xlabel('Run Count')
     plt.ylabel(f'{metric}')
-    plt.title(f'{metric} Over Time for All Tests')
-    plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
+    plt.title(f'{metric} Over Run Count for All Tests')
+    plt.legend(loc='upper left', bbox_to_anchor=(1, 1), fontsize='small')
     plt.grid(True)
+
+    # Set the y-axis limits
+    # min_y = 110
+    # max_y = 130
+    # plt.ylim(min_y, max_y)
+    plt.tight_layout()
 
     # Save the plot
     plt.savefig(f'{metric}_all_tests.png')
