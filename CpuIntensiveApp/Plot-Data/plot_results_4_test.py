@@ -47,19 +47,29 @@ else:
     # Create a new column for the x-axis index (starting from 1)
     df['data_point'] = range(1, len(df) + 1)
 
+    # Calculate the average values
+    avg_pkg = df['avg_energy_pkg'].mean()
+    avg_dram = df['avg_energy_dram'].mean()
+    
     # Plotting the data, using 'data_point' for x-axis instead of 'time'
     plt.figure(figsize=(10, 6))
     plt.plot(df['data_point'], df['avg_energy_pkg'], label='Average Energy Package')
-    #plt.plot(df['data_point'], df['total_energy_pkg'], label='Total Energy Package')
     plt.plot(df['data_point'], df['avg_energy_dram'], label='Average Energy DRAM')
-    #plt.plot(df['data_point'], df['total_energy_dram'], label='Total Energy DRAM')
 
     # Adding labels and title
     plt.xlabel('Data Point')
     plt.ylabel('Energy Consumption')
     plt.title(f'Energy Consumption Over Test Runs for {test_name}')
-    plt.legend()
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))  # Legend beside the graph
     plt.grid(True)
 
+    # Annotate the average values on the plot
+    plt.text(len(df['data_point']) + 1, avg_pkg, f'Avg Pkg: {avg_pkg:.2f}', color='blue', fontsize=10, ha='left')
+    plt.text(len(df['data_point']) + 1, avg_dram, f'Avg DRAM: {avg_dram:.2f}', color='orange', fontsize=10, ha='left')
+    
+    # Adjust layout to prevent overlap
+    plt.tight_layout(rect=[0, 0, 0.85, 1])  # Leave space for the legend
+    
     # Save the plot with the test name
     plt.savefig(f'energy_consumption_{test_name}.png')
+
