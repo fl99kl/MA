@@ -1,4 +1,6 @@
 ﻿import pandas as pd
+import matplotlib
+matplotlib.use('Agg')  # Use the 'Agg' backend for non-GUI environments
 import matplotlib.pyplot as plt
 from influxdb_client import InfluxDBClient
 import argparse
@@ -11,7 +13,7 @@ args = parser.parse_args()
 
 # InfluxDB connection details
 url = "http://localhost:8086"
-token = "ppaJ5zlrWXA4CKbZsCSwwIRjbffgSVbKyQxEWWzb9wY3HTPiD6S7d66FaomiCiTqDXQQrJY_vXFxqDBUoY4rtg=="
+token = "N9mKfB0tAgaQHk5h0MxIaBHE3tshaLH7a-qTvPIKe3XuZyLnugd5a8KnqHtt98FcsGi9g9l3eOBjphdoiaoOCw=="
 org = "MA"
 # Use the values from the command-line argument in the Flux query
 test_name = args.test_name

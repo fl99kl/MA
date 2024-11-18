@@ -9,7 +9,7 @@
 #include <sys/time.h>
 
 #define URL "http://localhost:8086/api/v2/write?org=MA&bucket=myBucket&precision=s"
-#define TOKEN "ppaJ5zlrWXA4CKbZsCSwwIRjbffgSVbKyQxEWWzb9wY3HTPiD6S7d66FaomiCiTqDXQQrJY_vXFxqDBUoY4rtg=="
+#define TOKEN "N9mKfB0tAgaQHk5h0MxIaBHE3tshaLH7a-qTvPIKe3XuZyLnugd5a8KnqHtt98FcsGi9g9l3eOBjphdoiaoOCw=="
 #define TEST_CASE_NAME "idle_consumption"
 
 #define MAX_RAPL_EVENTS 64
