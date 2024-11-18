@@ -452,7 +452,7 @@ void addTsdbEntry(TestCase new_case) {
         // Set headers including the authorization token (replace with your InfluxDB token)
         struct curl_slist *headers = NULL;
         headers = curl_slist_append(headers, "Content-Type: text/plain");
-        headers = curl_slist_append(headers, "Authorization: Token ppaJ5zlrWXA4CKbZsCSwwIRjbffgSVbKyQxEWWzb9wY3HTPiD6S7d66FaomiCiTqDXQQrJY_vXFxqDBUoY4rtg==");
+        headers = curl_slist_append(headers, "Authorization: Token N9mKfB0tAgaQHk5h0MxIaBHE3tshaLH7a-qTvPIKe3XuZyLnugd5a8KnqHtt98FcsGi9g9l3eOBjphdoiaoOCw==");
 
         // Set the URL, headers, and data (line protocol)
         curl_easy_setopt(curl, CURLOPT_URL, url);
