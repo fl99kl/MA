@@ -53,19 +53,20 @@ else:
     
     # Plotting the data, using 'data_point' for x-axis instead of 'time'
     plt.figure(figsize=(10, 6))
-    plt.plot(df['data_point'], df['avg_energy_pkg'], label='Average Energy Package')
-    plt.plot(df['data_point'], df['avg_energy_dram'], label='Average Energy DRAM')
+    plt.plot(df['data_point'], df['avg_energy_pkg'], label='Average for Processor')
+    plt.plot(df['data_point'], df['avg_energy_dram'], label='Average for Memory')
 
     # Adding labels and title
-    plt.xlabel('Data Point')
-    plt.ylabel('Energy Consumption')
-    plt.title(f'Energy Consumption Over Test Runs for {test_name}')
+    plt.xlabel('Number of Measurements')
+    plt.ylabel('Average Electrical Power (W)')
+    #plt.title(f'Average Electrical Power Consumption for {test_name}')
+    plt.title(f'Average Electrical Power Consumption in Idle Mode')
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))  # Legend beside the graph
     plt.grid(True)
 
     # Annotate the average values on the plot
-    plt.text(len(df['data_point']) + 1, avg_pkg, f'Avg Pkg: {avg_pkg:.2f}', color='blue', fontsize=10, ha='left')
-    plt.text(len(df['data_point']) + 1, avg_dram, f'Avg DRAM: {avg_dram:.2f}', color='orange', fontsize=10, ha='left')
+    plt.text(len(df['data_point']) + 1, avg_pkg, f'Overall Average Power: {avg_pkg:.2f}W', color='blue', fontsize=10, ha='left')
+    plt.text(len(df['data_point']) + 1, avg_dram, f'Overall Average Power: {avg_dram:.2f}W', color='orange', fontsize=10, ha='left')
     
     # Adjust layout to prevent overlap
     plt.tight_layout(rect=[0, 0, 0.85, 1])  # Leave space for the legend
