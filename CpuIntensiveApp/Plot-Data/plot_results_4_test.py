@@ -65,8 +65,9 @@ else:
     plt.grid(True)
 
     # Annotate the average values on the plot
-    plt.text(len(df['data_point']) + 1, avg_pkg + (0.05 * avg_pkg), f'Overall Average Power: {avg_pkg:.2f}W', color='blue', fontsize=10, ha='left')
-    plt.text(len(df['data_point']) + 1, avg_dram - (0.05 * avg_dram), f'Overall Average Power: {avg_dram:.2f}W', color='orange', fontsize=10, ha='left')
+    x_offset = len(df['data_point']) + 5  # Increase the x position for better visibility
+    plt.text(x_offset, avg_pkg, f'Overall Average Power: {avg_pkg:.2f}W', color='blue', fontsize=10, ha='left')
+    plt.text(x_offset, avg_dram, f'Overall Average Power: {avg_dram:.2f}W', color='orange', fontsize=10, ha='left')
     
     # Adjust layout to prevent overlap
     plt.tight_layout(rect=[0, 0, 0.85, 1])  # Leave space for the legend
