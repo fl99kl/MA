@@ -65,7 +65,7 @@ else:
     plt.grid(True)
 
     # Annotate the average values on the plot
-    x_offset = len(df['data_point']) + 5  # Increase the x position for better visibility
+    x_offset = len(df['data_point']) + 3  # Increase the x position for better visibility
     plt.text(x_offset, avg_pkg, f'Overall Average Power: {avg_pkg:.2f}W', color='blue', fontsize=10, ha='left')
     plt.text(x_offset, avg_dram, f'Overall Average Power: {avg_dram:.2f}W', color='orange', fontsize=10, ha='left')
     
