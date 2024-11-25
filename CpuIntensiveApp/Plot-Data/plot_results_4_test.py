@@ -59,8 +59,8 @@ else:
     # Adding labels and title
     plt.xlabel('Number of Measurements')
     plt.ylabel('Average Electrical Power (W)')
-    #plt.title(f'Average Electrical Power Consumption for {test_name}')
-    plt.title(f'Average Electrical Power Consumption in Idle Mode')
+    plt.title(f'Average Electrical Power Consumption for {test_name}')
+    #plt.title(f'Average Electrical Power Consumption in Idle Mode')
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))  # Legend beside the graph
     plt.grid(True)
 
