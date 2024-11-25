@@ -11,7 +11,7 @@ args = parser.parse_args()
 
 # InfluxDB connection details
 url = "http://localhost:8086"
-token = "ppaJ5zlrWXA4CKbZsCSwwIRjbffgSVbKyQxEWWzb9wY3HTPiD6S7d66FaomiCiTqDXQQrJY_vXFxqDBUoY4rtg=="
+token = "N9mKfB0tAgaQHk5h0MxIaBHE3tshaLH7a-qTvPIKe3XuZyLnugd5a8KnqHtt98FcsGi9g9l3eOBjphdoiaoOCw=="
 org = "MA"
 
 # Use the values from the command-line argument
@@ -42,35 +42,26 @@ else:
     # Drop unnecessary columns if they exist
     df = df.drop(columns=['_start', '_stop', '_measurement', '_time'], errors='ignore')
 
-    # Ensure DataFrame has columns we need (test names, removing '_time')
-    test_columns = [col for col in df.columns]
-
-    print(f"Test columns: {test_columns}")  # Print to check the available test columns
 
     # Group by test_name
     grouped = df.groupby('test_name')
 
-    # Create a single plot for all test_names
-    plt.figure()
-
     # Create a plot for each test_name
-    for name, group in grouped:
-        plt.plot(range(1, len(group) + 1), group[f'{metric}'], label=name)
-        print(f"y: {group[f'{metric}']}")  # Print to check values
-        print(f"x: {name}")  # Print to check values
+    plt.figure(figsize=(10, 6))
+    for test_name, group in grouped:
+        plt.plot(range(1, len(group) + 1), group[metric], label=test_name, marker='o')
+
+        # Calculate and annotate the average value for this test
+        avg_value = group[metric].mean()
+        plt.text(len(group), avg_value, f'{avg_value:.2f}', fontsize=9, ha='left', va='center')
 
     # Adding labels and title
-    plt.xlabel('Run Count')
-    plt.ylabel(f'{metric}')
-    plt.title(f'{metric} Over Run Count for All Tests')
-    plt.legend(loc='upper left', bbox_to_anchor=(1, 1), fontsize='small')
+    plt.xlabel('Number of Measurements')
+    plt.ylabel('Average Electrical Power (W)')
+    plt.title(f'Average Electrical Power Consumption for the processor')
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))  # Legend beside the graph
     plt.grid(True)
 
-    # Set the y-axis limits
-    # min_y = 110
-    # max_y = 130
-    # plt.ylim(min_y, max_y)
-    plt.tight_layout()
-
-    # Save the plot
-    plt.savefig(f'{metric}_all_tests.png')
+    # Adjust layout to prevent overlap
+    plt.tight_layout(rect=[0, 0, 0.85, 1])  # Leave space for the legend
+    plt.savefig(f'all_tests_{metric}.png')
