@@ -57,7 +57,7 @@ else:
 
         # Calculate and annotate the average value for this test
         avg_value = group[metric].mean()
-        plt.text(len(group), avg_value, f'Overall Average Power: {avg_value:.2f}', fontsize=9, ha='left', va='center')
+        #plt.text(len(group), avg_value, f'Overall Average Power: {avg_value:.2f}', fontsize=9, ha='left', va='center')
 
     # Adding labels and title
     plt.xlabel('Number of Measurements')
