@@ -43,7 +43,7 @@ else:
     df = df.drop(columns=['_start', '_stop', '_measurement', '_time'], errors='ignore')
 
     # List of test names to exclude from the graph
-    excluded_tests = ["idle_consumption, SleepingTest", "test_to_exclude_2"]
+    excluded_tests = ['idle_consumption', 'SleepingTest']
 
     # Group by test_name
     grouped = df.groupby('test_name')
