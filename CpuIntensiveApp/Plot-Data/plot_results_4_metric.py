@@ -44,8 +44,6 @@ else:
 
     # List of test names to exclude from the graph
     excluded_tests = ["idle_consumption, SleepingTest", "test_to_exclude_2"]
-    # Filter out excluded tests
-    df = df[~df['test_name'].isin(excluded_tests)]
 
     # Group by test_name
     grouped = df.groupby('test_name')
@@ -53,6 +51,8 @@ else:
     # Create a plot for each test_name
     plt.figure(figsize=(10, 6))
     for test_name, group in grouped:
+        if test_name in excluded_tests:
+            continue
         plt.plot(range(1, len(group) + 1), group[metric], label=test_name)
 
         # Calculate and annotate the average value for this test
