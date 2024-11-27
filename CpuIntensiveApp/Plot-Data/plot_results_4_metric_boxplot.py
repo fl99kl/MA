@@ -54,7 +54,9 @@ else:
     boxplot_data = [group[metric].dropna() for test_name, group in df.groupby('test_name')]
 
     # Adjust figure size for compactness
-    plt.figure(figsize=(8, 5))  # Reduced dimensions for a compact view
+    plt.figure(figsize=(8, 5))  # Compact dimensions
+
+    # Create a boxplot without `widths` property
     plt.boxplot(boxplot_data, vert=True, patch_artist=True, labels=df['test_name'].unique())
 
     # Adding labels and title
@@ -63,6 +65,10 @@ else:
     plt.title(f'Distribution of {metric} for All Tests')
     plt.xticks(rotation=45, ha='right')  # Rotate test names for better readability
     plt.grid(axis='y')
+
+    # Manually adjust y-axis if needed
+    all_values = pd.concat(boxplot_data)  # Combine all data to find min and max
+    plt.ylim(all_values.min() - 5, all_values.max() + 5)  # Add padding around actual data
 
     # Tight layout with adjusted margins for compactness
     plt.tight_layout(pad=1.0)  # Reduce padding to make the plot more compact
