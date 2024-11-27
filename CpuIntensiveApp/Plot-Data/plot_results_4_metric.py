@@ -24,7 +24,7 @@ client = InfluxDBClient(url=url, token=token, org=org)
 # Define the Flux query for all tests but only for the selected metric
 query = f'''
 from(bucket: "{bucket}")
-  |> range(start: -300m)
+  |> range(start: -30m)
   |> filter(fn: (r) => r._measurement == "unit_test_energy" and r._field == "{metric}")
   |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
   |> sort(columns: ["_time"])
@@ -57,7 +57,7 @@ else:
 
         # Calculate and annotate the average value for this test
         avg_value = group[metric].mean()
-        plt.text(len(group), avg_value, f'Overall Average Power: {avg_value:.2f}', fontsize=9, ha='left', va='center')
+        #plt.text(len(group), avg_value, f'Overall Average Power: {avg_value:.2f}', fontsize=9, ha='left', va='center')
 
     # Adding labels and title
     plt.xlabel('Number of Measurements')
