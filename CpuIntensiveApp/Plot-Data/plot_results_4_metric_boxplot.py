@@ -55,7 +55,7 @@ else:
 
     # Adjust figure size for compactness
     plt.figure(figsize=(8, 5))  # Reduced dimensions for a compact view
-    plt.boxplot(boxplot_data, vert=True, patch_artist=True, labels=df['test_name'].unique(), widths=0.5)
+    plt.boxplot(boxplot_data, vert=True, patch_artist=True, labels=df['test_name'].unique())
 
     # Adding labels and title
     plt.xlabel('Test Names')
