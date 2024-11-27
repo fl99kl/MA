@@ -55,7 +55,7 @@ else:
 
     # Create a boxplot
     plt.figure(figsize=(12, 8))
-    plt.boxplot(boxplot_data, vert=True, patch_artist=True, labels=df['test_name'].unique())
+    plt.boxplot(boxplot_data, vert=True, patch_artist=True, labels=df['test_name'].unique(), widths=0.6)
 
     # Adding labels and title
     plt.xlabel('Test Names')
