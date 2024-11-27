@@ -53,9 +53,9 @@ else:
     # Group data by 'test_name' and prepare for boxplot
     boxplot_data = [group[metric].dropna() for test_name, group in df.groupby('test_name')]
 
-    # Create a boxplot
-    plt.figure(figsize=(12, 8))
-    plt.boxplot(boxplot_data, vert=True, patch_artist=True, labels=df['test_name'].unique(), widths=0.6)
+    # Adjust figure size for compactness
+    plt.figure(figsize=(8, 5))  # Reduced dimensions for a compact view
+    plt.boxplot(boxplot_data, vert=True, patch_artist=True, labels=df['test_name'].unique(), widths=0.5)
 
     # Adding labels and title
     plt.xlabel('Test Names')
@@ -64,7 +64,7 @@ else:
     plt.xticks(rotation=45, ha='right')  # Rotate test names for better readability
     plt.grid(axis='y')
 
-    # Save the boxplot
-    plt.tight_layout()  # Adjust layout for readability
+    # Tight layout with adjusted margins for compactness
+    plt.tight_layout(pad=1.0)  # Reduce padding to make the plot more compact
     plt.savefig(f'boxplot_{metric}.png')
     plt.show()
