@@ -56,8 +56,8 @@ else:
     # Adjust figure size for compactness
     plt.figure(figsize=(8, 5))  # Compact dimensions
 
-    # Create a boxplot without `widths` property
-    plt.boxplot(boxplot_data, vert=True, patch_artist=True, labels=df['test_name'].unique())
+    # Create the boxplot
+    box = plt.boxplot(boxplot_data, vert=True, patch_artist=True, labels=df['test_name'].unique())
 
     # Adding labels and title
     plt.xlabel('Test Names')
@@ -70,7 +70,32 @@ else:
     all_values = pd.concat(boxplot_data)  # Combine all data to find min and max
     plt.ylim(all_values.min() - 5, all_values.max() + 5)  # Add padding around actual data
 
+    # Label medians with dynamic placement
+    for i, median_line in enumerate(box['medians']):
+        median_value = median_line.get_ydata()[0]  # Get the median value
+        q1 = box['boxes'][i].get_ydata()[1]       # Lower quartile (Q1)
+        q3 = box['boxes'][i].get_ydata()[2]       # Upper quartile (Q3)
+
+        # Determine vertical alignment dynamically
+        if abs(median_value - q1) < abs(median_value - q3):
+            # Closer to Q1, label above the median
+            va = 'bottom'
+            offset = 2  # Small vertical offset
+        else:
+            # Closer to Q3, label below the median
+            va = 'top'
+            offset = -2  # Small vertical offset
+
+        # Add text annotation
+        plt.text(
+            i + 1,  # X-coordinate (box index + 1 since it starts at 1)
+            median_value + offset,  # Adjust Y-coordinate based on offset
+            f'{median_value:.2f}',  # Text to display (rounded to 2 decimals)
+            horizontalalignment='center',  # Center align text
+            verticalalignment=va,  # Dynamic alignment
+            fontsize=9, color='blue'
+        )
+
     # Tight layout with adjusted margins for compactness
     plt.tight_layout(pad=1.0)  # Reduce padding to make the plot more compact
     plt.savefig(f'boxplot_{metric}.png')
-    plt.show()
