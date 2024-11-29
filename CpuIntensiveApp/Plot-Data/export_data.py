@@ -9,10 +9,9 @@ bucket = "myBucket"  # Replace with your bucket name
 output_file = "output.csv"  # Name of the output file
 
 # Query to extract data
-query = f"""from(bucket: \"{bucket}\")
-  |> range(start: -3d)  # Adjust time range as needed
-  |> filter(fn: (r) => true)  # Adjust filter as needed
-"""
+query = f'''from(bucket: "{bucket}")
+  |> range(start: -3d)
+'''
 
 
 # Function to write query results to CSV
