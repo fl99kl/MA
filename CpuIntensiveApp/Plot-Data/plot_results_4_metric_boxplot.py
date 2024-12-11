@@ -1,101 +1,91 @@
-# File path: boxplot_energy_consumption.py
-
 import pandas as pd
 import matplotlib.pyplot as plt
-from influxdb_client import InfluxDBClient
 import argparse
 
-# Parse command-line arguments to get the metric name
-parser = argparse.ArgumentParser(description='Query and plot energy consumption metric for all tests.')
-parser.add_argument('--metric', type=str, default='avg_energy_pkg', help='Metric to query (e.g., avg_energy_pkg)')
-parser.add_argument('--bucket', type=str, default='myBucket', help='Name of the Bucket to query from InfluxDb')
+# Parse command-line arguments to get the metric name and CSV file
+parser = argparse.ArgumentParser(description='Plot energy consumption metric from CSV file.')
+parser.add_argument('--metric', type=str, default='duration', help='Metric to plot (e.g., avg_energy_pkg)')
+parser.add_argument('--csv', type=str, default='output.csv', help='Path to the CSV file with data')
 args = parser.parse_args()
 
-# InfluxDB connection details
-url = "http://localhost:8086"
-token = "N9mKfB0tAgaQHk5h0MxIaBHE3tshaLH7a-qTvPIKe3XuZyLnugd5a8KnqHtt98FcsGi9g9l3eOBjphdoiaoOCw=="
-org = "MA"
+# Load data from the CSV file
+try:
+    df = pd.read_csv(args.csv)
+except FileNotFoundError:
+    print(f"Error: File '{args.csv}' not found.")
+    exit(1)
 
-# Use the values from the command-line argument
+# Ensure the specified metric exists in the data as a value in '_field'
 metric = args.metric
-bucket = args.bucket
+if '_field' not in df.columns or '_value' not in df.columns:
+    print("Error: The required '_field' or '_value' columns are missing in the CSV file.")
+    exit(1)
 
-# Create an InfluxDB client
-client = InfluxDBClient(url=url, token=token, org=org)
+# Filter data for the specified metric
+filtered_df = df[df['_field'] == metric]
+if filtered_df.empty:
+    print(f"Error: No data found for metric '{metric}' in the CSV file.")
+    exit(1)
 
-# Define the Flux query for all tests but only for the selected metric
-query = f'''
-from(bucket: "{bucket}")
-  |> range(start: -300m)
-  |> filter(fn: (r) => r._measurement == "unit_test_energy" and r._field == "{metric}")
-  |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
-  |> sort(columns: ["_time"])
-'''
+# Drop unnecessary columns if they exist
+drop_columns = ['_start', '_stop', '_measurement', '_time', '_field']
+filtered_df = filtered_df.drop(columns=[col for col in drop_columns if col in filtered_df.columns], errors='ignore')
 
-# Execute the query and convert the result into a pandas DataFrame
-result = client.query_api().query_data_frame(query)
-df = pd.DataFrame(result)
+# List of test names to exclude from the graph
+excluded_tests = ['idle_consumption', 'SleepingTest', 'Sort_SortsListCorrectly', 'Sort_SortsListCorrectly4']
 
-if df.empty:
-    print(f"No data found for metric: {metric}")
+# Filter out excluded tests if 'test_name' column exists
+if 'test_name' in filtered_df.columns:
+    filtered_df = filtered_df[~filtered_df['test_name'].isin(excluded_tests)]
+    boxplot_data = [group['_value'].dropna() for test_name, group in filtered_df.groupby('test_name')]
+    labels = filtered_df['test_name'].unique()
 else:
-    print(df.columns)
+    print("Error: 'test_name' column not found in the CSV file.")
+    exit(1)
 
-    # Drop unnecessary columns if they exist
-    df = df.drop(columns=['_start', '_stop', '_measurement', '_time'], errors='ignore')
+# Adjust figure size for compactness
+plt.figure(figsize=(8, 5))  # Compact dimensions
 
-    # List of test names to exclude from the graph
-    excluded_tests = ['idle_consumption', 'SleepingTest', 'Sort_SortsListCorrectly', 'Sort_SortsListCorrectly4']
+# Create the boxplot
+box = plt.boxplot(boxplot_data, vert=True, patch_artist=True, labels=labels)
 
-    # Filter out excluded tests
-    df = df[~df['test_name'].isin(excluded_tests)]
+# Adding labels and title
+plt.xlabel('Name of Test Case')
+plt.ylabel('Duration (s)')
+plt.xticks(rotation=45, ha='right', fontsize=8)  # Rotate test names for better readability
+plt.title('Duration for Test Cases')
+plt.grid(axis='y')
 
-    # Group data by 'test_name' and prepare for boxplot
-    boxplot_data = [group[metric].dropna() for test_name, group in df.groupby('test_name')]
+# Manually adjust y-axis if needed
+all_values = pd.concat(boxplot_data)  # Combine all data to find min and max
+plt.ylim(all_values.min() - 5, all_values.max() + 5)  # Add padding around actual data
 
-    # Adjust figure size for compactness
-    plt.figure(figsize=(8, 5))  # Compact dimensions
+# Label medians dynamically
+for i, median_line in enumerate(box['medians']):
+    median_value = median_line.get_ydata()[0]
 
-    # Create the boxplot
-    box = plt.boxplot(boxplot_data, vert=True, patch_artist=True, labels=df['test_name'].unique())
-
-    # Adding labels and title
-    plt.xlabel('Test Names')
-    plt.ylabel('Metric Value')
-    plt.title(f'Distribution of {metric} for All Tests')
-    plt.xticks(rotation=45, ha='right')  # Rotate test names for better readability
-    plt.grid(axis='y')
-
-    # Manually adjust y-axis if needed
-    all_values = pd.concat(boxplot_data)  # Combine all data to find min and max
-    plt.ylim(all_values.min() - 5, all_values.max() + 5)  # Add padding around actual data
-
-    # Label medians with dynamic placement
-    for i, median_line in enumerate(box['medians']):
-        median_value = median_line.get_ydata()[0]  # Get the median value
-        q1 = box['boxes'][i].get_ydata()[1]       # Lower quartile (Q1)
-        q3 = box['boxes'][i].get_ydata()[2]       # Upper quartile (Q3)
-
-        # Determine vertical alignment dynamically
-        if abs(median_value - q1) < abs(median_value - q3):
-            # Closer to Q1, label above the median
-            va = 'bottom'
-            offset = 2  # Small vertical offset
-        else:
-            # Closer to Q3, label below the median
-            va = 'top'
-            offset = -2  # Small vertical offset
-
-        # Add text annotation
+    # Position the median label
+    if i == 0:  # For the leftmost boxplot
         plt.text(
-            i + 1,  # X-coordinate (box index + 1 since it starts at 1)
-            median_value + offset,  # Adjust Y-coordinate based on offset
-            f'{median_value:.2f}',  # Text to display (rounded to 2 decimals)
-            horizontalalignment='center',  # Center align text
-            verticalalignment=va,  # Dynamic alignment
+            i + 1 + 0.3,  # Slightly to the right of the median line
+            median_value,
+            f'{median_value:.2f}',
+            horizontalalignment='left',
+            verticalalignment='center',
+            fontsize=9, color='blue'
+        )
+    else:  # For all other boxplots
+        plt.text(
+            i + 1 - 0.3,  # Slightly to the left of the median line
+            median_value,
+            f'{median_value:.2f}',
+            horizontalalignment='right',
+            verticalalignment='center',
             fontsize=9, color='blue'
         )
 
-    # Tight layout with adjusted margins for compactness
-    plt.tight_layout(pad=1.0)  # Reduce padding to make the plot more compact
-    plt.savefig(f'boxplot_{metric}.png')
+# Tight layout with adjusted margins for compactness
+plt.tight_layout(pad=1.0)  # Reduce padding to make the plot more compact
+plt.savefig(f'boxplot_{metric}.png')
+plt.show()
+print(f"Boxplot saved as 'boxplot_{metric}.png'.")

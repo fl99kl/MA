@@ -13,6 +13,7 @@ args = parser.parse_args()
 url = "http://localhost:8086"
 token = "N9mKfB0tAgaQHk5h0MxIaBHE3tshaLH7a-qTvPIKe3XuZyLnugd5a8KnqHtt98FcsGi9g9l3eOBjphdoiaoOCw=="
 org = "MA"
+bucket = "myBucket"
 
 # Use the values from the command-line argument
 metric = args.metric

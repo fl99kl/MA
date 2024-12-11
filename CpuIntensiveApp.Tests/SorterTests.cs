@@ -63,7 +63,7 @@ public class SorterTests : IClassFixture<TestWrapper>
 		Assert.Equal(expectedList, sortedList);
 	}
 
-	[LogEnergyConsumption]
+	/*[LogEnergyConsumption]
 	[Fact]
 	public void BuiltInSort_SortsListCorrectly()
 	{
@@ -74,7 +74,7 @@ public class SorterTests : IClassFixture<TestWrapper>
 		Assert.Equal(_expectedList, sortedList);
 	}
 
-	/*[LogEnergyConsumption]
+	[LogEnergyConsumption]
 	[Fact]
 	public void Sort_SortsListCorrectly3()
 	{
@@ -91,7 +91,7 @@ public class SorterTests : IClassFixture<TestWrapper>
 		Assert.Equal(expectedList, sortedList);
 	} */
 
-	[LogEnergyConsumption]
+	/*[LogEnergyConsumption]
 	[Fact]
 	public void MergeSort_SortsListCorrectly()
 	{
@@ -109,7 +109,7 @@ public class SorterTests : IClassFixture<TestWrapper>
 		Assert.Equal(_expectedList, sortedList);
 	}
 
-	/*[LogEnergyConsumption]
+	[LogEnergyConsumption]
 	[Fact]
 	public void SleepingTest()
 	{
@@ -130,11 +130,67 @@ public class SorterTests : IClassFixture<TestWrapper>
 
 	[LogEnergyConsumption]
 	[Fact]
-	public void InsertionSort_SortsListCorrectly()
+	public void InsertionSort_10Entries()
 	{
-		var sortedList = Sorter.InsertionSort(_unsortedList);
+		const int arrayLength = 10; // Change this value to test different lengths
+		var random = new Random();
+		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(_ => random.Next()).ToList();
+		var expectedList = Enumerable.Range(1, arrayLength).ToList();
+		var sortedList = Sorter.InsertionSort(unsortedList);
 
-		Assert.Equal(_expectedList, sortedList);
+		Assert.Equal(expectedList, sortedList);
+	}
+	
+	[LogEnergyConsumption]
+	[Fact]
+	public void InsertionSort_100Entries()
+	{
+		const int arrayLength = 100; // Change this value to test different lengths
+		var random = new Random();
+		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(_ => random.Next()).ToList();
+		var expectedList = Enumerable.Range(1, arrayLength).ToList();
+		var sortedList = Sorter.InsertionSort(unsortedList);
+
+		Assert.Equal(expectedList, sortedList);
+	}	
+	
+	[LogEnergyConsumption]
+	[Fact]
+	public void InsertionSort_1000Entries()
+	{
+		const int arrayLength = 1000; // Change this value to test different lengths
+		var random = new Random();
+		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(_ => random.Next()).ToList();
+		var expectedList = Enumerable.Range(1, arrayLength).ToList();
+		var sortedList = Sorter.InsertionSort(unsortedList);
+
+		Assert.Equal(expectedList, sortedList);
+	}	
+	
+	[LogEnergyConsumption]
+	[Fact]
+	public void InsertionSort_10000Entries()
+	{
+		const int arrayLength = 10000; // Change this value to test different lengths
+		var random = new Random();
+		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(_ => random.Next()).ToList();
+		var expectedList = Enumerable.Range(1, arrayLength).ToList();
+		var sortedList = Sorter.InsertionSort(unsortedList);
+
+		Assert.Equal(expectedList, sortedList);
+	}	
+	
+	[LogEnergyConsumption]
+	[Fact]
+	public void InsertionSort_100000Entries()
+	{
+		const int arrayLength = 100000; // Change this value to test different lengths
+		var random = new Random();
+		var unsortedList = Enumerable.Range(1, arrayLength).OrderBy(_ => random.Next()).ToList();
+		var expectedList = Enumerable.Range(1, arrayLength).ToList();
+		var sortedList = Sorter.InsertionSort(unsortedList);
+
+		Assert.Equal(expectedList, sortedList);
 	}
 	
 
