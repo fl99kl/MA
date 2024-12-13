@@ -6,7 +6,7 @@ url = "http://localhost:8086"  # Replace with your InfluxDB URL
 token = "N9mKfB0tAgaQHk5h0MxIaBHE3tshaLH7a-qTvPIKe3XuZyLnugd5a8KnqHtt98FcsGi9g9l3eOBjphdoiaoOCw=="  # Replace with your InfluxDB token
 org = "MA"  # Replace with your organization name
 bucket = "myBucket"  # Replace with your bucket name
-output_file = "output.csv"  # Name of the output file
+output_file = "outputFinal.csv"  # Name of the output file
 
 # Query to extract data
 query = f'''from(bucket: "{bucket}")
