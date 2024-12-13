@@ -63,7 +63,7 @@ public class SorterTests : IClassFixture<TestWrapper>
 		Assert.Equal(expectedList, sortedList);
 	}
 
-	/*[LogEnergyConsumption]
+	[LogEnergyConsumption]
 	[Fact]
 	public void BuiltInSort_SortsListCorrectly()
 	{
@@ -74,7 +74,7 @@ public class SorterTests : IClassFixture<TestWrapper>
 		Assert.Equal(_expectedList, sortedList);
 	}
 
-	[LogEnergyConsumption]
+	/*[LogEnergyConsumption]
 	[Fact]
 	public void Sort_SortsListCorrectly3()
 	{
@@ -91,7 +91,7 @@ public class SorterTests : IClassFixture<TestWrapper>
 		Assert.Equal(expectedList, sortedList);
 	} */
 
-	/*[LogEnergyConsumption]
+	[LogEnergyConsumption]
 	[Fact]
 	public void MergeSort_SortsListCorrectly()
 	{
@@ -117,7 +117,7 @@ public class SorterTests : IClassFixture<TestWrapper>
 		Thread.Sleep(5000);
 
 		Assert.True(true);
-	}*/
+	}
 
 	[LogEnergyConsumption]
 	[Fact]

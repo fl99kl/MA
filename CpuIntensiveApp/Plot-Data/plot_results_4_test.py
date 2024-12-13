@@ -2,76 +2,72 @@
 import matplotlib
 matplotlib.use('Agg')  # Use the 'Agg' backend for non-GUI environments
 import matplotlib.pyplot as plt
-from influxdb_client import InfluxDBClient
 import argparse
 
-# Parse command-line arguments to get the test name
-parser = argparse.ArgumentParser(description='Query and plot energy consumption of a unit test.')
-parser.add_argument('--test_name', type=str, required=True, help='Name of the Unit Test to query from InfluxDB')
-parser.add_argument('--bucket_name', type=str, required=True, help='Name of the Bucket to query from InfluxDB')
+# Parse command-line arguments to get test name and CSV file
+parser = argparse.ArgumentParser(description='Plot energy consumption of a unit test from CSV.')
+parser.add_argument('--test_name', type=str, default='SelectionSort_SortsListCorrectly', help='Name of the Unit Test to filter')
+parser.add_argument('--csv', type=str, default='output.csv', help='Path to the CSV file with data')
 args = parser.parse_args()
 
-# InfluxDB connection details
-url = "http://localhost:8086"
-token = "N9mKfB0tAgaQHk5h0MxIaBHE3tshaLH7a-qTvPIKe3XuZyLnugd5a8KnqHtt98FcsGi9g9l3eOBjphdoiaoOCw=="
-org = "MA"
-# Use the values from the command-line argument in the Flux query
-test_name = args.test_name
-bucket = args.bucket_name
+# Load data from CSV file
+try:
+    df = pd.read_csv(args.csv)
+except FileNotFoundError:
+    print(f"Error: File '{args.csv}' not found.")
+    exit(1)
 
-# Create an InfluxDB client
-client = InfluxDBClient(url=url, token=token, org=org)
+# Ensure the required columns exist
+required_columns = ['_value', '_field', 'test_name']
+for col in required_columns:
+    if col not in df.columns:
+        print(f"Error: Required column '{col}' is missing from the CSV file.")
+        exit(1)
 
-# Define the Flux query, filtering by the test name
-query = f'''
-from(bucket: "{bucket}")
-  |> range(start: -300m)
-  |> filter(fn: (r) => r._measurement == "unit_test_energy" and r.test_name == "{test_name}")
-  |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
-  |> sort(columns: ["_time"])
-'''
+# Filter data for the given test_name
+filtered_df = df[df['test_name'] == args.test_name]
 
-# Execute the query and convert to DataFrame
-result = client.query_api().query_data_frame(query)
-df = pd.DataFrame(result)
+# Extract 'avg_energy_pkg' and 'avg_energy_dram' fields
+pkg_df = filtered_df[filtered_df['_field'] == 'avg_energy_pkg']
+dram_df = filtered_df[filtered_df['_field'] == 'avg_energy_dram']
 
-if df.empty:
-    print(f"No data found for test: {test_name}")
-else:
-    print(df.columns)
+if pkg_df.empty and dram_df.empty:
+    print(f"No data found for test: {args.test_name}")
+    exit(1)
 
-    # Ensure DataFrame columns are properly named
-    df = df[['_time', 'test_name', 'duration', 'avg_energy_pkg', 'total_energy_pkg', 'median_energy_pkg', 'avg_energy_dram', 'total_energy_dram', 'median_energy_dram']]
-    df.columns = ['time', 'test_name', 'duration', 'avg_energy_pkg', 'total_energy_pkg', 'median_energy_pkg', 'avg_energy_dram', 'total_energy_dram', 'median_energy_dram']
+# Assign x-axis points (number of measurements)
+pkg_df = pkg_df.reset_index(drop=True)
+dram_df = dram_df.reset_index(drop=True)
+pkg_df['data_point'] = range(1, len(pkg_df) + 1)
+dram_df['data_point'] = range(1, len(dram_df) + 1)
 
-    # Create a new column for the x-axis index (starting from 1)
-    df['data_point'] = range(1, len(df) + 1)
+# Calculate medians
+median_pkg = pkg_df['_value'].median() if not pkg_df.empty else None
+median_dram = dram_df['_value'].median() if not dram_df.empty else None
 
-    # Calculate the average values
-    avg_pkg = df['avg_energy_pkg'].mean()
-    avg_dram = df['avg_energy_dram'].mean()
-    
-    # Plotting the data, using 'data_point' for x-axis instead of 'time'
-    plt.figure(figsize=(10, 6))
-    plt.plot(df['data_point'], df['avg_energy_pkg'], label='Average for Processor')
-    plt.plot(df['data_point'], df['avg_energy_dram'], label='Average for Memory')
+# Plot the data
+plt.figure(figsize=(10, 6))
+if not pkg_df.empty:
+    plt.plot(pkg_df['data_point'], pkg_df['_value'], label='Average Energy (Processor)', color='blue')
+    plt.axhline(median_pkg, color='blue', linestyle='--', label=f'Median Energy (Processor): {median_pkg:.2f}W')
+if not dram_df.empty:
+    plt.plot(dram_df['data_point'], dram_df['_value'], label='Average Energy (Memory)', color='orange')
+    plt.axhline(median_dram, color='orange', linestyle='--', label=f'Median Energy (Memory): {median_dram:.2f}W')
 
-    # Adding labels and title
-    plt.xlabel('Number of Measurements')
-    plt.ylabel('Average Electrical Power (W)')
-    plt.title(f'Average Electrical Power Consumption for {test_name}')
-    #plt.title(f'Average Electrical Power Consumption in Idle Mode')
-    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))  # Legend beside the graph
-    plt.grid(True)
+# Add labels and title
+plt.xlabel('Number of Measurements')
+plt.ylabel('Average Energy Consumption (W)')
+plt.title(f'Energy Consumption for Test: {args.test_name}')
+plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))  # Legend beside the graph
+plt.grid(True)
 
-    # Annotate the average values on the plot
-    x_offset = len(df['data_point']) + 2  # Increase the x position for better visibility
-    plt.text(x_offset, avg_pkg, f'Overall Average Power: {avg_pkg:.2f}W', color='blue', fontsize=10, ha='left')
-    plt.text(x_offset, avg_dram, f'Overall Average Power: {avg_dram:.2f}W', color='orange', fontsize=10, ha='left')
-    
-    # Adjust layout to prevent overlap
-    plt.tight_layout(rect=[0, 0, 0.85, 1])  # Leave space for the legend
-    
-    # Save the plot with the test name
-    plt.savefig(f'energy_consumption_{test_name}.png')
+# Annotate the median values on the plot
+if median_pkg is not None:
+    plt.text(len(pkg_df) * 0.8, median_pkg, f'{median_pkg:.2f}W', color='blue', fontsize=10, ha='right')
+if median_dram is not None:
+    plt.text(len(dram_df) * 0.8, median_dram, f'{median_dram:.2f}W', color='orange', fontsize=10, ha='right')
 
+# Adjust layout and save the plot
+plt.tight_layout(rect=[0, 0, 0.85, 1])  # Leave space for the legend
+plt.savefig(f'energy_consumption_{args.test_name}.png')
+print(f"Plot saved as 'energy_consumption_{args.test_name}.png'.")
